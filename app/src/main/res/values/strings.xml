@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="tangent_label">tan</string>
+    <string name="number_input_label">Enter a number</string>
+    <string name="source_base">from</string>
+    <string name="dest_base">to</string>
+    <string name="calc_error_message">Calculation error occurred</string>
+    <string name="solution">get solution</string>
+    <string name="foreground_calc">foreground calculation</string>
+    <string name="inputLabel">Enter an expression</string>
+    <string name="transform_number_label">convert</string>
+    <string name="number_system">Number system:</string>
+    <string name="accuracy">Division Accuracy:</string>
+    <string name="base_input_message">Enter the base of the number system! (число от 2 до 36)</string>
+    <string name="number_system_error">number system is invalid</string>
+    <string name="expression_error">wrong expression</string>
+    <string name="fraction_fac_error">This calculator cannot calculate factorials of fractions</string>
+    <string name="empty_input">Input field is empty</string>
+    <string name="answer">Answer: </string>
+    <string name="zero_div_error">Division by zero occurred</string>
+    <string name="calc_run_title">Calculation is running…</string>
+    <string name="calc_over_title">Calculation is finished.</string>
+    <string name="calc_run_notification_text">Result will be saved to calculation history.</string>
+    <string name="calc_over_notification_text">Calculation is finished. If successfully, result is saved in calculations history.</string>
+    <string name="keyboard_dialog_label">number input dialog</string>
+    <string name="approve_number_label">approve number</string>
+    <string name="notification_permission_warning">notifications are needed for foreground calculations</string>
+    <string name="calculation_error_solution">Calculation error.</string>
+</resources>

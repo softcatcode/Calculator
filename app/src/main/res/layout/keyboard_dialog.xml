@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/calculatorBackgroundColor">
+
+    <ImageButton
+        android:backgroundTint="@color/calculatorBackgroundColor"
+        android:id="@+id/cancelBtn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.2"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/cross_btn"
+        android:scaleType="fitXY" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/calcKeyboard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.65"
+        app:layout_constraintWidth_percent="0.35"
+        app:layout_constraintEnd_toStartOf="@id/letterKeyboard"
+        app:layout_constraintBottom_toBottomOf="@id/letterKeyboard"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/calculatorBackgroundColor"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/firstRow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="100"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/secondRow">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/seven"
+                style="@style/button_digit"
+                android:text="7"
+                android:textSize="15sp"
+                app:layout_constraintStart_toEndOf="@id/eight"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/nine"
+                style="@style/button_digit"
+                android:text="9"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/eight"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/eight"
+                style="@style/button_digit"
+                android:text="8"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/seven"
+                app:layout_constraintStart_toEndOf="@+id/nine"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/secondRow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="100"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/firstRow"
+            app:layout_constraintBottom_toTopOf="@id/thirdRow">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/six"
+                style="@style/button_digit"
+                android:text="6"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/five"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/five"
+                style="@style/button_digit"
+                android:text="5"
+                android:textSize="15sp"
+                app:layout_constraintStart_toEndOf="@id/six"
+                app:layout_constraintEnd_toStartOf="@id/four"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/four"
+                style="@style/button_digit"
+                android:text="4"
+                android:textSize="15sp"
+                app:layout_constraintStart_toEndOf="@id/five"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/thirdRow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="100"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/secondRow"
+            app:layout_constraintBottom_toTopOf="@id/zero">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/three"
+                style="@style/button_digit"
+                android:text="3"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/two"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/two"
+                style="@style/button_digit"
+                android:text="2"
+                android:textSize="15sp"
+                app:layout_constraintStart_toEndOf="@id/three"
+                app:layout_constraintEnd_toStartOf="@id/one"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/one"
+                style="@style/button_digit"
+                android:text="1"
+                android:textSize="15sp"
+                app:layout_constraintStart_toEndOf="@id/two"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/zero"
+            style="@style/button_digit"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="0"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="@id/calcKeyboard"
+            app:layout_constraintStart_toStartOf="@+id/calcKeyboard"
+            app:layout_constraintTop_toBottomOf="@+id/thirdRow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="HardcodedText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/dialogNumberField"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/approveNumberButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintHorizontal_bias="0.1"
+        android:lines="3"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/approveNumberButton"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@id/dialogNumberField"
+        app:layout_constraintBottom_toTopOf="@id/letterKeyboard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        android:backgroundTint="@color/equallyColor"
+        android:text="@string/approve_number_label"
+        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/letterKeyboard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.65"
+        app:layout_constraintWidth_percent="0.6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/calcKeyboard"
+        app:layout_constraintTop_toBottomOf="@id/dialogNumberField">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/firstLetterRow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="100"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/secondLetterRow"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/a"
+                style="@style/button_digit"
+                android:text="a"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/b"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/b"
+                style="@style/button_digit"
+                android:text="b"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/c"
+                app:layout_constraintStart_toEndOf="@id/a"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/c"
+                style="@style/button_digit"
+                android:text="c"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/d"
+                app:layout_constraintStart_toEndOf="@+id/b"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/d"
+                style="@style/button_digit"
+                android:text="d"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/e"
+                app:layout_constraintStart_toEndOf="@+id/c"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/e"
+                style="@style/button_digit"
+                android:text="e"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/f"
+                app:layout_constraintStart_toEndOf="@+id/d"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/f"
+                style="@style/button_digit"
+                android:text="f"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/e"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/secondLetterRow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="100"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/thirdLetterRow"
+            app:layout_constraintTop_toBottomOf="@id/firstLetterRow">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/g"
+                style="@style/button_digit"
+                android:text="g"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/h"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/h"
+                style="@style/button_digit"
+                android:text="h"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/i"
+                app:layout_constraintStart_toEndOf="@id/g"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/i"
+                style="@style/button_digit"
+                android:text="i"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/j"
+                app:layout_constraintStart_toEndOf="@+id/h"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/j"
+                style="@style/button_digit"
+                android:text="j"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/k"
+                app:layout_constraintStart_toEndOf="@+id/i"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/k"
+                style="@style/button_digit"
+                android:text="k"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/l"
+                app:layout_constraintStart_toEndOf="@+id/j"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/l"
+                style="@style/button_digit"
+                android:text="l"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/k"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/thirdLetterRow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="100"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/fourthLetterRow"
+            app:layout_constraintTop_toBottomOf="@id/secondLetterRow">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/m"
+                style="@style/button_digit"
+                android:text="m"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/n"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/n"
+                style="@style/button_digit"
+                android:text="n"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/o"
+                app:layout_constraintStart_toEndOf="@id/m"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/o"
+                style="@style/button_digit"
+                android:text="o"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/p"
+                app:layout_constraintStart_toEndOf="@+id/n"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/p"
+                style="@style/button_digit"
+                android:text="p"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/q"
+                app:layout_constraintStart_toEndOf="@+id/o"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/q"
+                style="@style/button_digit"
+                android:text="q"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/r"
+                app:layout_constraintStart_toEndOf="@+id/p"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/r"
+                style="@style/button_digit"
+                android:text="r"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/q"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fourthLetterRow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="100"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/fifthLetterRow"
+            app:layout_constraintTop_toBottomOf="@id/thirdLetterRow">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/s"
+                style="@style/button_digit"
+                android:text="s"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/t"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/t"
+                style="@style/button_digit"
+                android:text="t"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/u"
+                app:layout_constraintStart_toEndOf="@id/s"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/u"
+                style="@style/button_digit"
+                android:text="u"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/v"
+                app:layout_constraintStart_toEndOf="@+id/t"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/v"
+                style="@style/button_digit"
+                android:text="v"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/w"
+                app:layout_constraintStart_toEndOf="@+id/u"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/w"
+                style="@style/button_digit"
+                android:text="w"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/x"
+                app:layout_constraintStart_toEndOf="@+id/v"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/x"
+                style="@style/button_digit"
+                android:text="x"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/w"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fifthLetterRow"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="100"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fourthLetterRow">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/y"
+                style="@style/button_digit"
+                android:text="y"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@id/z"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/z"
+                style="@style/button_digit"
+                android:text="z"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/y"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

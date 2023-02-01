@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Калькулятор</string>
+    <string name="tangent_label">tg</string>
+    <string name="number_input_label">Введите число</string>
+    <string name="source_base">из</string>
+    <string name="dest_base">в</string>
+    <string name="calc_error_message">Ошибка во время вычисления</string>
+    <string name="solution">получить решение</string>
+    <string name="foreground_calc">фоновое вычисление</string>
+    <string name="inputLabel">Введите выражение</string>
+    <string name="transform_number_label">перевести</string>
+    <string name="number_system">Система счисления:</string>
+    <string name="accuracy">Точность при делении:</string>
+    <string name="base_input_message">Введите основание системы счисления! (число от 2 до 36)</string>
+    <string name="number_system_error">неправильнро указана система счисления</string>
+    <string name="expression_error">введено неправильное выражение</string>
+    <string name="fraction_fac_error">Этот калькулятор не вычисляет факториал от дробных чисел.</string>
+    <string name="empty_input">Поле ввода пустое</string>
+    <string name="answer">Ответ: </string>
+    <string name="zero_div_error">Произошло деление на 0</string>
+    <string name="calc_run_title">Идёт вычисление…</string>
+    <string name="calc_over_title">Вычисление завершено.</string>
+    <string name="calc_run_notification_text">Результат сохранится в истории вычислений.</string>
+    <string name="calc_over_notification_text">Вычисление завершено. Если результат получен успешно, он сохранёт в журнале вычислений.</string>
+    <string name="keyboard_dialog_label">окно ввода числа</string>
+    <string name="approve_number_label">ввести число</string>
+    <string name="notification_permission_warning">для фоновых вычислений нужно разрешение на уведомления</string>
+    <string name="calculation_error_solution">Ошибка в процессе вычисления.</string>
+</resources>

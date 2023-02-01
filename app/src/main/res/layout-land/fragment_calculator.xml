@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/calculatorBackgroundColor">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/history"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/calculator"
+            tools:listitem="@layout/history_item"
+            app:layout_constraintWidth_percent="0.4"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHeight_percent="0.75"
+            android:layout_marginTop="2dp"
+            android:background="@color/calculatorBackgroundColor"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/history"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/calculator"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/calculatorBackgroundColor">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@color/calculatorBackgroundColor"
+                android:layout_marginTop="5dp">
+
+                <ImageButton
+                    android:id="@+id/clearHistoryBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/textView"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintWidth_percent="0.15"
+                    android:src="@drawable/clear"
+                    android:background="@color/calculatorBackgroundColor"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:layout_marginEnd="5dp"
+                    android:id="@+id/textView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="150"
+                    android:autoSizeMaxTextSize="15sp"
+                    android:gravity="center"
+                    android:text="@string/number_system"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:background="@drawable/param_label"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/numberSystem"
+                    app:layout_constraintStart_toEndOf="@id/clearHistoryBtn"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.6" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/numberSystem"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="50"
+                    android:gravity="center"
+                    android:maxLength="2"
+                    android:maxLines="1"
+                    android:text="10"
+                    android:background="@drawable/param_label"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/textView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/calculator"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/calculatorBackgroundColor"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/history"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="2dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/calcHead"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/calcKeyboard"
+                app:layout_constraintHeight_percent="0.45">
+                <LinearLayout
+                    android:id="@+id/inputLayout"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/resButtonsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintHeight_percent="0.7">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="100"
+                        android:autoSizeMaxTextSize="35sp"
+                        android:background="@color/white"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/grey"
+                        android:textSize="35sp" />
+
+                        <ImageButton
+                            android:id="@+id/backspace"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="@color/white"
+                            android:src="@drawable/backspace"
+                            tools:ignore="ContentDescription" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:id="@+id/resButtonsLayout"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:orientation="horizontal">
+                    <Button
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/solutionBtn"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:autoSizeMaxTextSize="20sp"
+                        android:backgroundTint="@color/green"
+                        android:text="@string/solution"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+                    <Button
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/foregroundCalcBtn"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:autoSizeMaxTextSize="20sp"
+                        android:backgroundTint="@color/green"
+                        android:text="@string/foreground_calc"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/extraButtons"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/calcHead"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/calcKeyboard"
+                android:orientation="horizontal"
+                app:layout_constraintWidth_percent="0.42857"
+                tools:ignore="DisableBaselineAlignment">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/absStick"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:autoSizeMaxTextSize="25dp"
+                        android:background="@drawable/button_operation"
+                        android:text="|...|"
+                        android:textSize="15sp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        tools:ignore="HardcodedText,NestedWeights" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/integerPartBrackets"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:autoSizeMaxTextSize="25dp"
+                        android:background="@drawable/button_operation"
+                        android:text="[...]"
+                        android:textSize="15sp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        tools:ignore="HardcodedText" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/floatPartBrackets"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:autoSizeMaxTextSize="25dp"
+                        android:background="@drawable/button_operation"
+                        android:text="{...}"
+                        android:textSize="15sp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/fac"
+                        style="@style/button_operation"
+                        android:text="!"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:textSize="20sp"
+                        tools:ignore="HardcodedText,NestedWeights" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/switchRadDeg"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_operation"
+                        android:text="rad"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        tools:ignore="HardcodedText" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/sin"
+                        style="@style/button_operation"
+                        android:text="sin"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        tools:ignore="HardcodedText" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/cos"
+                        style="@style/button_operation"
+                        android:text="cos"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/pow"
+                        style="@style/button_operation"
+                        android:text="x▔"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:textStyle="italic"
+                        android:textSize="20sp"
+                        tools:ignore="HardcodedText,NestedWeights" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/pi"
+                        style="@style/button_operation"
+                        android:text="π"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/tg"
+                        style="@style/button_operation"
+                        android:text="@string/tangent_label"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"/>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/ctg"
+                        style="@style/button_operation"
+                        android:text="ctg"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/calcKeyboard"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/calcHead"
+                app:layout_constraintStart_toEndOf="@id/extraButtons"
+                android:background="@color/calculatorBackgroundColor"
+                android:orientation="vertical"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="100"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/clear"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="100"
+                        android:background="@drawable/button_operation"
+                        android:text="C"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText,NestedWeights" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/brackets"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="100"
+                        android:autoSizeMaxTextSize="15sp"
+                        android:background="@drawable/button_operation"
+                        android:text="(...)"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/sqrt"
+                        style="@style/button_operation"
+                        android:text="√"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/mul"
+                        style="@style/button_operation"
+                        android:text="×"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="100"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/seven"
+                        style="@style/button_digit"
+                        android:text="7"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/eight"
+                        style="@style/button_digit"
+                        android:text="8"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/nine"
+                        style="@style/button_digit"
+                        android:text="9"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/div"
+                        style="@style/button_operation"
+                        android:text="/"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="100"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/four"
+                        style="@style/button_digit"
+                        android:text="4"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/five"
+                        style="@style/button_digit"
+                        android:text="5"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/six"
+                        style="@style/button_digit"
+                        android:text="6"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/plus"
+                        style="@style/button_operation"
+                        android:letterSpacing="-0.5"
+                        android:text="+"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="100"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/one"
+                        style="@style/button_digit"
+                        android:text="1"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/two"
+                        style="@style/button_digit"
+                        android:text="2"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/three"
+                        style="@style/button_digit"
+                        android:text="3"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/sub"
+                        style="@style/button_operation"
+                        android:letterSpacing="-0.5"
+                        android:text="---"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="100"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/launchNSTranslatorBtn"
+                        style="@style/button_operation"
+                        android:src="@drawable/pointer_right"
+                        tools:ignore="ContentDescription" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/zero"
+                        style="@style/button_digit"
+                        android:text="0"
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/dot"
+                        style="@style/button_operation"
+                        android:text="."
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
+
+                    <ImageButton
+                        android:id="@+id/equally"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="100"
+                        android:src="@drawable/equals"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/equally"
+                        tools:ignore="ContentDescription,NestedWeights" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
