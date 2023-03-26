@@ -407,7 +407,7 @@
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/brackets"
                         style="@style/button_operation"
-                        android:text="×"
+                        android:text="(...)"
                         android:textSize="15sp"
                         tools:ignore="HardcodedText" />
 
