@@ -43,10 +43,6 @@ public class TransformationImplementation implements TransformationInterface {
         numberLD.setValue(number);
     }
 
-    private LiveData<String> getNumber() {
-        return numberLD;
-    }
-
     @Override
     public void clear() {
         number = "";
@@ -70,7 +66,8 @@ public class TransformationImplementation implements TransformationInterface {
     public void transformNS(String s, int baseSource, int baseDest) {
         if (!checkNumber(s, baseSource))
             number = "invalid number";
-        number = toOtherNumberSystem(s, baseSource, baseDest);
+        else
+            number = toOtherNumberSystem(s, baseSource, baseDest);
         updateNumber();
     }
 

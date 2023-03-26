@@ -406,13 +406,7 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/brackets"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="100"
-                        android:autoSizeMaxTextSize="15sp"
-                        android:background="@drawable/button_operation"
+                        style="@style/button_operation"
                         android:text="(...)"
                         android:textSize="15sp"
                         tools:ignore="HardcodedText" />

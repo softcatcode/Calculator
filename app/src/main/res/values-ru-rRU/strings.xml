@@ -27,4 +27,5 @@
     <string name="approve_number_label">ввести число</string>
     <string name="notification_permission_warning">для фоновых вычислений нужно разрешение на уведомления</string>
     <string name="calculation_error_solution">Ошибка в процессе вычисления.</string>
+    <string name="invalid_number">ошибка в числе</string>
 </resources>

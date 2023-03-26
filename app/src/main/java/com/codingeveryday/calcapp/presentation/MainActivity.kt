@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.i("mumu2", "onCreate")
         /*val numberDialogBinding = layoutInflater.inflate(R.layout.keyboard_dialog, null)
         _numberDialog = Dialog(this)
         _numberDialog.setContentView(numberDialogBinding)
@@ -35,6 +37,36 @@ class MainActivity : AppCompatActivity() {
         val side = min(width, height)
         _numberDialog.window?.setLayout(side, side)
         setDialogListeners()*/
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i("mumu2", "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("mumu2", "onResume")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("mumu2", "onStop")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.i("mumu2", "onRestart")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("mumu2", "onPause")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("mumu2", "onDestroy")
     }
 
     private fun setDialogListeners() {

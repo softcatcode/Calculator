@@ -13,10 +13,12 @@ import com.codingeveryday.calcapp.domain.useCases.NumberSystemTranslationUseCase
 import javax.inject.Inject
 
 class ConvertNumberSystemViewModel @Inject constructor(
-    private val translateUseCase: NumberSystemTranslationUseCase,
-    private val getTransResultUseCase: GetTranslationResult,
-    private val checkNumberUseCase: CheckNumberUseCase
+    private val repository: TransformationInterface
 ): ViewModel() {
+
+    private val translateUseCase = NumberSystemTranslationUseCase(repository)
+    private val getTransResultUseCase = GetTranslationResult(repository)
+    private val checkNumberUseCase = CheckNumberUseCase(repository)
 
     private var _baseSourceCorrect = MutableLiveData<Unit>()
     val baseSourceCorrect: LiveData<Unit>

@@ -300,7 +300,7 @@ public class CalculationImplementation implements CalculationInterface {
             StringBuilder num = new StringBuilder();
             for (int j = b.length() - 1; j >= 0; --j) {
                 char y = b.charAt(j);
-                buf += (y - '0') * (x - '0');
+                buf += find(y, digits) * find(x, digits);
                 num.append(digits.charAt(buf % d));
                 buf /= d;
             }
