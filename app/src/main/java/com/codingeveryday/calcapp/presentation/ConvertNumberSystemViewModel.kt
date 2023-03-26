@@ -5,10 +5,9 @@ import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.codingeveryday.calcapp.data.TransformationImplementation
 import com.codingeveryday.calcapp.domain.interfaces.TransformationInterface
 import com.codingeveryday.calcapp.domain.useCases.CheckNumberUseCase
-import com.codingeveryday.calcapp.domain.useCases.GetTranslationResult
+import com.codingeveryday.calcapp.domain.useCases.GetTransformationResultUseCase
 import com.codingeveryday.calcapp.domain.useCases.NumberSystemTranslationUseCase
 import javax.inject.Inject
 
@@ -17,7 +16,7 @@ class ConvertNumberSystemViewModel @Inject constructor(
 ): ViewModel() {
 
     private val translateUseCase = NumberSystemTranslationUseCase(repository)
-    private val getTransResultUseCase = GetTranslationResult(repository)
+    private val getTransResultUseCase = GetTransformationResultUseCase(repository)
     private val checkNumberUseCase = CheckNumberUseCase(repository)
 
     private var _baseSourceCorrect = MutableLiveData<Unit>()
