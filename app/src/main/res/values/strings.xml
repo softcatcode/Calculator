@@ -26,4 +26,5 @@
     <string name="approve_number_label">approve number</string>
     <string name="notification_permission_warning">notifications are needed for foreground calculations</string>
     <string name="calculation_error_solution">Calculation error.</string>
+    <string name="invalid_number">invalid number</string>
 </resources>

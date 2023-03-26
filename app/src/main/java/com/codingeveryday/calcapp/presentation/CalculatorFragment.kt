@@ -1,25 +1,17 @@
 package com.codingeveryday.calcapp.presentation
 
-import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Context.WINDOW_SERVICE
+import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Point
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
-import androidx.core.content.res.ColorStateListInflaterCompat.inflate
 import androidx.core.text.isDigitsOnly
 import androidx.core.widget.addTextChangedListener
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -59,15 +51,22 @@ class CalculatorFragment: Fragment() {
     val binding: FragmentCalculatorBinding
         get() = _binding ?: throw RuntimeException("calculator's binding is null")
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.i("mumu", "onAttach")
+    }
+
     override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, bundle: Bundle?): View {
         component.inject(this)
         super.onCreateView(inflater, parent, bundle)
+        Log.i("mumu", "onCreateView")
         _binding = FragmentCalculatorBinding.inflate(inflater, parent, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i("mumu", "onViewCreated")
         setOnClickListeners()
         setTextChangedListeners()
         setObservers()
@@ -115,9 +114,45 @@ class CalculatorFragment: Fragment() {
         touchHelper.attachToRecyclerView(historyListView)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        Log.i("mumu", "onActivityCreated")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i("mumu", "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("mumu", "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("mumu", "onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("mumu", "onStop")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.i("mumu", "onDestroyView")
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        Log.i("mumu", "onDestroy")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.i("mumu", "onDetach")
     }
 
     private fun setOnClickListeners() {
