@@ -1,13 +1,13 @@
 package com.codingeveryday.calcapp.presentation
 
 import android.content.Context
-import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.codingeveryday.calcapp.data.CalcService
+import com.codingeveryday.calcapp.data.states.CalculatorViewModelState
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.HistoryItem
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
@@ -25,15 +25,8 @@ class CalculatorViewModel @Inject constructor(
     private val exprBuilder: ExpressionBuilderInterface
 ): ViewModel() {
 
-    data class State(
-        val expr: String = "",
-        val baseColor: Int = Color.BLACK,
-        val angleUnit: AngleUnit = AngleUnit.Radians,
-        val history: List<HistoryItem> = listOf()
-    )
-
-    private var _state = MutableLiveData<State>()
-    val state: LiveData<State>
+    private var _state = MutableLiveData(CalculatorViewModelState())
+    val state: LiveData<CalculatorViewModelState>
         get() = _state
 
     val errorEvent = MutableLiveData("")
@@ -47,7 +40,7 @@ class CalculatorViewModel @Inject constructor(
         foregroundMode: Boolean = false,
         context: Context? = null
     ) {
-        val state = _state.value ?: State()
+        val state = _state.value ?: CalculatorViewModelState()
         val baseVal = base.toInt()
         try {
             assert(baseVal in 1..36)
