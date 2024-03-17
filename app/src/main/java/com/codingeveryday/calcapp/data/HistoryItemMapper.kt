@@ -1,6 +1,6 @@
 package com.codingeveryday.calcapp.data
 
-import com.codingeveryday.calcapp.domain.HistoryItem
+import com.codingeveryday.calcapp.domain.entities.HistoryItem
 
 class HistoryItemMapper {
     companion object {

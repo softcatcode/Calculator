@@ -1,6 +1,5 @@
 package com.codingeveryday.calcapp.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -15,7 +14,7 @@ interface HistoryItemDao {
     suspend fun deleteItem(id: Int)
 
     @Query("SELECT * FROM ${HistoryItemDbModel.tableName}")
-    fun getItemList(): LiveData<List<HistoryItemDbModel>>
+    fun getItemList(): List<HistoryItemDbModel>
 
     @Query("DELETE FROM ${HistoryItemDbModel.tableName} WHERE 1")
     suspend fun clear()

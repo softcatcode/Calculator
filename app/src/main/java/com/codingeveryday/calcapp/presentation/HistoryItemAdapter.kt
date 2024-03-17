@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.codingeveryday.calcapp.R
-import com.codingeveryday.calcapp.domain.HistoryItem
+import com.codingeveryday.calcapp.domain.entities.HistoryItem
 
 class HistoryItemAdapter: ListAdapter<HistoryItem, HistoryItemViewHolder>(HistoryItemDiffCallback()) {
 

@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
+        android:minSdkVersion="34" />
     <application
         android:allowBackup="true"
         android:name=".CalculatorApplication"
@@ -27,7 +30,10 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <service android:name=".data.CalcService"/>
+        <service
+            android:name=".data.CalcService"
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback"/>
     </application>
 
 </manifest>

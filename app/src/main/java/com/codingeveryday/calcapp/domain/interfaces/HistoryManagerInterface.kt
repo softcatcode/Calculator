@@ -1,10 +1,9 @@
 package com.codingeveryday.calcapp.domain.interfaces
 
-import androidx.lifecycle.LiveData
-import com.codingeveryday.calcapp.domain.HistoryItem
+import com.codingeveryday.calcapp.domain.entities.HistoryItem
 
 interface HistoryManagerInterface {
-    fun getHistoryList(): LiveData<List<HistoryItem>>
+    fun getHistoryList(): List<HistoryItem>
 
     suspend fun addItem(hisItem: HistoryItem)
 
