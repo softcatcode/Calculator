@@ -91,55 +91,29 @@ class MathImplementation @Inject constructor(): MathInterface {
 
     private fun mul(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
         var r = 0
-        val result = mutableListOf<Byte>()
-        for ((extraZeroCount, i) in (a.size - 1 downTo 0).withIndex()) {
-            val num = mutableListOf<Byte>()
-            for (k in 0 until extraZeroCount)
-                num.add(0)
-            for (j in b.size - 1 downTo 0) {
-                r += a[i] * b[j]
+        var result = mutableListOf<Byte>()
+        for (i in a.indices) {
+            val num = MutableList<Byte>(i) {0}
+            for (digit in b) {
+                r += a[i] * digit
                 num.add((r % base).toByte())
                 r.div(base)
             }
             if (r > 0)
                 num.add(r.toByte())
-            var ptr = 0
-            while (ptr < num.size) {
-                if (ptr == result.size)
-                    result.add(0)
-                result[ptr].plus(num[ptr])
-                if (result[result.size - 1] >= base) {
-                    val n = result[result.size - 1]
-                    result[result.size - 1].mod(base)
-                    result.add((n / base).toByte())
-                }
-                ++ptr
-            }
+            while (result.size < num.size)
+                result.add(0)
+            result = sum(result, num, base)
         }
-        result.reverse()
         return result
     }
 
     override fun mul(a: Number, b: Number): Number {
         if (a.base != b.base)
             throw Exception("Numbers are in different number systems: ${a.base} and ${b.base}")
-        val n = a.float.size + b.float.size
-        val firstOperand = mutableListOf<Byte>().apply {
-            addAll(a.int)
-            addAll(a.float)
-        }
-        val secondOperand = mutableListOf<Byte>().apply {
-            addAll(b.int)
-            addAll(b.float)
-        }
         val sign = a.sign == b.sign
-        val result = mul(firstOperand, secondOperand, a.base)
-        return Number(
-            result.subList(0, result.size - n),
-            result.subList(result.size - n, result.size),
-            sign,
-            a.base
-        )
+        val result = mul(a.digits, b.digits, a.base)
+        return Number(result, a.order + b.order, sign, a.base)
     }
 
     override fun div(a: Number, b: Number): Number {
