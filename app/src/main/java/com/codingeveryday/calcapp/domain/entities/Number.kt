@@ -1,58 +1,57 @@
 package com.codingeveryday.calcapp.domain.entities
 
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
+
 private val invalidNumberException = Exception("Number is invalid")
 
 class Number: Expression {
-    var int: MutableList<Byte>
-    var float: MutableList<Byte>
+    var digits: MutableList<Byte>
+    var order: Long
     var sign: Boolean
     var base: Int
 
-    constructor(number: String, base: Int = 10) {
-        if (number.isBlank())
-            throw invalidNumberException
-        sign = true
-        var value = number
-        if (number[0] == operation[SUB_ID]) {
-            sign = false
-            value = value.substring(1)
+    private fun cleanNumber(number: String): String {
+        var pointCount = 0
+        val sb = StringBuilder()
+        for (c in number) {
+            if (c in DIGITS || c == POINT)
+                sb.append(c)
+            if (c == POINT)
+                ++pointCount
         }
-        val pointInd = value.indexOf(POINT)
-        val intBuilder = StringBuilder()
-        for (i in 0 until pointInd)
-            if (value[i].isDigit())
-                intBuilder.append(value[i])
-        int = strToDigitSequence(intBuilder.toString())
-        if (int.isEmpty())
+        if (pointCount > 1)
             throw invalidNumberException
-        val floatBuilder = StringBuilder()
-        for (i in pointInd + 1 until value.length)
-            if (value[i].isDigit())
-                floatBuilder.append(value[i])
-        float = strToDigitSequence(floatBuilder.toString())
-        this.base = base
+        return sb.toString()
     }
 
-    constructor(int: MutableList<Byte>, float: MutableList<Byte>, sign: Boolean, base: Int = 10) {
-        var i = 0
-        while (i < int.size && int[i] == 0.toByte())
-            ++i
-        if (i == int.size)
-            --i
-        this.int = int.subList(i, int.size)
-        while (i >= 0 && float[i] == 0.toByte())
-            --i
-        this.float = float.subList(0, i + 1)
+    constructor(number: String, base: Int = 10) {
         this.base = base
-        this.sign = sign
+        sign = number[0] != operation[SUB_ID]
+        digits = mutableListOf()
+        order = 0
+        val value = cleanNumber(number)
+        for (i in value.length - 1 downTo 0) {
+            if (value[i] == POINT)
+                order -= digits.size.toLong()
+            else
+                digits.add((value[i] - '0').toByte())
+        }
+        var l = 0
+        var r = digits.size - 1
+        while (r >= 0 && digits[r] == 0.toByte())
+            --r
+        while (l <= r && digits[l] == 0.toByte()) {
+            ++l
+            ++order
+        }
+        if (l <= r)
+            digits = digits.subList(l, r + 1)
+        else {
+            digits = mutableListOf(0)
+            order = 0
+            sign = true
+        }
     }
-
-    constructor(int: String, float: String, sign: Boolean, base: Int = 10): this(
-        strToDigitSequence(int),
-        strToDigitSequence(float),
-        sign,
-        base
-    )
 
     override fun toString() = "${if (sign) "" else "-"}$int.$float"
 }
