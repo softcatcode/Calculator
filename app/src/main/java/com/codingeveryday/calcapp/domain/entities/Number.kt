@@ -34,7 +34,7 @@ class Number: Expression {
             if (value[i] == POINT)
                 order -= digits.size.toLong()
             else
-                digits.add((value[i] - '0').toByte())
+                digits.add(DIGITS.indexOf(value[i]).toByte())
         }
         var l = 0
         var r = digits.size - 1
@@ -53,5 +53,16 @@ class Number: Expression {
         }
     }
 
-    override fun toString() = "${if (sign) "" else "-"}$int.$float"
+    override fun toString(): String {
+        val sb = StringBuilder()
+        if (!sign)
+            sb.append('-')
+        for (d in digits)
+            sb.append(DIGITS[d.toInt()])
+        if (order != 0.toLong()) {
+            sb.append('E')
+            sb.append(order.toString())
+        }
+        return sb.toString()
+    }
 }
