@@ -1,95 +1,84 @@
 package com.codingeveryday.calcapp.data
 
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
+import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import com.codingeveryday.calcapp.domain.interfaces.MathInterface
 import javax.inject.Inject
 import kotlin.math.max
+import kotlin.math.min
 
 class MathImplementation @Inject constructor(): MathInterface {
 
-    private fun formatForSum(a: Number, intLen: Int, floatLen: Int): MutableList<Byte> {
-        val digits = mutableListOf<Byte>()
-        for (i in a.int.size until intLen)
-            digits.add(0)
-        digits.addAll(a.int)
-        digits.addAll(a.float)
-        for (i in a.float.size until floatLen)
-            digits.add(0)
-        return digits
-    }
-
     private fun sum(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
-        val digits = mutableListOf<Byte>()
-        var r = 0
-        for (i in a.size - 1 downTo 0) {
-            r = a[i] + b[i]
-            digits.add((r % base).toByte())
-            r.div(base)
+        val n = max(a.size, b.size)
+        var r: Byte = 0
+        for (i in 0..n) {
+            a[i].plus(b[i] + r)
+            if (a[i] > base) {
+                a[i].minus(base)
+                ++r
+            }
         }
         if (r > 0)
-            digits.add(r.toByte())
-        digits.reverse()
-        return digits
+            a.add(r)
+        return a
     }
 
     private fun sub(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
-        val result = mutableListOf<Byte>()
-        var r = 0
-        for (i in a.size - 1 downTo 1) {
-            r += a[i] - b[i]
-            if (r < 0) {
-                if (a[i - 1] == 0.toByte())
-                    a[i - 1] = 9.toByte()
+        for (i in a.indices) {
+            a[i].minus(b[i])
+            if (a[i] < 0) {
+                a[i].plus(base)
+                if (a[i + 1] == 0.toByte())
+                    a[i - 1] = (Expression.DIGITS[base - 1] - '0').toByte()
                 else
-                    a[i - 1].minus(1)
+                    a[i + 1].minus(1)
             }
-            result.add((r % base).toByte())
-            r.div(base)
         }
-        while (result.size > 1 && result[result.size - 1] == 0.toByte())
-            result.removeAt(result.size - 1)
-        result.reverse()
-        return result
+        return a
     }
 
-    private fun cmpFormattedValues(a: MutableList<Byte>, b: MutableList<Byte>): Int {
-        val n = a.size
-        for (i in 0 until n)
-            if (a[i] != b[i])
-                return if (a[i] > b[i]) 1 else -1
+    private fun cmp(a: MutableList<Byte>, b: MutableList<Byte>): Int {
+        var i = a.indexOfLast { it > 0 }
+        val j = b.indexOfLast { it > 0 }
+        if (i > j)
+            return 1
+        if (j > i)
+            return -1
+        if (i == -1)
+            return 0
+        while (i >= 0) {
+            --i
+            if (a[i] > b[i])
+                return 1
+            if (a[i] < b[i])
+                return -1
+        }
         return 0
     }
 
     override fun sum(a: Number, b: Number): Number {
         if (a.base != b.base)
             throw Exception("Numbers are in different number systems: ${a.base} and ${b.base}")
-        val floatSize = max(a.float.size, b.float.size)
-        val intSize = max(a.int.size, b.int.size)
-        val firstOperand = formatForSum(a, intSize, floatSize)
-        val secondOperand = formatForSum(b, intSize, floatSize)
-        if (a.sign == b.sign) {
-            val num = sum(firstOperand, secondOperand, a.base)
-            return Number(
-                num.subList(0, num.size - floatSize),
-                num.subList(num.size - floatSize, num.size),
-                a.sign,
-                a.base
-            )
+        val n = min(a.order, b.order)
+        val firstOperand = MutableList<Byte>((a.order - n).toInt()) {0}.apply { addAll(a.digits) }
+        val secondOperand = MutableList<Byte>((b.order - n).toInt()) {0}.apply { addAll(b.digits) }
+        return if (a.sign == b.sign) {
+            val result = sum(firstOperand, secondOperand, a.base)
+            Number(result, n, a.sign, a.base)
         } else {
-            val comp = cmpFormattedValues(firstOperand, secondOperand)
-            val sign = if (a.sign == b.sign || comp >= 0) a.sign else b.sign
-            val num = if (comp >= 0)
-                sub(firstOperand, secondOperand, a.base)
-            else
-                sub(secondOperand, firstOperand, a.base)
-            return Number(
-                num.subList(0, num.size - floatSize),
-                num.subList(num.size - floatSize, num.size),
-                sign,
-                a.base
-            )
+            val sign: Boolean
+            val num: MutableList<Byte>
+            if (cmp(firstOperand, secondOperand) >= 0) {
+                num = sub(firstOperand, secondOperand, a.base)
+                sign = a.sign
+            } else {
+                num = sub(secondOperand, firstOperand, a.base)
+                sign = b.sign
+            }
+            Number(num, n, sign, a.base)
         }
     }
 

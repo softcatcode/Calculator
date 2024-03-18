@@ -36,20 +36,29 @@ class Number: Expression {
             else
                 digits.add(DIGITS.indexOf(value[i]).toByte())
         }
-        var l = 0
-        var r = digits.size - 1
-        while (r >= 0 && digits[r] == 0.toByte())
-            --r
-        while (l <= r && digits[l] == 0.toByte()) {
-            ++l
-            ++order
+        Number(digits, order, sign, base).let {
+            digits = it.digits
+            order = it.order
         }
-        if (l <= r)
-            digits = digits.subList(l, r + 1)
-        else {
-            digits = mutableListOf(0)
-            order = 0
-            sign = true
+    }
+
+    constructor(digits: MutableList<Byte>, order: Long, sign: Boolean, base: Int) {
+        this.base = base
+        var r = digits.size - 1
+        val zero = 0.toByte()
+        while (r >= 0 && digits[r] == zero)
+            --r
+        var l = 0
+        while (l <= r && digits[l] == zero)
+            ++l
+        if (l > r) {
+            this.digits = mutableListOf(0)
+            this.order = 0
+            this.sign = true
+        } else {
+            this.digits = mutableListOf<Byte>().apply { addAll(digits.subList(l, r + 1)) }
+            this.order = order + l
+            this.sign = sign
         }
     }
 
