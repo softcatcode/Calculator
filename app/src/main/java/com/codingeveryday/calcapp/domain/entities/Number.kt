@@ -1,12 +1,10 @@
 package com.codingeveryday.calcapp.domain.entities
 
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
-
 private val invalidNumberException = Exception("Number is invalid")
 
 class Number: Expression {
     var digits: MutableList<Byte>
-    var order: Long
+    var order: Int
     var sign: Boolean
     var base: Int
 
@@ -32,7 +30,7 @@ class Number: Expression {
         val value = cleanNumber(number)
         for (i in value.length - 1 downTo 0) {
             if (value[i] == POINT)
-                order -= digits.size.toLong()
+                order -= digits.size
             else
                 digits.add(DIGITS.indexOf(value[i]).toByte())
         }
@@ -42,7 +40,7 @@ class Number: Expression {
         }
     }
 
-    constructor(digits: MutableList<Byte>, order: Long, sign: Boolean, base: Int) {
+    constructor(digits: MutableList<Byte>, order: Int, sign: Boolean, base: Int) {
         this.base = base
         var r = digits.size - 1
         val zero = 0.toByte()
@@ -68,7 +66,7 @@ class Number: Expression {
             sb.append('-')
         for (d in digits)
             sb.append(DIGITS[d.toInt()])
-        if (order != 0.toLong()) {
+        if (order != 0) {
             sb.append('E')
             sb.append(order.toString())
         }

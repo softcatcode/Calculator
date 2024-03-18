@@ -3,7 +3,6 @@ package com.codingeveryday.calcapp.data
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Number
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import com.codingeveryday.calcapp.domain.interfaces.MathInterface
 import javax.inject.Inject
 import kotlin.math.max
@@ -63,8 +62,8 @@ class MathImplementation @Inject constructor(): MathInterface {
         if (a.base != b.base)
             throw Exception("Numbers are in different number systems: ${a.base} and ${b.base}")
         val n = min(a.order, b.order)
-        val firstOperand = MutableList<Byte>((a.order - n).toInt()) {0}.apply { addAll(a.digits) }
-        val secondOperand = MutableList<Byte>((b.order - n).toInt()) {0}.apply { addAll(b.digits) }
+        val firstOperand = MutableList<Byte>((a.order - n)) {0}.apply { addAll(a.digits) }
+        val secondOperand = MutableList<Byte>((b.order - n)) {0}.apply { addAll(b.digits) }
         return if (a.sign == b.sign) {
             val result = sum(firstOperand, secondOperand, a.base)
             Number(result, n, a.sign, a.base)
@@ -127,13 +126,11 @@ class MathImplementation @Inject constructor(): MathInterface {
     override fun pow(a: Number, b: Number): Number {
         if (a.base != b.base)
             throw Exception("Numbers are in different number systems: ${a.base} and ${b.base}")
-        if (b.float.size != 0)
+        if (b.order != 0)
             throw Exception("Attempt to calculate a float power")
-        if (b.int[0] == 0.toByte())
+        if (b.digits.indexOfFirst { it > 0 } == -1)
             return Number("1", a.base)
-        if (b.int[1] == 1.toByte())
-            return a
-        return if (b.int[b.int.size - 1] % 2 == 0)
+        return if (b.digits.last() % 2 == 0)
             pow(a, sum(b, Number("-1", a.base)))
         else {
             val two = if (a.base == 2) "10" else "2"
@@ -157,22 +154,16 @@ class MathImplementation @Inject constructor(): MathInterface {
         TODO("Not yet implemented")
     }
 
-    override fun abs(a: Number): Number {
-        return Number(a.int, a.float, true, a.base)
-    }
+    override fun abs(a: Number) = Number(a.digits, a.order, true, a.base)
 
-    override fun fractionPart(a: Number): Number {
-        var num = Number(a.int, mutableListOf(), a.sign, a.base)
-        if (!a.sign) {
-            num = sub(num, Number("1", num.base))
-            num.sign = false
-        }
-        return sub(a, num)
-    }
+    override fun fractionPart(a: Number) = sub(a, intPart(a))
 
     override fun intPart(a: Number): Number {
-        var num = Number(a.int, mutableListOf(), a.sign, a.base)
-        if (!a.sign && a.float.size > 0) {
+        if (a.order > a.digits.size)
+            return if (a.sign) Number("0", a.base) else Number("-1", a.base)
+        val digits = a.digits.subList(0, a.digits.size - a.order)
+        var num = Number(digits, 0, a.sign, a.base)
+        if (!a.sign) {
             num = sub(num, Number("1", num.base))
             num.sign = false
         }
@@ -197,17 +188,17 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     override fun fac(a: Number): Number {
-        if (a.float.size > 0)
+        if (a.order < 0)
             throw Exception("Attempt to calculate factorial of a float $a")
         if (!a.sign)
             throw Exception("Attempt to calculate factorial of a negative $a")
-        val value = mutableListOf<Byte>().apply{ addAll(a.int) }
-        var result = Number("1", a.base)
+        val value = MutableList<Byte>(a.order) {0}.apply { addAll(a.digits) }
+        var result = mutableListOf<Byte>(0)
         while (value.size > 1 || value[0] != 0.toByte()) {
-            result = mul(result, Number(value, mutableListOf(), true, a.base))
+            result = mul(result, value, a.base)
             decrement(value, a.base)
         }
-        return result
+        return Number(result, a.order, true, a.base)
     }
 
     override fun sqrt(a: Number): Number {
