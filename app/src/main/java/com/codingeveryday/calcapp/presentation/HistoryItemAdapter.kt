@@ -28,6 +28,10 @@ class HistoryItemAdapter: ListAdapter<HistoryItem, HistoryItemViewHolder>(Histor
         }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return VIEW_TYPE
+    }
+
     companion object {
         const val POOL_SIZE = 20
         const val VIEW_TYPE = 1
