@@ -55,6 +55,8 @@ open class Expression {
         val unaryOperations = listOf(COS_ID, SIN_ID, TAN_ID, CTG_ID, FAC_ID, SQRT_ID, LOG_ID)
         val binaryOperations = listOf(SUM_ID, SUB_ID, POW_ID, MUL_ID, DIV_ID, MOD_ID)
 
+        fun isOperation(c: Char) = operationId.keys.contains(c)
+
         fun matchingBrackets(a: Char, b: Char) =
             OPENING_BRACKETS.indexOf(a) == CLOSING_BRACKETS.indexOf(b)
 

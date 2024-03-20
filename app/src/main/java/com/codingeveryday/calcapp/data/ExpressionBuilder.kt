@@ -1,6 +1,7 @@
 package com.codingeveryday.calcapp.data
 
 import com.codingeveryday.calcapp.domain.entities.Expression
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.isOperation
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import javax.inject.Inject
 
@@ -8,14 +9,26 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
 
     private var builder = StringBuilder()
     override fun addBracket(br: Char) {
-        addFunction("")
+        if (builder.isEmpty() || isOperation(builder.last()))
+            builder.append('(')
+        else {
+            val brSeq = correctBracketSequence()
+            if (brSeq && builder.last() in Expression.DIGITS)
+                builder.append("${Expression.operation[Expression.MUL_ID]}(")
+            else if (!brSeq && builder.last() in Expression.CLOSING_BRACKETS + Expression.DIGITS)
+                builder.append(')')
+        }
+    }
+
+    private fun correctBracketSequence(): Boolean {
+
     }
 
     override fun addFunction(name: String) {
-        if (builder.isNotEmpty() && builder[builder.length - 1] in Expression.CLOSING_BRACKETS + Expression.DIGITS)
-            builder.append(Expression.operation[Expression.MUL_ID])
-        builder.append(name)
-        builder.append('(')
+        if (builder.isEmpty() || isOperation(builder.last()))
+            builder.append("$name(")
+        else if (builder.last() in Expression.CLOSING_BRACKETS + Expression.DIGITS)
+            builder.append("${Expression.operation[Expression.MUL_ID]}$name(")
     }
 
     override fun addDigit(d: Char) {
