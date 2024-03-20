@@ -1,7 +1,6 @@
 package com.codingeveryday.calcapp.data
 
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
-import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.interfaces.MathInterface
 import javax.inject.Inject
@@ -115,12 +114,43 @@ class MathImplementation @Inject constructor(): MathInterface {
         return Number(result, a.order + b.order, sign, a.base)
     }
 
+    private fun isZero(a: Number) = Number(a.digits, a.order, a.sign, a.base).let{
+        it.order != 0 && it.sign && it.digits.size == 1 && it.digits[0] == 0.toByte()
+    }
+
+    private fun afterMaxTimesSub(a: MutableList<Byte>, b: MutableList<Byte>): MutableList<Byte> {
+
+    }
+
     override fun div(a: Number, b: Number): Number {
-        TODO("Not yet implemented")
+        if (a.base != b.base)
+            throw Exception("Numbers are in different number systems: ${a.base} and ${b.base}")
+        if (isZero(b))
+            throw RuntimeException("Division by 0 occurred")
+
+        val n = min(a.order, b.order)
+        val orderA = a.order - n
+        val orderB = b.order - n
+        var first = MutableList<Byte>(orderA) {0}.apply { addAll(a.digits) }
+        val second = MutableList<Byte>(orderB) {0}.apply { addAll(b.digits) }
+
+        val result = afterMaxTimesSub(first, second)
+        while (first.indexOfFirst { it > 0 }  != -1) {
+            first.add(0, 0)
+            var nextDigit = 0
+            while (cmp(first, second) >= 0) {
+                first = sub(first, second, a.base)
+                ++nextDigit
+            }
+            result.add(0, nextDigit.toByte())
+        }
+
+        return Number(result, 0, a.sign == b.sign, 0)
     }
 
     override fun mod(a: Number, b: Number): Number {
-        TODO("Not yet implemented")
+        val num = intPart(div(a, b))
+        return sub(a, mul(num, b))
     }
 
     override fun pow(a: Number, b: Number): Number {
@@ -201,7 +231,32 @@ class MathImplementation @Inject constructor(): MathInterface {
         return Number(result, a.order, true, a.base)
     }
 
+    private fun cmp(a: Number, b: Number): Int {
+
+    }
+
     override fun sqrt(a: Number): Number {
-        TODO("Not yet implemented")
+        if (a.sign)
+            throw RuntimeException("attempt to calculate sqrt from a negative number")
+
+        val eps = Number("0.000001", a.base)
+        val two = if (a.base > 2) Number("2", a.base) else Number("10", 2)
+        val order = if (a.order % 2 == 0) 0 else 1
+
+        var l = Number("0", a.base)
+        var r = Number(a.digits, order, a.sign, a.base)
+        while (cmp(sub(r, l), eps) >= 0) {
+            val num = div(sum(l, r), two)
+            if (cmp(mul(num, num), a) > 0)
+                r = num
+            else
+                l = num
+        }
+        var result = div(sum(l, r), two)
+        if (a.order % 2 == -1)
+            result = div(result, Number("10", a.base))
+
+        result.order += a.order / 2
+        return result
     }
 }
