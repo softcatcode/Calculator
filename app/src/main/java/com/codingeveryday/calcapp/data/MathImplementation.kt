@@ -31,7 +31,7 @@ class MathImplementation @Inject constructor(): MathInterface {
             if (a[i] < 0) {
                 a[i].plus(base)
                 if (a[i + 1] == 0.toByte())
-                    a[i - 1] = (Expression.DIGITS[base - 1] - '0').toByte()
+                    a[i - 1] = (base - 1).toByte()
                 else
                     a[i + 1].minus(1)
             }

@@ -68,8 +68,7 @@ class CalculatorFragment: Fragment() {
 
     private fun setupRecyclerView() {
         historyAdapter = HistoryItemAdapter()
-        historyView = binding.history!!
-        with (historyView!!) {
+        with (binding.history!!) {
             adapter = historyAdapter
             recycledViewPool.setMaxRecycledViews(HistoryItemAdapter.VIEW_TYPE, HistoryItemAdapter.POOL_SIZE)
         }
