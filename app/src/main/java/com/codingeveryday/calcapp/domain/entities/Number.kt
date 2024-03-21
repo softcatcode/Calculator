@@ -1,5 +1,7 @@
 package com.codingeveryday.calcapp.domain.entities
 
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.POINT
+
 private val invalidNumberException = Exception("Number is invalid")
 
 class Number: Expression {

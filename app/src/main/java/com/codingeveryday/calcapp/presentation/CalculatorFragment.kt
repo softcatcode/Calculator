@@ -18,6 +18,7 @@ import com.codingeveryday.calcapp.CalculatorApplication
 import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.databinding.FragmentCalculatorBinding
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
+import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import javax.inject.Inject
 
@@ -143,10 +144,10 @@ class CalculatorFragment: Fragment() {
             eight.setOnClickListener { calcViewModel.appendDigit('8') }
             nine.setOnClickListener { calcViewModel.appendDigit('9') }
             brackets.setOnClickListener { calcViewModel.openBracket('(') }
-            plus.setOnClickListener { calcViewModel.addOperation('+') }
-            sub.setOnClickListener { calcViewModel.addOperation('-') }
-            mul.setOnClickListener { calcViewModel.addOperation('×') }
-            div.setOnClickListener { calcViewModel.addOperation('/') }
+            plus.setOnClickListener { calcViewModel.addOperation(CalculationInterface.SUM) }
+            sub.setOnClickListener { calcViewModel.addOperation(CalculationInterface.SUB) }
+            mul.setOnClickListener { calcViewModel.addOperation(CalculationInterface.MUL) }
+            div.setOnClickListener { calcViewModel.addOperation(CalculationInterface.DIV) }
             dot.setOnClickListener { calcViewModel.addPoint() }
             sqrt.setOnClickListener { calcViewModel.addFunction(CalculationInterface.SQRT) }
             if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -154,8 +155,8 @@ class CalculatorFragment: Fragment() {
                 absStick!!.setOnClickListener { calcViewModel.addAbsStick() }
                 integerPartBrackets!!.setOnClickListener { calcViewModel.openBracket('[') }
                 floatPartBrackets!!.setOnClickListener { calcViewModel.openBracket('{') }
-                fac!!.setOnClickListener { calcViewModel.addOperation('!') }
-                pow!!.setOnClickListener { calcViewModel.addOperation('^') }
+                fac!!.setOnClickListener { calcViewModel.addOperation(CalculationInterface.FAC) }
+                pow!!.setOnClickListener { calcViewModel.addOperation(CalculationInterface.POW) }
                 sin!!.setOnClickListener { calcViewModel.addFunction(CalculationInterface.SIN) }
                 cos!!.setOnClickListener { calcViewModel.addFunction(CalculationInterface.COS) }
                 tg!!.setOnClickListener { calcViewModel.addFunction(CalculationInterface.TG) }

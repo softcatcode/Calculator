@@ -119,7 +119,7 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     private fun afterMaxTimesSub(a: MutableList<Byte>, b: MutableList<Byte>): MutableList<Byte> {
-
+        TODO("Not yet implemented")
     }
 
     override fun div(a: Number, b: Number): Number {
@@ -232,7 +232,7 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     private fun cmp(a: Number, b: Number): Int {
-
+        TODO("Not yet implemented")
     }
 
     override fun sqrt(a: Number): Number {

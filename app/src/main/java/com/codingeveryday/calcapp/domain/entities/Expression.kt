@@ -1,5 +1,14 @@
 package com.codingeveryday.calcapp.domain.entities
 
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUM
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUB
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.MUL
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.DIV
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.FAC
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.POW
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SQRT
+
 open class Expression {
     companion object {
         const val SUM_ID = 1
@@ -19,28 +28,27 @@ open class Expression {
         const val FR_ID = 15
         const val SQRT_ID = 16
 
-        const val OPERATIONS = "+-×/!^√"
+        const val OPERATIONS = "$SUM$SUB$MUL$DIV$FAC$POW$SQRT"
         const val OPENING_BRACKETS = "([{<"
         const val CLOSING_BRACKETS = ")]}>"
         const val DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWYZ"
-        const val POINT = '.'
 
         val operationId = mapOf(
-            '+' to SUM_ID,
-            '-' to SUB_ID,
-            '×' to MUL_ID,
-            '/' to DIV_ID,
-            '!' to FAC_ID,
-            '√' to SQRT_ID
+            SUM to SUM_ID,
+            SUB to SUB_ID,
+            MUL to MUL_ID,
+            DIV to DIV_ID,
+            FAC to FAC_ID,
+            SQRT to SQRT_ID
         )
 
         val operation = mapOf(
-            SUM_ID to '+',
-            SUB_ID to '-',
-            MUL_ID to '×',
-            DIV_ID to '/',
-            FAC_ID to '!',
-            SQRT_ID to '√'
+            SUM_ID to SUM,
+            SUB_ID to SUB,
+            MUL_ID to MUL,
+            DIV_ID to DIV,
+            FAC_ID to FAC,
+            SQRT_ID to SQRT
         )
 
         val funcId = mapOf(
@@ -61,13 +69,6 @@ open class Expression {
             OPENING_BRACKETS.indexOf(a) == CLOSING_BRACKETS.indexOf(b)
 
         fun digit(d: Char) = DIGITS.indexOf(d)
-
-        fun strToDigitSequence(a: String): MutableList<Byte> {
-            val result = mutableListOf<Byte>()
-            for (d in a)
-                result.add(DIGITS.indexOf(d).toByte())
-            return result
-        }
     }
 }
 

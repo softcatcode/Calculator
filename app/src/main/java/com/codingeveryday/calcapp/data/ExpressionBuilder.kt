@@ -1,63 +1,84 @@
 package com.codingeveryday.calcapp.data
 
 import com.codingeveryday.calcapp.domain.entities.Expression
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CLOSING_BRACKETS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.DIGITS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPENING_BRACKETS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPERATIONS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.isOperation
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.matchingBrackets
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.operation
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.POINT
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
+import java.util.Stack
 import javax.inject.Inject
 
 class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
 
     private var builder = StringBuilder()
     override fun addBracket(br: Char) {
-        if (builder.isEmpty() || isOperation(builder.last()))
+        val s = getProcessed()
+        if (s.isEmpty() || isOperation(s.last()))
             builder.append('(')
-        else {
-            val brSeq = correctBracketSequence()
-            if (brSeq && builder.last() in Expression.DIGITS)
-                builder.append("${Expression.operation[Expression.MUL_ID]}(")
-            else if (!brSeq && builder.last() in Expression.CLOSING_BRACKETS + Expression.DIGITS)
+        else if (s.last() in DIGITS + CLOSING_BRACKETS) {
+            if (correctBracketSequence())
+                builder.append("${CalculationInterface.MUL}(")
+            else
                 builder.append(')')
         }
     }
 
     private fun correctBracketSequence(): Boolean {
-
+        val stack = Stack<Char>()
+        val seq = getProcessed()
+        for (c in seq) {
+            if (c in OPENING_BRACKETS)
+                stack.add(c)
+            else if (c in CLOSING_BRACKETS) {
+                if (stack.empty() || !matchingBrackets(stack.pop(), c))
+                    return false
+            }
+        }
+        return stack.empty()
     }
 
     override fun addFunction(name: String) {
-        if (builder.isEmpty() || isOperation(builder.last()))
+        val s = getProcessed()
+        if (s.isEmpty() || s.last() in OPERATIONS || s.last() in OPENING_BRACKETS)
             builder.append("$name(")
-        else if (builder.last() in Expression.CLOSING_BRACKETS + Expression.DIGITS)
-            builder.append("${Expression.operation[Expression.MUL_ID]}$name(")
+        else if (s.last() in CLOSING_BRACKETS + DIGITS)
+            builder.append("${CalculationInterface.MUL}$name(")
     }
 
     override fun addDigit(d: Char) {
-        if (builder.isNotEmpty() && builder[builder.length - 1] in Expression.CLOSING_BRACKETS)
-            builder.append(Expression.operation[Expression.MUL_ID])
+        val s = getProcessed()
+        if (s.isNotEmpty() && s.last() in CLOSING_BRACKETS)
+            builder.append(operation[Expression.MUL_ID])
         builder.append(d)
     }
 
     override fun addOperation(op: Char) {
-        if (builder.isEmpty()) {
+        val s = getProcessed()
+        if (s.isEmpty())
+            return
+        if (
+            s.last() in CLOSING_BRACKETS + DIGITS ||
+            s.last() in OPENING_BRACKETS && op == CalculationInterface.SUB
+        ) {
             builder.append(op)
-            return
         }
-        if (builder[builder.length - 1] in Expression.OPERATIONS)
-            return
-        if (builder[builder.length - 1] in Expression.OPENING_BRACKETS)
-            return
-        builder.append(op)
     }
 
     override fun backspace() {
         if (builder.isEmpty())
             return
-        if (builder[builder.length - 1] in 'a'..'z') {
+        if (builder.last() in 'a'..'z') {
             do {
-                builder.deleteAt(builder.length - 1)
-            } while (builder.isNotEmpty() && builder[builder.length - 1] in 'a'..'z')
+                builder.deleteAt(builder.lastIndex)
+            } while (builder.isNotEmpty() && builder.last() in 'a'..'z')
         } else
-            builder.deleteCharAt(builder.length - 1)
+            builder.deleteCharAt(builder.lastIndex)
     }
 
     override fun clear() {
@@ -65,26 +86,43 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
     }
 
     override fun addAbs() {
-        if (builder.isNotEmpty() && builder[builder.length - 1] in Expression.CLOSING_BRACKETS)
-            builder.append(Expression.operation[Expression.MUL_ID])
-        builder.append('|')
+        addBracket('<')
+        if (builder.isNotEmpty() && builder.last() == '<')
+            builder[builder.lastIndex] = '|'
     }
 
     override fun addConstant(value: String) {
-        if (builder.isNotEmpty() && builder[builder.length - 1] !in Expression.OPENING_BRACKETS)
-            builder.append(Expression.operation[Expression.MUL_ID])
+        val s = getProcessed()
+        if (s.isNotEmpty() && s.last() in CLOSING_BRACKETS + DIGITS)
+            builder.append(operation[Expression.MUL_ID])
         builder.append(value)
     }
 
     override fun addPoint() {
-        if (builder.isEmpty() || builder[builder.length - 1] !in Expression.DIGITS)
+        var i = builder.lastIndex
+        while (i >= 0 && builder[i] in DIGITS)
+            --i
+        if (i >= 0 && builder[i] == POINT)
+            builder.append("${CalculationInterface.MUL}")
+        if (builder.isEmpty() || builder.last() !in DIGITS)
             addDigit('0')
-        builder.append(Expression.POINT)
+        builder.append(POINT)
     }
 
-    override fun get(): String {
-        return builder.toString()
+    private fun getProcessed(): String {
+        val sb = StringBuilder()
+        for (i in builder.indices) {
+            if (builder[i] != '|')
+                sb.append(builder[i])
+            else if (builder[i - 1] in DIGITS + CLOSING_BRACKETS)
+                sb.append('>')
+            else
+                sb.append('<')
+        }
+        return sb.toString()
     }
+
+    override fun get() = builder.toString()
 
     override fun setExpression(expr: String) {
         builder = StringBuilder(expr)
