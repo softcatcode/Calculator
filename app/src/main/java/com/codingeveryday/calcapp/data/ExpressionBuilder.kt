@@ -10,6 +10,7 @@ import com.codingeveryday.calcapp.domain.entities.Expression.Companion.matchingB
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.operation
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.POINT
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.processAbs
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import java.util.Stack
 import javax.inject.Inject
@@ -18,7 +19,7 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
 
     private var builder = StringBuilder()
     override fun addBracket(br: Char) {
-        val s = getProcessed()
+        val s = processAbs(builder.toString())
         if (s.isEmpty() || isOperation(s.last()))
             builder.append('(')
         else if (s.last() in DIGITS + CLOSING_BRACKETS) {
@@ -31,7 +32,7 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
 
     private fun correctBracketSequence(): Boolean {
         val stack = Stack<Char>()
-        val seq = getProcessed()
+        val seq = processAbs(builder.toString())
         for (c in seq) {
             if (c in OPENING_BRACKETS)
                 stack.add(c)
@@ -44,7 +45,7 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
     }
 
     override fun addFunction(name: String) {
-        val s = getProcessed()
+        val s = processAbs(builder.toString())
         if (s.isEmpty() || s.last() in OPERATIONS || s.last() in OPENING_BRACKETS)
             builder.append("$name(")
         else if (s.last() in CLOSING_BRACKETS + DIGITS)
@@ -52,14 +53,14 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
     }
 
     override fun addDigit(d: Char) {
-        val s = getProcessed()
+        val s = processAbs(builder.toString())
         if (s.isNotEmpty() && s.last() in CLOSING_BRACKETS)
             builder.append(operation[Expression.MUL_ID])
         builder.append(d)
     }
 
     override fun addOperation(op: Char) {
-        val s = getProcessed()
+        val s = processAbs(builder.toString())
         if (s.isEmpty())
             return
         if (
@@ -92,7 +93,7 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
     }
 
     override fun addConstant(value: String) {
-        val s = getProcessed()
+        val s = processAbs(builder.toString())
         if (s.isNotEmpty() && s.last() in CLOSING_BRACKETS + DIGITS)
             builder.append(operation[Expression.MUL_ID])
         builder.append(value)
@@ -107,19 +108,6 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
         if (builder.isEmpty() || builder.last() !in DIGITS)
             addDigit('0')
         builder.append(POINT)
-    }
-
-    private fun getProcessed(): String {
-        val sb = StringBuilder()
-        for (i in builder.indices) {
-            if (builder[i] != '|')
-                sb.append(builder[i])
-            else if (builder[i - 1] in DIGITS + CLOSING_BRACKETS)
-                sb.append('>')
-            else
-                sb.append('<')
-        }
-        return sb.toString()
     }
 
     override fun get() = builder.toString()
