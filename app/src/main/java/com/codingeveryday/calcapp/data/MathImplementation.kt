@@ -232,7 +232,10 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     private fun cmp(a: Number, b: Number): Int {
-        TODO("Not yet implemented")
+        val n = min(a.order, b.order)
+        val first = MutableList<Byte>(a.order - n) {0}.apply { addAll(a.digits) }
+        val second = MutableList<Byte>(b.order - n) {0}.apply { addAll(b.digits) }
+        return cmp(first, second)
     }
 
     override fun sqrt(a: Number): Number {
