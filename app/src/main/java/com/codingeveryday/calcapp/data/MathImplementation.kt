@@ -186,20 +186,35 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     override fun sin(a: Number, angleUnit: AngleUnit): Number {
-        TODO("Not yet implemented")
+        var numerator = Number(a.digits, a.order, a.sign, a.base)
+        var denominator = Number("1", a.base)
+        val numeratorMulRatio = mul(a, a).apply { sign = false }
+        var i = Number(if (a.base == 2) "10" else "2", a.base)
+        var j = Number(if (a.base == 2) "11" else "3", a.base)
+
+        var prevResult = Number("0", a.base)
+        var result = sum(prevResult, div(numerator, denominator))
+        val eps = epsValue(a.base)
+
+        while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0) {
+            numerator = mul(numerator, numeratorMulRatio)
+            denominator = mul(mul(denominator, i), j)
+            i = j
+            j = sum(j, Number("1", a.base))
+
+            prevResult = result
+            result = sum(result, div(numerator, denominator))
+        }
+        return result
     }
 
     override fun cos(a: Number, angleUnit: AngleUnit): Number {
         TODO("Not yet implemented")
     }
 
-    override fun tan(a: Number, angleUnit: AngleUnit): Number {
-        TODO("Not yet implemented")
-    }
+    override fun tan(a: Number, angleUnit: AngleUnit) = div(sin(a, angleUnit), cos(a, angleUnit))
 
-    override fun ctg(a: Number, angleUnit: AngleUnit): Number {
-        TODO("Not yet implemented")
-    }
+    override fun ctg(a: Number, angleUnit: AngleUnit) = div(Number("1", a.base), tan(a, angleUnit))
 
     override fun abs(a: Number) = Number(a.digits, a.order, true, a.base)
 
@@ -259,12 +274,12 @@ class MathImplementation @Inject constructor(): MathInterface {
         if (a.sign)
             throw RuntimeException("attempt to calculate sqrt from a negative number")
 
-        val eps = Number("0.000001", a.base)
         val two = if (a.base > 2) Number("2", a.base) else Number("10", 2)
         val order = if (a.order % 2 == 0) 0 else 1
 
         var l = Number("0", a.base)
         var r = Number(a.digits, order, a.sign, a.base)
+        val eps = epsValue(a.base)
         while (cmp(sub(r, l), eps) >= 0) {
             val num = div(sum(l, r), two)
             if (cmp(mul(num, num), a) > 0)
@@ -279,4 +294,6 @@ class MathImplementation @Inject constructor(): MathInterface {
         result.order += a.order / 2
         return result
     }
+
+    private fun epsValue(base: Int) = Number("0.000001", base)
 }
