@@ -35,6 +35,8 @@ class MathImplementation @Inject constructor(): MathInterface {
                     a[i + 1].minus(1)
             }
         }
+        while (a.size > 1 && a.last() == 0.toByte())
+            a.removeLast()
         return a
     }
 
@@ -118,8 +120,23 @@ class MathImplementation @Inject constructor(): MathInterface {
         it.order != 0 && it.sign && it.digits.size == 1 && it.digits[0] == 0.toByte()
     }
 
-    private fun afterMaxTimesSub(a: MutableList<Byte>, b: MutableList<Byte>): MutableList<Byte> {
-        TODO("Not yet implemented")
+    private fun afterMaxTimesSub(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
+        var n = a.size - b.size
+        if (n < 0)
+            return mutableListOf(0)
+        val delta = MutableList<Byte>(n) {0}.apply { add(1) }
+        val result = mutableListOf<Byte>(0)
+        while (n >= 0) {
+            while (cmp(a, b) >= 0) {
+                sub(a, b, base)
+                sum(result, delta, base)
+            }
+            if (n > 0)
+                b.removeFirst()
+            delta.removeFirst()
+            --n
+        }
+        return result
     }
 
     override fun div(a: Number, b: Number): Number {
@@ -134,7 +151,7 @@ class MathImplementation @Inject constructor(): MathInterface {
         var first = MutableList<Byte>(orderA) {0}.apply { addAll(a.digits) }
         val second = MutableList<Byte>(orderB) {0}.apply { addAll(b.digits) }
 
-        val result = afterMaxTimesSub(first, second)
+        val result = afterMaxTimesSub(first, second, a.base)
         while (first.indexOfFirst { it > 0 }  != -1) {
             first.add(0, 0)
             var nextDigit = 0
