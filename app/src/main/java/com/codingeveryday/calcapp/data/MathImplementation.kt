@@ -13,16 +13,19 @@ class MathImplementation @Inject constructor(): MathInterface {
         val n = max(a.size, b.size)
         var r: Byte = 0
         repeat (n - a.size) { a.add(0) }
+        repeat (n - b.size) { b.add(0) }
         for (i in 0 until n) {
             a[i] = a[i].plus(b[i] + r).toByte()
             r = 0
-            if (a[i] > base) {
+            if (a[i] >= base) {
                 a[i] = a[i].minus(base).toByte()
                 ++r
             }
         }
         if (r > 0)
             a.add(r)
+        while (b.size > 1 && b.last() == 0.toByte())
+            b.removeLast()
         return a
     }
 
