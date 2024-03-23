@@ -100,18 +100,16 @@ class MathImplementation @Inject constructor(): MathInterface {
 
     private fun mul(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
         var r = 0
-        var result = mutableListOf<Byte>()
+        var result = mutableListOf<Byte>(0)
         for (i in a.indices) {
             val num = MutableList<Byte>(i) {0}
             for (digit in b) {
                 r += a[i] * digit
                 num.add((r % base).toByte())
-                r.div(base)
+                r = r.div(base)
             }
             if (r > 0)
                 num.add(r.toByte())
-            while (result.size < num.size)
-                result.add(0)
             result = sum(result, num, base)
         }
         return result
