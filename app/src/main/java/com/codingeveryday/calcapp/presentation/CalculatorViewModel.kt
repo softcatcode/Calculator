@@ -14,6 +14,7 @@ import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.domain.useCases.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CalculatorViewModel @Inject constructor(
@@ -45,10 +46,14 @@ class CalculatorViewModel @Inject constructor(
         try {
             assert(baseVal in 1..36)
             if (!foregroundMode) {
-                val result = calculateUseCase(state.expr, baseVal, state.angleUnit)
-                solution = result.second
-                updateHistory(state.expr, result.first)
-                _state.value = _state.value?.copy(expr = result.first)
+                viewModelScope.launch(Dispatchers.Default) {
+                    val result = calculateUseCase(state.expr, baseVal, state.angleUnit)
+                    solution = result.second
+                    updateHistory(state.expr, result.first)
+                    withContext(Dispatchers.Main) {
+                        setExpr(result.first)
+                    }
+                }
             } else if (!CalcService.running) {
                 context?.let {
                     ContextCompat.startForegroundService(
