@@ -30,18 +30,22 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     private fun sub(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
+        val n = max(a.size, b.size)
+        repeat(n - b.size) { b.add(0) }
         for (i in a.indices) {
-            a[i].minus(b[i])
+            a[i] = a[i].minus(b[i]).toByte()
             if (a[i] < 0) {
-                a[i].plus(base)
+                a[i] = a[i].plus(base).toByte()
                 if (a[i + 1] == 0.toByte())
                     a[i - 1] = (base - 1).toByte()
                 else
-                    a[i + 1].minus(1)
+                    a[i + 1] = a[i + 1].minus(1).toByte()
             }
         }
         while (a.size > 1 && a.last() == 0.toByte())
             a.removeLast()
+        while (b.size > 1 && b.last() == 0.toByte())
+            b.removeLast()
         return a
     }
 
@@ -55,11 +59,11 @@ class MathImplementation @Inject constructor(): MathInterface {
         if (i == -1)
             return 0
         while (i >= 0) {
-            --i
             if (a[i] > b[i])
                 return 1
             if (a[i] < b[i])
                 return -1
+            --i
         }
         return 0
     }

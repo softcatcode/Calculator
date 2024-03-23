@@ -56,7 +56,7 @@ class Number: Expression {
             this.order = 0
             this.sign = true
         } else {
-            this.digits = mutableListOf<Byte>().apply { addAll(digits.subList(l, r + 1)) }
+            this.digits = digits.subList(l, r + 1)
             this.order = order + l
             this.sign = sign
         }
@@ -69,7 +69,7 @@ class Number: Expression {
         for (i in digits.lastIndex downTo 0)
             sb.append(DIGITS[digits[i].toInt()])
         if (order != 0) {
-            sb.append('E')
+            sb.append('e')
             sb.append(order.toString())
         }
         return sb.toString()
