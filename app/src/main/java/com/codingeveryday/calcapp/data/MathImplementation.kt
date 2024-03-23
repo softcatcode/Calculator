@@ -12,10 +12,12 @@ class MathImplementation @Inject constructor(): MathInterface {
     private fun sum(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
         val n = max(a.size, b.size)
         var r: Byte = 0
-        for (i in 0..n) {
-            a[i].plus(b[i] + r)
+        repeat (n - a.size) { a.add(0) }
+        for (i in 0 until n) {
+            a[i] = a[i].plus(b[i] + r).toByte()
+            r = 0
             if (a[i] > base) {
-                a[i].minus(base)
+                a[i] = a[i].minus(base).toByte()
                 ++r
             }
         }

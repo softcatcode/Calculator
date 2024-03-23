@@ -20,7 +20,7 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
     private val isNumberPiece: (Char) -> Boolean = { c -> c in Expression.DIGITS || c == '.' || c == ',' }
     val isFuncPiece: (Char) -> Boolean = { c -> c in 'a'..'z' }
     private val isOperation: (Char) -> Boolean = { c -> c in Expression.OPERATIONS }
-    private val callbackList = listOf(isNumberPiece, isFuncPiece)
+    private val callbackList = listOf(isNumberPiece, isOperation, isFuncPiece)
     private val bracketSequenceException = Exception("Illegal bracket sequence")
 
     private val takeNextElem: (String, Int) -> String = { expr, i ->
@@ -30,7 +30,7 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
                 var j = i + 1
                 while (j < expr.length && callback(expr[j]))
                     ++j
-                result = expr.substring(i, j - i)
+                result = expr.substring(i, j)
                 break
             }
         }
