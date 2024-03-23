@@ -66,8 +66,8 @@ class Number: Expression {
         val sb = StringBuilder()
         if (!sign)
             sb.append('-')
-        for (d in digits)
-            sb.append(DIGITS[d.toInt()])
+        for (i in digits.lastIndex downTo 0)
+            sb.append(DIGITS[digits[i].toInt()])
         if (order != 0) {
             sb.append('E')
             sb.append(order.toString())
