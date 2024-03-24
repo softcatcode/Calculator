@@ -99,10 +99,10 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     private fun mul(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
-        var r = 0
         var result = mutableListOf<Byte>(0)
         for (i in a.indices) {
             val num = MutableList<Byte>(i) {0}
+            var r = 0
             for (digit in b) {
                 r += a[i] * digit
                 num.add((r % base).toByte())
@@ -171,7 +171,7 @@ class MathImplementation @Inject constructor(): MathInterface {
             --order
         }
 
-        return Number(result, order, a.sign == b.sign, 0)
+        return Number(result, order, a.sign == b.sign, a.base)
     }
 
     override fun mod(a: Number, b: Number): Number {
@@ -186,11 +186,13 @@ class MathImplementation @Inject constructor(): MathInterface {
             throw Exception("Attempt to calculate a float power")
         if (b.digits.indexOfFirst { it > 0 } == -1)
             return Number("1", a.base)
-        return if (b.digits.last() % 2 == 0)
-            pow(a, sum(b, Number("-1", a.base)))
-        else {
+        return if (b.digits[0] % 2 == 1) {
+            val num = pow(a, sum(b, Number("-1", a.base)))
+            mul(num, a)
+        } else {
             val two = if (a.base == 2) "10" else "2"
-            pow(a, div(b, Number(two, a.base)))
+            val num = pow(a, div(b, Number(two, a.base)))
+            mul(num, num)
         }
     }
 

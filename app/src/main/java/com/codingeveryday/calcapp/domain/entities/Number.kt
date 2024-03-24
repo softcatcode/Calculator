@@ -79,7 +79,7 @@ class Number: Expression {
             val sb = StringBuilder()
             for (i in digits.lastIndex downTo 0)
                 sb.append(DIGITS[digits[i].toInt()])
-            for (i in 0..order)
+            for (i in 0 until order)
                 sb.append('0')
             return sb.toString()
         }

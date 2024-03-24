@@ -39,6 +39,7 @@ open class Expression {
             MUL to MUL_ID,
             DIV to DIV_ID,
             FAC to FAC_ID,
+            POW to POW_ID,
             SQRT to SQRT_ID
         )
 
@@ -48,6 +49,7 @@ open class Expression {
             MUL_ID to MUL,
             DIV_ID to DIV,
             FAC_ID to FAC,
+            POW_ID to POW,
             SQRT_ID to SQRT
         )
 
