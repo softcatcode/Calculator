@@ -1,27 +1,29 @@
 package com.codingeveryday.calcapp.domain.interfaces
 
+import com.codingeveryday.calcapp.data.ExpressionBuilder
+
 interface ExpressionBuilderInterface {
-    fun addBracket(br: Char)
+    fun addBracket(br: Char): ExpressionBuilder
 
-    fun addFunction(name: String)
+    fun addFunction(name: String): ExpressionBuilder
 
-    fun addDigit(d: Char)
+    fun addDigit(d: Char): ExpressionBuilder
 
-    fun addOperation(op: Char)
+    fun addOperation(op: Char): ExpressionBuilder
 
-    fun backspace()
+    fun backspace(): ExpressionBuilder
 
-    fun clear()
+    fun clear(): ExpressionBuilder
 
-    fun addAbs()
+    fun addAbs(): ExpressionBuilder
 
-    fun addConstant(value: String)
+    fun addConstant(value: String): ExpressionBuilder
 
-    fun addPoint()
+    fun addPoint(): ExpressionBuilder
+
+    fun setExpression(expr: String): ExpressionBuilder
 
     fun get(): String
-
-    fun setExpression(expr: String)
 
     companion object {
         const val PI = "П"
