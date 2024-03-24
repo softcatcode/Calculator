@@ -149,7 +149,7 @@ class CalculatorFragment: Fragment() {
             mul.setOnClickListener { calcViewModel.addOperation(CalculationInterface.MUL) }
             div.setOnClickListener { calcViewModel.addOperation(CalculationInterface.DIV) }
             dot.setOnClickListener { calcViewModel.addPoint() }
-            sqrt.setOnClickListener { calcViewModel.addFunction(CalculationInterface.SQRT) }
+            sqrt.setOnClickListener { calcViewModel.addFunction(CalculationInterface.SQRT.toString()) }
             if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 numberSystem!!.setOnClickListener { numberSystem.setTextColor(ContextCompat.getColor(requireActivity(), R.color.black)) }
                 absStick!!.setOnClickListener { calcViewModel.addAbsStick() }

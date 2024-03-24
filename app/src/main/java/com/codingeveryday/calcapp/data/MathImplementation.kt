@@ -37,7 +37,7 @@ class MathImplementation @Inject constructor(): MathInterface {
             if (a[i] < 0) {
                 a[i] = a[i].plus(base).toByte()
                 if (a[i + 1] == 0.toByte())
-                    a[i - 1] = (base - 1).toByte()
+                    a[i + 1] = (base - 1).toByte()
                 else
                     a[i + 1] = a[i + 1].minus(1).toByte()
             }
@@ -232,9 +232,10 @@ class MathImplementation @Inject constructor(): MathInterface {
     override fun fractionPart(a: Number) = sub(a, intPart(a))
 
     override fun intPart(a: Number): Number {
-        if (a.order > a.digits.size)
-            return if (a.sign) Number("0", a.base) else Number("-1", a.base)
-        val digits = a.digits.subList(0, a.digits.size - a.order)
+        val digits = if (a.order < 0)
+            a.digits.subList(-a.order, a.digits.size)
+        else
+            MutableList<Byte>(a.digits.size + a.order) {0}.apply { addAll(a.digits) }
         var num = Number(digits, 0, a.sign, a.base)
         if (!a.sign) {
             num = sub(num, Number("1", num.base))
@@ -282,7 +283,7 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     override fun sqrt(a: Number): Number {
-        if (a.sign)
+        if (!a.sign)
             throw RuntimeException("attempt to calculate sqrt from a negative number")
 
         val two = if (a.base > 2) Number("2", a.base) else Number("10", 2)
@@ -303,6 +304,9 @@ class MathImplementation @Inject constructor(): MathInterface {
             result = div(result, Number("10", a.base))
 
         result.order += a.order / 2
+        val fr = fractionPart(result)
+        if (cmp(fr, eps) < 0)
+            result = sub(result, fr)
         return result
     }
 

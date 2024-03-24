@@ -51,7 +51,7 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
         val stack = Stack<Char>()
         stack.add(expr[startIndex])
         var i = startIndex + 1
-        while (i < expr.length) {
+        while (i < expr.length && stack.isNotEmpty()) {
             val br = expr[i++]
             if (br in Expression.OPENING_BRACKETS)
                 stack.add(br)
@@ -61,7 +61,7 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
             }
         }
         if (stack.empty())
-            return expr.substring(startIndex + 1, i - startIndex - 1)
+            return expr.substring(startIndex + 1, i - 1)
         throw bracketSequenceException
     }
 
@@ -98,7 +98,7 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
     }
 
     private fun parseUnaryOperations(list: MutableList<ParseObject>) {
-        var i = 1
+        var i = 0
         while (i < list.size) {
             if (list[i].operationId in Expression.unaryOperations) {
                 list[i] = ParseObject(UnaryOperation(list[i + 1].expr!!, list[i].operationId!!), null)

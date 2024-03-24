@@ -16,7 +16,7 @@ interface CalculationInterface {
         const val SUB = '-'
         const val FAC = '!'
         const val POW = '^'
-        const val SQRT = "√"
+        const val SQRT = '√'
         const val SIN = "sin"
         const val COS = "cos"
         const val TG = "tg"
