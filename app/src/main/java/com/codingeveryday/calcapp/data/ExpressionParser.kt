@@ -98,13 +98,13 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
     }
 
     private fun parseUnaryOperations(list: MutableList<ParseObject>) {
-        var i = list.size - 2
-        while (i >= 0) {
+        var i = 1
+        while (i < list.size) {
             if (list[i].operationId in Expression.unaryOperations) {
                 list[i] = ParseObject(UnaryOperation(list[i + 1].expr!!, list[i].operationId!!), null)
                 list.removeAt(i + 1)
             }
-            --i
+            ++i
         }
     }
 
