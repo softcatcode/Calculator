@@ -62,16 +62,35 @@ class Number: Expression {
         }
     }
 
-    override fun toString(): String {
-        val sb = StringBuilder()
-        if (!sign)
-            sb.append('-')
-        for (i in digits.lastIndex downTo 0)
-            sb.append(DIGITS[digits[i].toInt()])
-        if (order != 0) {
-            sb.append('e')
-            sb.append(order.toString())
+    fun toString(normal: Boolean = true): String {
+        if (normal) {
+            val sb = StringBuilder()
+            if (!sign)
+                sb.append('-')
+            for (d in digits)
+                sb.append(DIGITS[d.toInt()])
+            if (order != 0) {
+                sb.append('e')
+                sb.append(order.toString())
+            }
+            return sb.toString()
         }
+        if (order >= 0) {
+            val sb = StringBuilder()
+            for (i in digits.lastIndex downTo 0)
+                sb.append(DIGITS[digits[i].toInt()])
+            for (i in 0..order)
+                sb.append('0')
+            return sb.toString()
+        }
+        val sb = StringBuilder()
+        for (i in digits.lastIndex downTo -order)
+            sb.append(DIGITS[digits[i].toInt()])
+        if (sb.isEmpty())
+            sb.append('0')
+        sb.append(POINT)
+        for (i in -order - 1 downTo 0)
+            sb.append(DIGITS[digits[i].toInt()])
         return sb.toString()
     }
 }
