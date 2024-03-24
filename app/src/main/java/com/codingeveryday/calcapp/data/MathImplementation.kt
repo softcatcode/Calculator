@@ -132,14 +132,14 @@ class MathImplementation @Inject constructor(): MathInterface {
         if (n < 0)
             return mutableListOf(0)
         val delta = MutableList<Byte>(n) {0}.apply { add(1) }
+        val divider = MutableList<Byte>(n) {0}.apply { addAll(b) }
         val result = mutableListOf<Byte>(0)
         while (n >= 0) {
-            while (cmp(a, b) >= 0) {
-                sub(a, b, base)
+            while (cmp(a, divider) >= 0) {
+                sub(a, divider, base)
                 sum(result, delta, base)
             }
-            if (n > 0)
-                b.removeFirst()
+            divider.removeFirst()
             delta.removeFirst()
             --n
         }
@@ -159,7 +159,8 @@ class MathImplementation @Inject constructor(): MathInterface {
         val second = MutableList<Byte>(orderB) {0}.apply { addAll(b.digits) }
 
         val result = afterMaxTimesSub(first, second, a.base)
-        while (first.indexOfFirst { it > 0 }  != -1) {
+        var order = 0
+        while (order > MAX_ACCURACY_ORDER && first.indexOfFirst { it > 0 }  != -1) {
             first.add(0, 0)
             var nextDigit = 0
             while (cmp(first, second) >= 0) {
@@ -167,9 +168,10 @@ class MathImplementation @Inject constructor(): MathInterface {
                 ++nextDigit
             }
             result.add(0, nextDigit.toByte())
+            --order
         }
 
-        return Number(result, 0, a.sign == b.sign, 0)
+        return Number(result, order, a.sign == b.sign, 0)
     }
 
     override fun mod(a: Number, b: Number): Number {
@@ -303,4 +305,8 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     private fun epsValue(base: Int) = Number("0.000001", base)
+
+    companion object {
+        private const val MAX_ACCURACY_ORDER = -10
+    }
 }
