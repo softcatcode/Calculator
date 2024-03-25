@@ -196,7 +196,7 @@ class MathImplementation @Inject constructor(): MathInterface {
         }
     }
 
-    override fun sin(a: Number, angleUnit: AngleUnit): Number {
+    private fun tailorRowSin(a: Number): Number {
         var numerator = Number(a.digits, a.order, a.sign, a.base)
         var denominator = Number("1", a.base)
         val numeratorMulRatio = mul(a, a).apply { sign = false }
@@ -219,8 +219,46 @@ class MathImplementation @Inject constructor(): MathInterface {
         return result
     }
 
+    private fun tailorRowCos(a: Number): Number {
+
+    }
+
+    private fun toRad(a: Number): Number {
+
+    }
+
+    override fun sin(a: Number, angleUnit: AngleUnit): Number {
+        val pi = piValue(a.base)
+        val two = Number(if (a.base == 2) "10" else "2", a.base)
+        val doublePi = mul(pi, two)
+        val halfPi = div(pi, two)
+        val x = mod(if (angleUnit == AngleUnit.Radians) a else toRad(a), doublePi)
+
+        if (cmp(x, halfPi) == -1)
+            return tailorRowSin(a)
+        if (cmp(x, pi) == -1)
+            return tailorRowCos(sub(x, halfPi))
+        val num = mul(sum(two, Number("1", a.base)), halfPi)
+        if (cmp(x, num) == -1)
+            return tailorRowSin(sub(x, pi)).apply { sign = false }
+        return tailorRowSin(sub(x, num)).apply { sign = false }
+    }
+
     override fun cos(a: Number, angleUnit: AngleUnit): Number {
-        TODO("Not yet implemented")
+        val pi = piValue(a.base)
+        val two = Number(if (a.base == 2) "10" else "2", a.base)
+        val doublePi = mul(pi, two)
+        val halfPi = div(pi, two)
+        val x = mod(if (angleUnit == AngleUnit.Radians) a else toRad(a), doublePi)
+
+        if (cmp(x, halfPi) == -1)
+            return tailorRowCos(a)
+        if (cmp(x, pi) == -1)
+            return tailorRowSin(sub(pi, x)).apply { sign = false }
+        val num = mul(sum(two, Number("1", a.base)), halfPi)
+        if (cmp(x, num) == -1)
+            return tailorRowCos(sub(x, pi)).apply { sign = false }
+        return tailorRowCos(sub(x, num))
     }
 
     override fun tan(a: Number, angleUnit: AngleUnit) = div(sin(a, angleUnit), cos(a, angleUnit))
@@ -310,9 +348,13 @@ class MathImplementation @Inject constructor(): MathInterface {
         return result
     }
 
-    private fun epsValue(base: Int) = Number("0.000001", base)
+    private fun epsValue(base: Int) = Number(mutableListOf(1), -MAX_ACCURACY_ORDER, true, base)
+
+    private fun piValue(base: Int) = PI_DEC
 
     companion object {
         private const val MAX_ACCURACY_ORDER = -10
+
+        private val PI_DEC = Number("3.1415926", 10)
     }
 }
