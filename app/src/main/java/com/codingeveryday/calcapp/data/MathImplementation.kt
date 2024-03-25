@@ -197,21 +197,22 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     private fun tailorRowSin(a: Number): Number {
+        val one = Number("1", a.base)
         var numerator = Number(a.digits, a.order, a.sign, a.base)
-        var denominator = Number("1", a.base)
+        var denominator = one.copy()
         val numeratorMulRatio = mul(a, a).apply { sign = false }
         var i = Number(if (a.base == 2) "10" else "2", a.base)
-        var j = Number(if (a.base == 2) "11" else "3", a.base)
+        var j = sum(one, i)
 
         var prevResult = Number("0", a.base)
-        var result = sum(prevResult, div(numerator, denominator))
+        var result = a.copy()
         val eps = epsValue(a.base)
 
         while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0) {
             numerator = mul(numerator, numeratorMulRatio)
             denominator = mul(mul(denominator, i), j)
-            i = j
-            j = sum(j, Number("1", a.base))
+            i = sum(j, one)
+            j = sum(i, one)
 
             prevResult = result
             result = sum(result, div(numerator, denominator))
@@ -220,11 +221,36 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     private fun tailorRowCos(a: Number): Number {
+        val one = Number("1", a.base)
+        var numerator = one.copy()
+        var denominator = one.copy()
+        val numeratorMulRatio = mul(a, a).apply { sign = false }
+        var i = one.copy()
+        var j = Number(if (a.base == 2) "10" else "2", a.base)
 
+        var prevResult = Number("0", a.base)
+        var result = one.copy()
+        val eps = epsValue(a.base)
+
+        while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0) {
+            numerator = mul(numerator, numeratorMulRatio)
+            denominator = mul(mul(denominator, i), j)
+            i = sum(j, one)
+            j = sum(i, one)
+
+            prevResult = result
+            result = sum(result, div(numerator, denominator))
+        }
+        return result
     }
 
     private fun toRad(a: Number): Number {
+        // integrate the translate function later
+        val two = if (a.base == 2) Number("10", a.base) else Number("2", a.base)
+        val three = sum(two, Number("1", a.base))
+        val num = mul(mul(three, three), two).apply { order++ }
 
+        return div(mul(a, piValue(a.base)), num)
     }
 
     override fun sin(a: Number, angleUnit: AngleUnit): Number {

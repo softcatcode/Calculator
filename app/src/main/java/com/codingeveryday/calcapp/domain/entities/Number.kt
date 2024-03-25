@@ -91,4 +91,6 @@ class Number: Expression {
             sb.append(DIGITS[digits[i].toInt()])
         return sb.toString()
     }
+
+    fun copy() = Number(digits, order, sign, base)
 }
