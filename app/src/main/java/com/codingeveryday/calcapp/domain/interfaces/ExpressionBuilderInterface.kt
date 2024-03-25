@@ -24,8 +24,4 @@ interface ExpressionBuilderInterface {
     fun setExpression(expr: String): ExpressionBuilder
 
     fun get(): String
-
-    companion object {
-        const val PI = "П"
-    }
 }

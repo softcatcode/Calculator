@@ -6,6 +6,7 @@ import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Compani
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.MUL
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.DIV
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.FAC
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.PI
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.POW
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SQRT
 
@@ -29,6 +30,7 @@ open class Expression {
         const val SQRT_ID = 16
 
         const val OPERATIONS = "$SUM$SUB$MUL$DIV$FAC$POW$SQRT"
+        const val CONSTANTS = "$PI"
         const val OPENING_BRACKETS = "([{<"
         const val CLOSING_BRACKETS = ")]}>"
         const val DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWYZ"

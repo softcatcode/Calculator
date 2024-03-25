@@ -23,6 +23,7 @@ interface CalculationInterface {
         const val CTG = "ctg"
         const val RAD = "rad"
         const val DEG = "deg"
+        const val PI = 'π'
 
         enum class BracketType { Round, Square, Curly, Triangle }
 

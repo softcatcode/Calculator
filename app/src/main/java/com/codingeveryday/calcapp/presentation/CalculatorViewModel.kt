@@ -71,10 +71,6 @@ class CalculatorViewModel @Inject constructor(
         exprBuilder.setExpression(expr)
         _state.value = _state.value?.copy(expr = exprBuilder.get())
     }
-    fun addConstant(a: String) {
-        exprBuilder.addConstant(a)
-        _state.value = _state.value?.copy(expr = exprBuilder.get())
-    }
     fun backspace() {
         exprBuilder.backspace()
         _state.value = _state.value?.copy(expr = exprBuilder.get())
@@ -107,8 +103,8 @@ class CalculatorViewModel @Inject constructor(
         exprBuilder.addPoint()
         _state.value = _state.value?.copy(expr = exprBuilder.get())
     }
-    fun addPi() {
-        exprBuilder.addConstant(ExpressionBuilderInterface.PI)
+    fun addConstant(name: String) {
+        exprBuilder.addConstant(name)
         _state.value = _state.value?.copy(expr = exprBuilder.get())
     }
     fun switchRadDeg() {

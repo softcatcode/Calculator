@@ -1,12 +1,14 @@
 package com.codingeveryday.calcapp.di
 
 import com.codingeveryday.calcapp.data.CalculationImplementation
+import com.codingeveryday.calcapp.data.ConstantInterpreter
 import com.codingeveryday.calcapp.data.ExpressionBuilder
 import com.codingeveryday.calcapp.data.ExpressionParser
 import com.codingeveryday.calcapp.data.HistoryManagerImplementation
 import com.codingeveryday.calcapp.data.MathImplementation
 import com.codingeveryday.calcapp.data.TranslationImplementation
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
+import com.codingeveryday.calcapp.domain.interfaces.ConstantInterpreterInterface
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.domain.interfaces.HistoryManagerInterface
 import com.codingeveryday.calcapp.domain.interfaces.MathInterface
@@ -17,6 +19,9 @@ import dagger.Module
 
 @Module
 interface DomainModule {
+
+    @Binds
+    fun bindConstantInterpreter(impl: ConstantInterpreter): ConstantInterpreterInterface
 
     @Binds
     fun bindMathInterface(impl: MathImplementation): MathInterface

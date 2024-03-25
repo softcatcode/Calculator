@@ -5,29 +5,34 @@ package com.codingeveryday.calcapp.data
 import com.codingeveryday.calcapp.domain.entities.BinaryOperation
 import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CLOSING_BRACKETS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CONSTANTS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.DIGITS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPENING_BRACKETS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPERATIONS
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.entities.UnaryOperation
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
+import com.codingeveryday.calcapp.domain.interfaces.ConstantInterpreterInterface
 import com.codingeveryday.calcapp.domain.interfaces.ParseExpressionInterface
 import java.util.Stack
 import javax.inject.Inject
 
-class ExpressionParser @Inject constructor(): ParseExpressionInterface {
+class ExpressionParser @Inject constructor(
+    private val constantInterpreter: ConstantInterpreterInterface
+): ParseExpressionInterface {
 
     private data class ParseObject(
         var expr: Expression? = null,
         var operationId: Int? = null
     )
 
-    private enum class ParseElemType {  Number, Operation, Function, Undefined }
+    private enum class ParseElemType {  Number, Operation, Function, Constant, Undefined }
 
     private val isNumberPiece: (Char) -> Boolean = { c -> c in DIGITS || c == '.' || c == ',' }
-    val isFuncPiece: (Char) -> Boolean = { c -> c in 'a'..'z' }
+    private val isFuncPiece: (Char) -> Boolean = { c -> c in 'a'..'z' }
     private val isOperation: (Char) -> Boolean = { c -> c in OPERATIONS }
-    private val callbackList = listOf(isNumberPiece, isOperation, isFuncPiece)
+    private val isConstant: (Char) -> Boolean = { c -> c in CONSTANTS }
+    private val callbackList = listOf(isNumberPiece, isOperation, isFuncPiece, isConstant)
     private val bracketSequenceException = Exception("Illegal bracket sequence")
 
     private fun takeNextElem(expr: String, startIndex: Int): Pair<String, ParseElemType> {
@@ -47,6 +52,7 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
                     isNumberPiece -> ParseElemType.Number
                     isOperation -> ParseElemType.Operation
                     isFuncPiece -> ParseElemType.Function
+                    isConstant -> ParseElemType.Constant
                     else -> ParseElemType.Undefined
                 }
                 var j = i + 1
@@ -110,6 +116,8 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
                 when (type) {
                     ParseElemType.Number ->
                         list.add( ParseObject(expr = Number(token, base)) )
+                    ParseElemType.Constant ->
+                        list.add( ParseObject(expr = constantInterpreter.decode(token[0], base)) )
                     ParseElemType.Operation ->
                         list.add( ParseObject(operationId = Expression.operationId[token[0]]) )
                     ParseElemType.Function ->

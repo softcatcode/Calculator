@@ -18,8 +18,22 @@ import com.codingeveryday.calcapp.CalculatorApplication
 import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.databinding.FragmentCalculatorBinding
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
-import com.codingeveryday.calcapp.domain.entities.Expression
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.COS
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.CTG
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.DEG
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.DIV
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.FAC
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.MUL
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.PI
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.POW
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.RAD
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SIN
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SQRT
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUB
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUM
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.TG
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.openingBracket
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.BracketType
 import javax.inject.Inject
 
 class CalculatorFragment: Fragment() {
@@ -143,30 +157,30 @@ class CalculatorFragment: Fragment() {
             seven.setOnClickListener { calcViewModel.appendDigit('7') }
             eight.setOnClickListener { calcViewModel.appendDigit('8') }
             nine.setOnClickListener { calcViewModel.appendDigit('9') }
-            brackets.setOnClickListener { calcViewModel.openBracket('(') }
-            plus.setOnClickListener { calcViewModel.addOperation(CalculationInterface.SUM) }
-            sub.setOnClickListener { calcViewModel.addOperation(CalculationInterface.SUB) }
-            mul.setOnClickListener { calcViewModel.addOperation(CalculationInterface.MUL) }
-            div.setOnClickListener { calcViewModel.addOperation(CalculationInterface.DIV) }
+            brackets.setOnClickListener { calcViewModel.openBracket(openingBracket(BracketType.Round)) }
+            plus.setOnClickListener { calcViewModel.addOperation(SUM) }
+            sub.setOnClickListener { calcViewModel.addOperation(SUB) }
+            mul.setOnClickListener { calcViewModel.addOperation(MUL) }
+            div.setOnClickListener { calcViewModel.addOperation(DIV) }
             dot.setOnClickListener { calcViewModel.addPoint() }
-            sqrt.setOnClickListener { calcViewModel.addFunction(CalculationInterface.SQRT.toString()) }
+            sqrt.setOnClickListener { calcViewModel.addFunction(SQRT.toString()) }
             if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 numberSystem!!.setOnClickListener { numberSystem.setTextColor(ContextCompat.getColor(requireActivity(), R.color.black)) }
                 absStick!!.setOnClickListener { calcViewModel.addAbsStick() }
-                integerPartBrackets!!.setOnClickListener { calcViewModel.openBracket('[') }
-                floatPartBrackets!!.setOnClickListener { calcViewModel.openBracket('{') }
-                fac!!.setOnClickListener { calcViewModel.addOperation(CalculationInterface.FAC) }
-                pow!!.setOnClickListener { calcViewModel.addOperation(CalculationInterface.POW) }
-                sin!!.setOnClickListener { calcViewModel.addFunction(CalculationInterface.SIN) }
-                cos!!.setOnClickListener { calcViewModel.addFunction(CalculationInterface.COS) }
-                tg!!.setOnClickListener { calcViewModel.addFunction(CalculationInterface.TG) }
-                ctg!!.setOnClickListener { calcViewModel.addFunction(CalculationInterface.CTG) }
-                pi!!.setOnClickListener { calcViewModel.addPi() }
+                integerPartBrackets!!.setOnClickListener { calcViewModel.openBracket(openingBracket(BracketType.Square)) }
+                floatPartBrackets!!.setOnClickListener { calcViewModel.openBracket(openingBracket(BracketType.Curly)) }
+                fac!!.setOnClickListener { calcViewModel.addOperation(FAC) }
+                pow!!.setOnClickListener { calcViewModel.addOperation(POW) }
+                sin!!.setOnClickListener { calcViewModel.addFunction(SIN) }
+                cos!!.setOnClickListener { calcViewModel.addFunction(COS) }
+                tg!!.setOnClickListener { calcViewModel.addFunction(TG) }
+                ctg!!.setOnClickListener { calcViewModel.addFunction(CTG) }
+                pi!!.setOnClickListener { calcViewModel.addConstant(PI.toString()) }
                 switchRadDeg!!.setOnClickListener {
-                    if (switchRadDeg.text == CalculationInterface.RAD)
-                        switchRadDeg.text = CalculationInterface.DEG
+                    if (switchRadDeg.text == RAD)
+                        switchRadDeg.text = DEG
                     else
-                        switchRadDeg.text = CalculationInterface.RAD
+                        switchRadDeg.text = RAD
                     calcViewModel.switchRadDeg()
                 }
                 clearHistoryBtn!!.setOnClickListener {
@@ -207,8 +221,7 @@ class CalculatorFragment: Fragment() {
         calcViewModel.state.observe(viewLifecycleOwner) {
             historyAdapter?.submitList(it.history)
             binding.input.setText(it.expr)
-            val angleLabel = if (it.angleUnit == AngleUnit.Radians)
-                CalculationInterface.RAD else CalculationInterface.DEG
+            val angleLabel = if (it.angleUnit == AngleUnit.Radians) RAD else DEG
             binding.switchRadDeg?.text = angleLabel
             binding.numberSystem?.setTextColor(it.baseColor)
         }

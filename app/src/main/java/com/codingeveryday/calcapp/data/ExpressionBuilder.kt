@@ -2,6 +2,7 @@ package com.codingeveryday.calcapp.data
 
 import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CLOSING_BRACKETS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CONSTANTS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.DIGITS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPENING_BRACKETS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPERATIONS
@@ -22,7 +23,7 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
         val s = processAbs(builder.toString())
         if (s.isEmpty() || s.last() in OPERATIONS + OPENING_BRACKETS)
             builder.append('(')
-        else if (s.last() in DIGITS + CLOSING_BRACKETS) {
+        else if (s.last() in DIGITS + CLOSING_BRACKETS + CONSTANTS) {
             if (correctBracketSequence())
                 builder.append("${CalculationInterface.MUL}(")
             else
@@ -49,14 +50,14 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
         val s = processAbs(builder.toString())
         if (s.isEmpty() || s.last() in OPERATIONS || s.last() in OPENING_BRACKETS)
             builder.append("$name(")
-        else if (s.last() in CLOSING_BRACKETS + DIGITS)
+        else if (s.last() in CLOSING_BRACKETS + DIGITS + CONSTANTS)
             builder.append("${CalculationInterface.MUL}$name(")
         return this
     }
 
     override fun addDigit(d: Char): ExpressionBuilder {
         val s = processAbs(builder.toString())
-        if (s.isNotEmpty() && s.last() in CLOSING_BRACKETS)
+        if (s.isNotEmpty() && s.last() in CLOSING_BRACKETS + CONSTANTS)
             builder.append(operation[Expression.MUL_ID])
         builder.append(d)
         return this
@@ -67,7 +68,7 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
         if (s.isEmpty())
             return this
         if (
-            s.last() in CLOSING_BRACKETS + DIGITS ||
+            s.last() in CLOSING_BRACKETS + DIGITS + CONSTANTS ||
             s.last() in OPENING_BRACKETS && op == CalculationInterface.SUB
         ) {
             builder.append(op)
@@ -111,7 +112,7 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
         var i = builder.lastIndex
         while (i >= 0 && builder[i] in DIGITS)
             --i
-        if (i >= 0 && builder[i] == POINT)
+        if (i >= 0 && (builder[i] == POINT || builder.last() in CONSTANTS))
             builder.append("${CalculationInterface.MUL}")
         if (builder.isEmpty() || builder.last() !in DIGITS)
             addDigit('0')

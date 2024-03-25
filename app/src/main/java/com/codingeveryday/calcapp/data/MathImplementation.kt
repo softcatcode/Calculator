@@ -374,13 +374,13 @@ class MathImplementation @Inject constructor(): MathInterface {
         return result
     }
 
-    private fun epsValue(base: Int) = Number(mutableListOf(1), -MAX_ACCURACY_ORDER, true, base)
-
-    private fun piValue(base: Int) = PI_DEC
+    private fun epsValue(base: Int) = Number(mutableListOf(1), MAX_ACCURACY_ORDER, true, base)
 
     companion object {
         private const val MAX_ACCURACY_ORDER = -10
 
         private val PI_DEC = Number("3.1415926", 10)
+
+        fun piValue(base: Int) = PI_DEC
     }
 }
