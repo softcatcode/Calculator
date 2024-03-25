@@ -64,9 +64,7 @@ class Number: Expression {
 
     fun toString(normal: Boolean = true): String {
         if (normal) {
-            val sb = StringBuilder()
-            if (!sign)
-                sb.append('-')
+            val sb = StringBuilder( if (sign) "" else "-" )
             for (d in digits)
                 sb.append(DIGITS[d.toInt()])
             if (order != 0) {
@@ -76,14 +74,14 @@ class Number: Expression {
             return sb.toString()
         }
         if (order >= 0) {
-            val sb = StringBuilder()
+            val sb = StringBuilder( if (sign) "" else "-" )
             for (i in digits.lastIndex downTo 0)
                 sb.append(DIGITS[digits[i].toInt()])
             for (i in 0 until order)
                 sb.append('0')
             return sb.toString()
         }
-        val sb = StringBuilder()
+        val sb = StringBuilder( if (sign) "" else "-" )
         for (i in digits.lastIndex downTo -order)
             sb.append(DIGITS[digits[i].toInt()])
         if (sb.isEmpty())

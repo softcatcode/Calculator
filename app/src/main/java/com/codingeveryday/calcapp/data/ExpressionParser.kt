@@ -4,8 +4,13 @@ package com.codingeveryday.calcapp.data
 
 import com.codingeveryday.calcapp.domain.entities.BinaryOperation
 import com.codingeveryday.calcapp.domain.entities.Expression
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CLOSING_BRACKETS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.DIGITS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPENING_BRACKETS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPERATIONS
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.entities.UnaryOperation
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import com.codingeveryday.calcapp.domain.interfaces.ParseExpressionInterface
 import java.util.Stack
 import javax.inject.Inject
@@ -17,24 +22,41 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
         var operationId: Int? = null
     )
 
-    private val isNumberPiece: (Char) -> Boolean = { c -> c in Expression.DIGITS || c == '.' || c == ',' }
+    private enum class ParseElemType {  Number, Operation, Function, Undefined }
+
+    private val isNumberPiece: (Char) -> Boolean = { c -> c in DIGITS || c == '.' || c == ',' }
     val isFuncPiece: (Char) -> Boolean = { c -> c in 'a'..'z' }
-    private val isOperation: (Char) -> Boolean = { c -> c in Expression.OPERATIONS }
+    private val isOperation: (Char) -> Boolean = { c -> c in OPERATIONS }
     private val callbackList = listOf(isNumberPiece, isOperation, isFuncPiece)
     private val bracketSequenceException = Exception("Illegal bracket sequence")
 
-    private val takeNextElem: (String, Int) -> String = { expr, i ->
+    private fun takeNextElem(expr: String, startIndex: Int): Pair<String, ParseElemType> {
         var result = ""
+        var resType = ParseElemType.Undefined
+        var i = startIndex
+        if (
+            expr[i] == CalculationInterface.SUB &&
+            (i == 0 || expr[i - 1] in OPENING_BRACKETS)
+        ) { // if the minus is a number part: 1+(-2)
+            result = CalculationInterface.SUB.toString()
+            ++i
+        }
         for (callback in callbackList) {
             if (callback(expr[i])) {
+                resType = when (callback) {
+                    isNumberPiece -> ParseElemType.Number
+                    isOperation -> ParseElemType.Operation
+                    isFuncPiece -> ParseElemType.Function
+                    else -> ParseElemType.Undefined
+                }
                 var j = i + 1
                 while (j < expr.length && callback(expr[j]))
                     ++j
-                result = expr.substring(i, j)
+                result += expr.substring(i, j)
                 break
             }
         }
-        result
+        return result to resType
     }
 
     private fun withoutSpaces(str: String): String {
@@ -46,16 +68,16 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
     }
 
     private fun fetchSubExpr(expr: String, startIndex: Int): String {
-        if (expr[startIndex] !in Expression.OPENING_BRACKETS)
+        if (expr[startIndex] !in OPENING_BRACKETS)
             return ""
         val stack = Stack<Char>()
         stack.add(expr[startIndex])
         var i = startIndex + 1
         while (i < expr.length && stack.isNotEmpty()) {
             val br = expr[i++]
-            if (br in Expression.OPENING_BRACKETS)
+            if (br in OPENING_BRACKETS)
                 stack.add(br)
-            else if (br in Expression.CLOSING_BRACKETS) {
+            else if (br in CLOSING_BRACKETS) {
                 if (stack.empty() || !Expression.matchingBrackets(stack.pop(), br))
                     throw bracketSequenceException
             }
@@ -70,7 +92,7 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
         var i = 0
         val expr = withoutSpaces(expr)
         while (i < expr.length) {
-            if (expr[i] in Expression.OPENING_BRACKETS) {
+            if (expr[i] in OPENING_BRACKETS) {
                 val subExpr = fetchSubExpr(expr, i)
                 val elem = when (expr[i]) {
                     '(' -> ParseObject(parseExpression(subExpr, base))
@@ -83,15 +105,18 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
                 i += subExpr.length + 2
             } else {
                 val elem = takeNextElem(expr, i)
-                if (elem == "")
-                    i = expr.length
-                else if (isNumberPiece(elem[0]))
-                    list.add( ParseObject(Number(elem, base)) )
-                else if (isFuncPiece(elem[0]))
-                    list.add( ParseObject(operationId = Expression.funcId[elem]!!) )
-                else if (isOperation(elem[0]))
-                    list.add( ParseObject(operationId = Expression.operationId[ elem[0] ]) )
-                i += elem.length
+                val token = elem.first
+                val type = elem.second
+                when (type) {
+                    ParseElemType.Number ->
+                        list.add( ParseObject(expr = Number(token, base)) )
+                    ParseElemType.Operation ->
+                        list.add( ParseObject(operationId = Expression.operationId[token[0]]) )
+                    ParseElemType.Function ->
+                        list.add( ParseObject(operationId = Expression.funcId[token]) )
+                    else -> { i = expr.length }
+                }
+                i += token.length
             }
         }
         return list
@@ -99,7 +124,8 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
 
     private fun parseUnaryOperations(list: MutableList<ParseObject>) {
         var i = 0
-        while (i < list.size) {
+        val lastIndex = list.size - 2
+        while (i <= lastIndex) {
             if (list[i].operationId in Expression.unaryOperations) {
                 list[i] = ParseObject(UnaryOperation(list[i + 1].expr!!, list[i].operationId!!), null)
                 list.removeAt(i + 1)
@@ -109,8 +135,9 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
     }
 
     private fun parseBinaryOperations(list: MutableList<ParseObject>, operations: List<Int>) {
-        var i = list.size - 2
-        while (i >= 1) {
+        var i = 1
+        val lastIndex = list.size - 2
+        while (i <= lastIndex) {
             if (list[i].operationId in operations) {
                 list[i] = ParseObject(
                     BinaryOperation(list[i - 1].expr!!, list[i + 1].expr!!, list[i].operationId!!),
@@ -119,7 +146,7 @@ class ExpressionParser @Inject constructor(): ParseExpressionInterface {
                 list.removeAt(i - 1)
                 list.removeAt(i)
             }
-            --i
+            ++i
         }
     }
 
