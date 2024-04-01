@@ -82,13 +82,19 @@ class Number: Expression {
             return sb.toString()
         }
         val sb = StringBuilder( if (sign) "" else "-" )
-        for (i in digits.lastIndex downTo -order)
-            sb.append(DIGITS[digits[i].toInt()])
-        if (sb.isEmpty())
-            sb.append('0')
-        sb.append(POINT)
-        for (i in -order - 1 downTo 0)
-            sb.append(DIGITS[digits[i].toInt()])
+        val count = -order
+        if (count >= digits.size) {
+            sb.append("0$POINT")
+            repeat(count - digits.size) { sb.append('0') }
+            for (i in digits.lastIndex downTo 0)
+                sb.append(DIGITS[digits[i].toInt()])
+        } else {
+            for (i in digits.lastIndex downTo count)
+                sb.append(DIGITS[digits[i].toInt()])
+            sb.append(POINT)
+            for (i in count - 1 downTo 0)
+                sb.append(DIGITS[digits[i].toInt()])
+        }
         return sb.toString()
     }
 

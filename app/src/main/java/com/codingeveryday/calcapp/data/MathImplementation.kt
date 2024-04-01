@@ -1,5 +1,6 @@
 package com.codingeveryday.calcapp.data
 
+import android.util.Log
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.interfaces.MathInterface
@@ -36,10 +37,12 @@ class MathImplementation @Inject constructor(): MathInterface {
             a[i] = a[i].minus(b[i]).toByte()
             if (a[i] < 0) {
                 a[i] = a[i].plus(base).toByte()
-                if (a[i + 1] == 0.toByte())
-                    a[i + 1] = (base - 1).toByte()
-                else
-                    a[i + 1] = a[i + 1].minus(1).toByte()
+                var j = i + 1
+                while (a[j] == 0.toByte()) {
+                    a[j] = (base - 1).toByte()
+                    ++j
+                }
+                a[j] = a[j].minus(1).toByte()
             }
         }
         while (a.size > 1 && a.last() == 0.toByte())
