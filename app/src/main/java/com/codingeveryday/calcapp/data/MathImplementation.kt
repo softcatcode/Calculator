@@ -1,6 +1,5 @@
 package com.codingeveryday.calcapp.data
 
-import android.util.Log
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.interfaces.MathInterface

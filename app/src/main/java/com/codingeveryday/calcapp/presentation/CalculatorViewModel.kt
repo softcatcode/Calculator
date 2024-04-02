@@ -12,6 +12,7 @@ import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.HistoryItem
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.domain.useCases.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,7 +27,7 @@ class CalculatorViewModel @Inject constructor(
     private val exprBuilder: ExpressionBuilderInterface
 ): ViewModel() {
 
-    private var _state = MutableLiveData(CalculatorViewModelState())
+    private var _state = MutableLiveData<CalculatorViewModelState>()
     val state: LiveData<CalculatorViewModelState>
         get() = _state
 
@@ -34,6 +35,12 @@ class CalculatorViewModel @Inject constructor(
 
     var solution = ""
         private set(value) { field = value }
+
+    init {
+        CoroutineScope(Dispatchers.IO).launch {
+            _state.postValue(CalculatorViewModelState(history = getHistoryListUseCase()))
+        }
+    }
 
     fun calculate(
         base: String,
@@ -123,9 +130,8 @@ class CalculatorViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val list = _state.value?.history ?: listOf()
             val maxIndex = list.size - 1
-            if (index in 0..maxIndex) {
+            if (index in 0..maxIndex)
                 removeHistoryItemUseCase(list[index].id)
-            }
             _state.postValue(_state.value?.copy(history = getHistoryListUseCase()))
         }
     }

@@ -3,6 +3,7 @@ package com.codingeveryday.calcapp.presentation
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +48,6 @@ class CalculatorFragment: Fragment() {
         }
 
     private var historyAdapter: HistoryItemAdapter? = null
-    private var historyView: RecyclerView? = null
 
     private val component by lazy {
         (requireActivity().application as CalculatorApplication).component
@@ -116,7 +116,7 @@ class CalculatorFragment: Fragment() {
             }
         }
         val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(historyView)
+        touchHelper.attachToRecyclerView(binding.history)
     }
 
     override fun onDestroy() {

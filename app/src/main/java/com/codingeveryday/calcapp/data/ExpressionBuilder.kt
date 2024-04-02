@@ -6,7 +6,6 @@ import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CONSTANTS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.DIGITS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPENING_BRACKETS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPERATIONS
-import com.codingeveryday.calcapp.domain.entities.Expression.Companion.isOperation
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.matchingBrackets
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.operation
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
