@@ -10,8 +10,10 @@ import com.codingeveryday.calcapp.data.CalcService
 import com.codingeveryday.calcapp.data.states.CalculatorViewModelState
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.HistoryItem
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.domain.useCases.*
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,6 +38,10 @@ class CalculatorViewModel @Inject constructor(
     var solution = ""
         private set(value) { field = value }
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        errorEvent.postValue("Error")
+    }
+
     init {
         CoroutineScope(Dispatchers.IO).launch {
             _state.postValue(CalculatorViewModelState(history = getHistoryListUseCase()))
@@ -50,28 +56,28 @@ class CalculatorViewModel @Inject constructor(
     ) {
         val state = _state.value ?: CalculatorViewModelState()
         val baseVal = base.toInt()
-        try {
-            assert(baseVal in 1..36)
-            if (!foregroundMode) {
-                viewModelScope.launch(Dispatchers.Default) {
-                    val result = calculateUseCase(state.expr, baseVal, state.angleUnit)
-                    solution = result.second
-                    updateHistory(state.expr, result.first)
-                    withContext(Dispatchers.Main) {
-                        setExpr(result.first)
-                    }
-                }
-            } else if (!CalcService.running) {
-                context?.let {
-                    ContextCompat.startForegroundService(
-                        it,
-                        CalcService.newIntent(it, state.expr, baseVal, angleUnit)
-                    )
+        assert(baseVal in 1..36)
+        if (!foregroundMode) {
+            viewModelScope.launch(Dispatchers.Default + exceptionHandler) {
+                val result = calculateUseCase(state.expr, baseVal, state.angleUnit)
+                solution = result.second
+                updateHistory(state.expr, result.first)
+                withContext(Dispatchers.Main) {
+                    setExpr(result.first)
                 }
             }
-        } catch (_: Exception) {
-            errorEvent.value = "Error"
+        } else if (!CalcService.running) {
+            context?.let {
+                ContextCompat.startForegroundService(
+                    it,
+                    CalcService.newIntent(it, state.expr, baseVal, angleUnit)
+                )
+            }
         }
+    }
+
+    fun resetError() {
+        errorEvent.value = ""
     }
 
     fun setExpr(expr: String) {
@@ -90,8 +96,8 @@ class CalculatorViewModel @Inject constructor(
         exprBuilder.addDigit(d)
         _state.value = _state.value?.copy(expr = exprBuilder.get())
     }
-    fun openBracket(br: Char) {
-        exprBuilder.addBracket(br)
+    fun openBracket(type: CalculationInterface.Companion.BracketType) {
+        exprBuilder.addBracket(type)
         _state.value = _state.value?.copy(expr = exprBuilder.get())
     }
     fun addOperation(operation: Char) {
@@ -135,6 +141,7 @@ class CalculatorViewModel @Inject constructor(
             _state.postValue(_state.value?.copy(history = getHistoryListUseCase()))
         }
     }
+
     private fun updateHistory(expr: String, result: String) {
         viewModelScope.launch(Dispatchers.IO) {
             addHistoryItemUseCase(HistoryItem(expr, result))

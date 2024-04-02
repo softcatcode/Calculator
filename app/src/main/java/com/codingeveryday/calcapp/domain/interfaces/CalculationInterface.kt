@@ -1,7 +1,6 @@
-package com.codingeveryday.calcapp.domain.interfaces;
+package com.codingeveryday.calcapp.domain.interfaces
 
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
-import com.codingeveryday.calcapp.domain.entities.Expression
 
 interface CalculationInterface {
 
@@ -39,19 +38,6 @@ interface CalculationInterface {
             BracketType.Curly -> '}'
             BracketType.Square -> ']'
             BracketType.Triangle -> '>'
-        }
-
-        fun processAbs(s: String): String {
-            val sb = StringBuilder()
-            for (i in s.indices) {
-                if (s[i] != '|')
-                    sb.append(s[i])
-                else if (s[i - 1] in Expression.DIGITS + Expression.CLOSING_BRACKETS)
-                    sb.append('>')
-                else
-                    sb.append('<')
-            }
-            return sb.toString()
         }
     }
 }

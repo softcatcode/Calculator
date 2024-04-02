@@ -6,7 +6,6 @@ import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.entities.UnaryOperation
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.processAbs
 import com.codingeveryday.calcapp.domain.interfaces.MathInterface
 import com.codingeveryday.calcapp.domain.interfaces.ParseExpressionInterface
 import javax.inject.Inject
@@ -47,7 +46,7 @@ class CalculationImplementation @Inject constructor(
     }
 
     override fun calculateValue(expr: String, base: Int, angleUnit: AngleUnit): Pair<String, String> {
-        val expression = parser.parseExpression(processAbs(expr), base)
+        val expression = parser.parseExpression(expr, base)
         solution = ""
         this.angleUnit = angleUnit
         return calculate(expression).toString(normal = false) to solution
