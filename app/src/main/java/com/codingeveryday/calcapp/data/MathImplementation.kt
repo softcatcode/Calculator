@@ -270,7 +270,7 @@ class MathImplementation @Inject constructor(): MathInterface {
         val num = mul(sum(two, Number("1", a.base)), halfPi)
         if (cmp(x, num) == -1)
             return tailorRowSin(sub(x, pi)).apply { sign = false }
-        return tailorRowSin(sub(x, num)).apply { sign = false }
+        return tailorRowSin(sub(doublePi, x)).apply { sign = false }
     }
 
     override fun cos(a: Number, angleUnit: AngleUnit): Number {
@@ -283,22 +283,23 @@ class MathImplementation @Inject constructor(): MathInterface {
         if (cmp(x, halfPi) == -1)
             return tailorRowCos(a)
         if (cmp(x, pi) == -1)
-            return tailorRowSin(sub(pi, x)).apply { sign = false }
+            return tailorRowSin(sub(x, halfPi)).apply { sign = false }
         val num = mul(sum(two, Number("1", a.base)), halfPi)
         if (cmp(x, num) == -1)
             return tailorRowCos(sub(x, pi)).apply { sign = false }
-        return tailorRowCos(sub(x, num))
+        return tailorRowCos(sub(doublePi, x))
     }
-
     override fun tan(a: Number, angleUnit: AngleUnit) = div(sin(a, angleUnit), cos(a, angleUnit))
 
-    override fun ctg(a: Number, angleUnit: AngleUnit) = div(Number("1", a.base), tan(a, angleUnit))
+    override fun ctg(a: Number, angleUnit: AngleUnit) = div(cos(a, angleUnit), sin(a, angleUnit))
 
     override fun abs(a: Number) = Number(a.digits, a.order, true, a.base)
 
     override fun fractionPart(a: Number) = sub(a, intPart(a))
 
     override fun intPart(a: Number): Number {
+        if (a.digits.size <= -a.order)
+            return if (a.sign) Number("0", a.base) else Number("-1", a.base)
         val digits = if (a.order < 0)
             a.digits.subList(-a.order, a.digits.size)
         else
