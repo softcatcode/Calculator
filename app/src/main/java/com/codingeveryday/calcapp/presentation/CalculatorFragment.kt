@@ -122,11 +122,6 @@ class CalculatorFragment: Fragment() {
         touchHelper.attachToRecyclerView(binding.history)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
     private fun setOnClickListeners() {
         with (binding) {
             launchNSTranslatorBtn.setOnClickListener {

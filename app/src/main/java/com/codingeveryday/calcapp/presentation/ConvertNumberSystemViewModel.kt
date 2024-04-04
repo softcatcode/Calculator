@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.codingeveryday.calcapp.data.states.NumberSystemTranslationState
 import com.codingeveryday.calcapp.domain.useCases.NumberSystemTranslationUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,6 +13,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 import com.codingeveryday.calcapp.domain.entities.Number
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ConvertNumberSystemViewModel @Inject constructor(
     private val translateUseCase: NumberSystemTranslationUseCase
@@ -34,30 +38,41 @@ class ConvertNumberSystemViewModel @Inject constructor(
     fun updateNumber(newValue: String) { number = newValue }
     fun switchTranslationDir() { translationDir = !translationDir }
 
-    fun translate() {
-        val firstBase = firstBase.toInt()
-        val secondBase = secondBase.toInt()
-        val number = try { Number(number, firstBase) } catch(e: Exception) { null }
-        val firstBaseError = firstBase in 2..36
-        val secondBaseError = secondBase in 2..36
-        val result = if (!firstBaseError && !secondBaseError && number != null) {
-            try {
-                if (translationDir)
-                    translateUseCase(number, firstBase, secondBase)
-                else
-                    translateUseCase(number, secondBase, firstBase)
-            } catch(_: Exception) {
-                number
+    private fun launchTranslation(number: Number, secondBase: Int) {
+        viewModelScope.launch(Dispatchers.Default) {
+            val result = translateUseCase(number, secondBase)
+            withContext(Dispatchers.Main) {
+                state.update {
+                    state.value.copy(
+                        firstBaseError = false,
+                        secondBaseError = false,
+                        numberError = false,
+                        result = result.toString()
+                    )
+                }
             }
-        } else
-            number
-        state.update {
-            state.value.copy(
-                firstBaseError = firstBaseError,
-                secondBaseError = secondBaseError,
-                numberError = number != null,
-                result = result.toString()
-            )
+        }
+    }
+
+    fun translate() {
+        val firstBase = try { firstBase.toInt() } catch (_: Exception) { 0 }
+        val secondBase = try { secondBase.toInt() } catch (_: Exception) { 0 }
+        val firstBaseError = firstBase !in 2..36
+        val secondBaseError = secondBase !in 2..36
+        val numberBase = if (translationDir) firstBase else secondBase
+        val destBase = if (translationDir) secondBase else firstBase
+        val number = try { Number(number, numberBase) } catch(e: Exception) { null }
+        if (!firstBaseError && !secondBaseError && number != null) {
+            launchTranslation(number, destBase)
+        } else {
+            state.update {
+                state.value.copy(
+                    firstBaseError = firstBaseError,
+                    secondBaseError = secondBaseError,
+                    numberError = number == null,
+                    result = ""
+                )
+            }
         }
     }
 }

@@ -49,6 +49,6 @@ class CalculationImplementation @Inject constructor(
         val expression = parser.parseExpression(expr, base)
         solution = ""
         this.angleUnit = angleUnit
-        return calculate(expression).toString(normal = false) to solution
+        return calculate(expression).toString() to solution
     }
 }

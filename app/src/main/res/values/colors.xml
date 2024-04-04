@@ -18,5 +18,8 @@
     <color name="digitButtonColor">#EEECE4A1</color>
     <color name="operationColor">#DCDD55</color>
     <color name="equallyColor">#B300CF30</color>
+    <color name="lightBlueColor">#B33F97E4</color>
     <color name="answerFieldColor">#98E887</color>
+    <color name="translationFieldColor">#D5F3F3</color>
+    <color name="translationButtonColor">#4561BA</color>
 </resources>

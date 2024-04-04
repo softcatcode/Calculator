@@ -302,7 +302,7 @@ class MathImplementation @Inject constructor(): MathInterface {
         val digits = if (a.order < 0)
             a.digits.subList(-a.order, a.digits.size)
         else
-            MutableList<Byte>(a.digits.size + a.order) {0}.apply { addAll(a.digits) }
+            MutableList<Byte>(a.order) {0}.apply { addAll(a.digits) }
         var num = Number(digits, 0, a.sign, a.base)
         if (!a.sign) {
             num = sub(num, Number("1", num.base))
@@ -359,7 +359,7 @@ class MathImplementation @Inject constructor(): MathInterface {
         var l = Number("0", a.base)
         var r = Number(a.digits, order, a.sign, a.base)
         val eps = epsValue(a.base)
-        while (cmp(sub(r, l), eps) >= 0) {
+        while (cmp(sub(r, l), eps) > 0) {
             val num = div(sum(l, r), two)
             if (cmp(mul(num, num), a) > 0)
                 r = num

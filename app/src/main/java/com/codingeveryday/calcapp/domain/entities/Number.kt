@@ -62,17 +62,7 @@ class Number: Expression {
         }
     }
 
-    fun toString(normal: Boolean = true): String {
-        if (normal) {
-            val sb = StringBuilder( if (sign) "" else "-" )
-            for (d in digits)
-                sb.append(DIGITS[d.toInt()])
-            if (order != 0) {
-                sb.append('e')
-                sb.append(order.toString())
-            }
-            return sb.toString()
-        }
+    override fun toString(): String {
         if (order >= 0) {
             val sb = StringBuilder( if (sign) "" else "-" )
             for (i in digits.lastIndex downTo 0)
