@@ -7,6 +7,7 @@ import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CLOSING_BRACKETS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CONSTANTS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.DIGITS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.FAC_ID
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPENING_BRACKETS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPERATIONS
 import com.codingeveryday.calcapp.domain.entities.Number
@@ -132,11 +133,16 @@ class ExpressionParser @Inject constructor(
 
     private fun parseUnaryOperations(list: MutableList<ParseObject>) {
         var i = 0
-        val lastIndex = list.size - 2
-        while (i <= lastIndex) {
-            if (list[i].operationId in Expression.unaryOperations) {
-                list[i] = ParseObject(UnaryOperation(list[i + 1].expr!!, list[i].operationId!!), null)
-                list.removeAt(i + 1)
+        while (i < list.size) {
+            val id = list[i].operationId
+            if (id in Expression.unaryOperations) {
+                if (Expression.postfixUnary(id)) {
+                    list[i] = ParseObject(UnaryOperation(list[i - 1].expr!!, list[i].operationId!!), null)
+                    list.removeAt(i - 1)
+                } else {
+                    list[i] = ParseObject(UnaryOperation(list[i + 1].expr!!, list[i].operationId!!), null)
+                    list.removeAt(i + 1)
+                }
             }
             ++i
         }

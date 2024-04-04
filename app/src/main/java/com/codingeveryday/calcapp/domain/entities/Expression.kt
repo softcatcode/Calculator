@@ -73,6 +73,8 @@ open class Expression {
             OPENING_BRACKETS.indexOf(a) == CLOSING_BRACKETS.indexOf(b)
 
         fun digit(d: Char) = DIGITS.indexOf(d)
+
+        fun postfixUnary(id: Int?) = (id == FAC_ID)
     }
 }
 

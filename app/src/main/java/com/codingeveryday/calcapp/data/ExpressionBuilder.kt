@@ -97,7 +97,7 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
     }
 
     override fun addConstant(value: String): ExpressionBuilder {
-        if (value.isNotEmpty() && value.last() in CLOSING_BRACKETS + DIGITS)
+        if (builder.isNotEmpty() && builder.last() in CLOSING_BRACKETS + DIGITS)
             builder.append(operation[Expression.MUL_ID])
         builder.append(value)
         return this

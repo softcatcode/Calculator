@@ -312,20 +312,19 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     private fun decrement(a: MutableList<Byte>, base: Int) {
-        var i = a.size - 1
+        var i = 0
         val zero = 0.toByte()
-        while (i >= 0 && a[i] == zero)
-            --i
-        a[i].minus(1)
-        if (a[i] == 0.toByte())
-            a.removeAt(i)
-        else
+        while (i < a.size && a[i] == zero)
             ++i
+        a[i] = a[i].minus(1).toByte()
         val maxDigit = (base - 1).toByte()
-        while (i < a.size) {
+        --i
+        while (i >= 0) {
             a[i] = maxDigit
-            ++i
+            --i
         }
+        if (a.last() == zero && a.size > 1)
+            a.removeLast()
     }
 
     override fun fac(a: Number): Number {
@@ -334,7 +333,7 @@ class MathImplementation @Inject constructor(): MathInterface {
         if (!a.sign)
             throw Exception("Attempt to calculate factorial of a negative $a")
         val value = MutableList<Byte>(a.order) {0}.apply { addAll(a.digits) }
-        var result = mutableListOf<Byte>(0)
+        var result = mutableListOf<Byte>(1)
         while (value.size > 1 || value[0] != 0.toByte()) {
             result = mul(result, value, a.base)
             decrement(value, a.base)
