@@ -536,7 +536,7 @@
                     <ImageButton
                         android:id="@+id/launchNSTranslatorBtn"
                         style="@style/button_operation"
-                        android:src="@drawable/pointer_right"
+                        android:src="@drawable/translate_icon"
                         android:scaleType="fitXY"
                         tools:ignore="ContentDescription" />
 
