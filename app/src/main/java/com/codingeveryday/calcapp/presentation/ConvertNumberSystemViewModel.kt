@@ -1,57 +1,63 @@
 package com.codingeveryday.calcapp.presentation
 
-import android.util.Log
-import androidx.core.text.isDigitsOnly
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.codingeveryday.calcapp.domain.interfaces.TransformationInterface
-import com.codingeveryday.calcapp.domain.useCases.CheckNumberUseCase
-import com.codingeveryday.calcapp.domain.useCases.GetTransformationResultUseCase
+import com.codingeveryday.calcapp.data.states.NumberSystemTranslationState
 import com.codingeveryday.calcapp.domain.useCases.NumberSystemTranslationUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+import com.codingeveryday.calcapp.domain.entities.Number
 
 class ConvertNumberSystemViewModel @Inject constructor(
-    private val repository: TransformationInterface
+    private val translateUseCase: NumberSystemTranslationUseCase
 ): ViewModel() {
 
-    private val translateUseCase = NumberSystemTranslationUseCase(repository)
-    private val getTransResultUseCase = GetTransformationResultUseCase(repository)
-    private val checkNumberUseCase = CheckNumberUseCase(repository)
+    var firstBase by mutableStateOf("")
+        private set
+    var secondBase by mutableStateOf("")
+        private set
+    var number by mutableStateOf("")
+        private set
+    var translationDir by mutableStateOf(true)
+        private set
 
-    private var _baseSourceCorrect = MutableLiveData<Unit>()
-    val baseSourceCorrect: LiveData<Unit>
-        get() = _baseSourceCorrect
+    private val state = MutableStateFlow(NumberSystemTranslationState())
+    val uiState: StateFlow<NumberSystemTranslationState> = state.asStateFlow()
 
-    private var _baseDestCorrect = MutableLiveData<Unit>()
-    val baseDestCorrect: LiveData<Unit>
-        get() = _baseDestCorrect
+    fun updateFirstBase(newValue: String) { firstBase = newValue; }
+    fun updateSecondBase(newValue: String) { secondBase = newValue }
+    fun updateNumber(newValue: String) { number = newValue }
+    fun switchTranslationDir() { translationDir = !translationDir }
 
-    private var _numberCorrect = MutableLiveData<Unit>()
-    val numberCorrect: LiveData<Unit>
-        get() = _numberCorrect
-
-    val number = getTransResultUseCase()
-
-    fun translate(a: String, base1: String, base2: String) {
-        var check = true
-        if (base1 == "" || !base1.isDigitsOnly()) {
-            _baseSourceCorrect.value = Unit
-            check = false
+    fun translate() {
+        val firstBase = firstBase.toInt()
+        val secondBase = secondBase.toInt()
+        val number = try { Number(number, firstBase) } catch(e: Exception) { null }
+        val firstBaseError = firstBase in 2..36
+        val secondBaseError = secondBase in 2..36
+        val result = if (!firstBaseError && !secondBaseError && number != null) {
+            try {
+                if (translationDir)
+                    translateUseCase(number, firstBase, secondBase)
+                else
+                    translateUseCase(number, secondBase, firstBase)
+            } catch(_: Exception) {
+                number
+            }
+        } else
+            number
+        state.update {
+            state.value.copy(
+                firstBaseError = firstBaseError,
+                secondBaseError = secondBaseError,
+                numberError = number != null,
+                result = result.toString()
+            )
         }
-        if (base2 == "" || !base2.isDigitsOnly()) {
-            _baseDestCorrect.value = Unit
-            check = false
-        }
-        if (!check)
-            return
-        val baseSource = base1.toInt()
-        val baseDest = base2.toInt()
-        if (!checkNumberUseCase(a, baseSource)) {
-            _numberCorrect.value = Unit
-            return
-        }
-        Log.i("mumu", "translating |$a|");
-        translateUseCase(a, baseSource, baseDest)
     }
 }

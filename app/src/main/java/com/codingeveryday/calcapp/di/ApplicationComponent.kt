@@ -12,7 +12,6 @@ import dagger.Component
     modules = [
         DomainModule::class,
         ViewModelModule::class,
-        JavaImplModule::class,
         DataModule::class
     ]
 )

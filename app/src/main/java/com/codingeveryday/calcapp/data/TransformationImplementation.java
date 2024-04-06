@@ -1,31 +1,15 @@
 package com.codingeveryday.calcapp.data;
 
-import static com.codingeveryday.calcapp.data.CalculationImplementation.convert;
-import static com.codingeveryday.calcapp.data.CalculationImplementation.correct;
-import static com.codingeveryday.calcapp.data.CalculationImplementation.digits;
-import static com.codingeveryday.calcapp.data.CalculationImplementation.find;
-import static com.codingeveryday.calcapp.data.CalculationImplementation.hasSymbol;
-import static com.codingeveryday.calcapp.data.CalculationImplementation.mul;
-import static com.codingeveryday.calcapp.data.CalculationImplementation.sum;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import com.codingeveryday.calcapp.domain.interfaces.TransformationInterface;
-
-import javax.inject.Inject;
-
-public class TransformationImplementation implements TransformationInterface {
+/*
+public class TransformationImplementation implements TranslationInterface {
 
     private MutableLiveData<String> numberLD = new MutableLiveData<>();
     private String number = "";
 
-    @Override
     public LiveData<String> getResult() {
         return numberLD;
     }
 
-    @Override
     public Boolean checkNumber(String a, int base) {
         a = a.toUpperCase();
         if (a.equals(""))
@@ -128,3 +112,4 @@ public class TransformationImplementation implements TransformationInterface {
         return res;
     }
 }
+*/
