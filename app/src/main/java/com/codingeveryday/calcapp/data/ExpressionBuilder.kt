@@ -63,8 +63,11 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
     }
 
     override fun addOperation(op: Char): ExpressionBuilder {
-        if (builder.isEmpty())
+        if (builder.isEmpty()) {
+            if (op == CalculationInterface.SUB)
+                builder.append(op)
             return this
+        }
         if (
             builder.last() in CLOSING_BRACKETS + DIGITS + CONSTANTS ||
             builder.last() in OPENING_BRACKETS && op == CalculationInterface.SUB

@@ -7,9 +7,10 @@ import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CLOSING_BRACKETS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CONSTANTS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.DIGITS
-import com.codingeveryday.calcapp.domain.entities.Expression.Companion.FAC_ID
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPENING_BRACKETS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPERATIONS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.postfixUnary
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.prefixUnary
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.entities.UnaryOperation
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
@@ -27,31 +28,36 @@ class ExpressionParser @Inject constructor(
         var operationId: Int? = null
     )
 
-    private enum class ParseElemType {  Number, Operation, Function, Constant, Undefined }
+    private enum class ParseElemType {
+        Number, UnaryOperation, BinaryOperation, Function, Constant, Undefined
+    }
 
     private val isNumberPiece: (Char) -> Boolean = { c -> c in DIGITS || c == '.' || c == ',' }
     private val isFuncPiece: (Char) -> Boolean = { c -> c in 'a'..'z' }
     private val isOperation: (Char) -> Boolean = { c -> c in OPERATIONS }
     private val isConstant: (Char) -> Boolean = { c -> c in CONSTANTS }
-    private val callbackList = listOf(isNumberPiece, isOperation, isFuncPiece, isConstant)
     private val bracketSequenceException = Exception("Illegal bracket sequence")
 
-    private fun takeNextElem(expr: String, startIndex: Int): Pair<String, ParseElemType> {
+    private fun takeNextElem(expr: String, i: Int): Pair<String, ParseElemType> {
         var result = ""
         var resType = ParseElemType.Undefined
-        var i = startIndex
-        if (
-            expr[i] == CalculationInterface.SUB &&
-            (i == 0 || expr[i - 1] in OPENING_BRACKETS)
-        ) { // if the minus is a number part: 1+(-2)
-            result = CalculationInterface.SUB.toString()
-            ++i
+        if (isOperation(expr[i])) {
+            val type = if (expr[i] == CalculationInterface.SUB) {
+                if (i == 0 || expr[i - 1] in OPENING_BRACKETS)
+                    ParseElemType.UnaryOperation
+                else
+                    ParseElemType.BinaryOperation
+            } else if (expr[i] in Expression.unaryOperationId)
+                ParseElemType.UnaryOperation
+            else
+                ParseElemType.BinaryOperation
+            return "${expr[i]}" to type
         }
+        val callbackList = listOf(isNumberPiece, isFuncPiece, isConstant)
         for (callback in callbackList) {
             if (callback(expr[i])) {
                 resType = when (callback) {
                     isNumberPiece -> ParseElemType.Number
-                    isOperation -> ParseElemType.Operation
                     isFuncPiece -> ParseElemType.Function
                     isConstant -> ParseElemType.Constant
                     else -> ParseElemType.Undefined
@@ -119,8 +125,10 @@ class ExpressionParser @Inject constructor(
                         list.add( ParseObject(expr = Number(token, base)) )
                     ParseElemType.Constant ->
                         list.add( ParseObject(expr = constantInterpreter.decode(token[0], base)) )
-                    ParseElemType.Operation ->
-                        list.add( ParseObject(operationId = Expression.operationId[token[0]]) )
+                    ParseElemType.UnaryOperation ->
+                        list.add( ParseObject(operationId = Expression.unaryOperationId[token[0]]) )
+                    ParseElemType.BinaryOperation ->
+                        list.add( ParseObject(operationId = Expression.binaryOperationId[token[0]]) )
                     ParseElemType.Function ->
                         list.add( ParseObject(operationId = Expression.funcId[token]) )
                     else -> { i = expr.length }
@@ -135,14 +143,12 @@ class ExpressionParser @Inject constructor(
         var i = 0
         while (i < list.size) {
             val id = list[i].operationId
-            if (id in Expression.unaryOperations) {
-                if (Expression.postfixUnary(id)) {
-                    list[i] = ParseObject(UnaryOperation(list[i - 1].expr!!, list[i].operationId!!), null)
-                    list.removeAt(i - 1)
-                } else {
-                    list[i] = ParseObject(UnaryOperation(list[i + 1].expr!!, list[i].operationId!!), null)
-                    list.removeAt(i + 1)
-                }
+            if (prefixUnary(id)) {
+                list[i] = ParseObject(expr = UnaryOperation(list[i + 1].expr!!, list[i].operationId!!))
+                list.removeAt(i + 1)
+            } else if (postfixUnary(id)) {
+                list[i] = ParseObject(expr = UnaryOperation(list[i - 1].expr!!, list[i].operationId!!))
+                list.removeAt(i - 1)
             }
             ++i
         }
