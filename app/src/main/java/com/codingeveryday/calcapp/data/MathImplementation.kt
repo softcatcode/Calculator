@@ -376,6 +376,8 @@ class MathImplementation @Inject constructor(): MathInterface {
         return result
     }
 
+    override fun minus(a: Number) = Number(a.digits, a.order, !a.sign, a.base)
+
     private fun epsValue(base: Int) = Number(mutableListOf(1), MAX_ACCURACY_ORDER, true, base)
 
     companion object {

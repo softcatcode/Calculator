@@ -15,7 +15,6 @@ class CalculationImplementation @Inject constructor(
     private val parser: ParseExpressionInterface
 ): CalculationInterface {
 
-    private var solution = ""
     private var angleUnit = AngleUnit.Radians
 
     private fun applyOperation(id: Int, first: Number, second: Number? = null) = when (id) {
@@ -45,10 +44,9 @@ class CalculationImplementation @Inject constructor(
         }
     }
 
-    override fun calculateValue(expr: String, base: Int, angleUnit: AngleUnit): Pair<String, String> {
+    override fun calculateValue(expr: String, base: Int, angleUnit: AngleUnit): String {
         val expression = parser.parseExpression(expr, base)
-        solution = ""
         this.angleUnit = angleUnit
-        return calculate(expression).toString() to solution
+        return calculate(expression).toString()
     }
 }

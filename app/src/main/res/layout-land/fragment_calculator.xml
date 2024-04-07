@@ -55,7 +55,8 @@
                     app:layout_constraintWidth_percent="0.15"
                     android:src="@drawable/clear"
                     android:background="@color/calculatorBackgroundColor"
-                    android:scaleType="centerInside"/>
+                    android:scaleType="centerInside"
+                    android:contentDescription="@string/clear_btn_description" />
 
                 <TextView
                     android:layout_marginEnd="5dp"
@@ -117,19 +118,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/calcKeyboard"
-                app:layout_constraintHeight_percent="0.45">
+                app:layout_constraintHeight_percent="0.4">
+
                 <LinearLayout
                     android:id="@+id/inputLayout"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/resButtonsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@color/white"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    app:layout_constraintHeight_percent="0.7">
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/input"
@@ -143,57 +144,15 @@
                         android:textColorHint="@color/grey"
                         android:textSize="35sp" />
 
-                        <ImageButton
-                            android:id="@+id/backspace"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:src="@drawable/backspace"
-                            tools:ignore="ContentDescription" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:id="@+id/resButtonsLayout"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:orientation="horizontal">
-                    <Button
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginTop="5dp"
-                        android:id="@+id/solutionBtn"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                    <ImageButton
+                        android:id="@+id/backspace"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:autoSizeMaxTextSize="20sp"
-                        android:backgroundTint="@color/green"
-                        android:text="@string/solution"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-                    <Button
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
                         android:layout_marginTop="5dp"
-                        android:id="@+id/foregroundCalcBtn"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:autoSizeMaxTextSize="20sp"
-                        android:backgroundTint="@color/green"
-                        android:text="@string/foreground_calc"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:layout_marginEnd="5dp"
+                        android:background="@color/white"
+                        android:src="@drawable/backspace"
+                        tools:ignore="ContentDescription" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -206,7 +165,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/calcKeyboard"
                 android:orientation="horizontal"
-                app:layout_constraintWidth_percent="0.42857"
+                app:layout_constraintWidth_percent="0.4"
                 tools:ignore="DisableBaselineAlignment">
 
                 <LinearLayout

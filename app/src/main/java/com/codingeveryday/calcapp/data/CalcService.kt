@@ -60,7 +60,7 @@ class CalcService: Service() {
                 val result = calcUseCase(initExpr, base, angleUnit)
                 historyDao.addItem(
                     HistoryItemMapper.mapHistoryItemToDbModel(
-                        HistoryItem(initExpr, result.first)
+                        HistoryItem(initExpr, result)
                     )
                 )
                 success = true
@@ -117,7 +117,7 @@ class CalcService: Service() {
         private const val EXPR_KEY = "expression"
         private const val BASE_KEY = "base"
         private const val ANGLE_UNIT_KEY = "angle_unit"
-        var running = true
+        var running = false
             private set
 
         fun newIntent(context: Context, expr: String, base: Int, angleUnit: AngleUnit) =

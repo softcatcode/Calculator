@@ -17,79 +17,42 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/calcKeyboard">
+
         <LinearLayout
             android:id="@+id/inputLayout"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/resButtonsLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/white"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintHeight_percent="0.85">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="100"
-                android:autoSizeMaxTextSize="35dp"
-                android:singleLine="false"
-                android:lines="5"
-                android:background="@color/white"
-                android:textColor="@color/black"
-                android:textColorHint="@color/grey"
-                android:textSize="50sp" />
-                <ImageButton
-                    android:id="@+id/backspace"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="5dp"
-                    android:background="@color/white"
-                    android:src="@drawable/backspace"
-                    tools:ignore="ContentDescription" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/resButtonsLayout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:orientation="horizontal">
-            <Button
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:id="@+id/solutionBtn"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ScrollView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:autoSizeMaxTextSize="30dp"
-                android:backgroundTint="@color/green"
-                android:text="@string/solution"
-                android:textColor="@color/white"
-                android:textSize="10sp" />
-            <Button
-                android:layout_marginStart="5dp"
+                android:layout_weight="100">
+                <TextView
+                    android:id="@+id/input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:singleLine="false"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="50sp" />
+            </ScrollView>
+
+            <ImageButton
+                android:id="@+id/backspace"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="5dp"
-                android:id="@+id/foregroundCalcBtn"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:autoSizeMaxTextSize="30dp"
-                android:backgroundTint="@color/green"
-                android:text="@string/foreground_calc"
-                android:textColor="@color/white"
-                android:textSize="10sp" />
+                android:background="@color/white"
+                android:src="@drawable/backspace"
+                tools:ignore="ContentDescription" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -98,13 +61,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calcHead"
-        app:layout_constraintStart_toEndOf="@id/extraButtons"
         android:background="@color/calculatorBackgroundColor"
-        android:orientation="vertical"
-        app:layout_constraintHeight_percent="0.65">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"

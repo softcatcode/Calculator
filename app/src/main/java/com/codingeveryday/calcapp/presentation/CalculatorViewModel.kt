@@ -36,7 +36,7 @@ class CalculatorViewModel @Inject constructor(
     val errorEvent = MutableLiveData("")
 
     var solution = ""
-        private set(value) { field = value }
+        private set
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         errorEvent.postValue("Error")
@@ -60,10 +60,9 @@ class CalculatorViewModel @Inject constructor(
         if (!foregroundMode) {
             viewModelScope.launch(Dispatchers.Default + exceptionHandler) {
                 val result = calculateUseCase(state.expr, baseVal, state.angleUnit)
-                solution = result.second
-                updateHistory(state.expr, result.first)
+                updateHistory(state.expr, result)
                 withContext(Dispatchers.Main) {
-                    setExpr(result.first)
+                    setExpr(result)
                 }
             }
         } else if (!CalcService.running) {
@@ -143,6 +142,8 @@ class CalculatorViewModel @Inject constructor(
     }
 
     private fun updateHistory(expr: String, result: String) {
+        if (expr == result)
+            return
         viewModelScope.launch(Dispatchers.IO) {
             addHistoryItemUseCase(HistoryItem(expr, result))
             _state.postValue(_state.value?.copy(history = getHistoryListUseCase()))

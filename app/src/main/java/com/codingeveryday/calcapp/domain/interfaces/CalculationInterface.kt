@@ -4,7 +4,7 @@ import com.codingeveryday.calcapp.domain.entities.AngleUnit
 
 interface CalculationInterface {
 
-    fun calculateValue(expr: String, base: Int, angleUnit: AngleUnit = AngleUnit.Radians): Pair<String, String>
+    fun calculateValue(expr: String, base: Int, angleUnit: AngleUnit = AngleUnit.Radians): String
 
     companion object {
         const val ABS = '|'

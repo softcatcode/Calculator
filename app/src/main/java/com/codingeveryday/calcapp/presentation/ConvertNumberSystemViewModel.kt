@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 import com.codingeveryday.calcapp.domain.entities.Number
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,13 +34,17 @@ class ConvertNumberSystemViewModel @Inject constructor(
     private val state = MutableStateFlow(NumberSystemTranslationState())
     val uiState: StateFlow<NumberSystemTranslationState> = state.asStateFlow()
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+
+    }
+
     fun updateFirstBase(newValue: String) { firstBase = newValue; }
     fun updateSecondBase(newValue: String) { secondBase = newValue }
     fun updateNumber(newValue: String) { number = newValue }
     fun switchTranslationDir() { translationDir = !translationDir }
 
     private fun launchTranslation(number: Number, secondBase: Int) {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.Default + exceptionHandler) {
             val result = translateUseCase(number, secondBase)
             withContext(Dispatchers.Main) {
                 state.update {

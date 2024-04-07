@@ -43,6 +43,9 @@ class Number: Expression {
     }
 
     constructor(digits: MutableList<Byte>, order: Int, sign: Boolean, base: Int) {
+        for (digit in digits)
+            if (digit >= base)
+                throw RuntimeException("Illegal base value when constructing a number")
         this.base = base
         var r = digits.size - 1
         val zero = 0.toByte()

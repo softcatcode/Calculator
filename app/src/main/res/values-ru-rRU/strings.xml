@@ -29,4 +29,5 @@
     <string name="calculation_error_solution">Ошибка в процессе вычисления.</string>
     <string name="invalid_number">ошибка в числе</string>
     <string name="direction">направление</string>
+    <string name="clear_btn_description">очистить историю</string>
 </resources>

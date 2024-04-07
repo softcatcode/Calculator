@@ -2,10 +2,10 @@ package com.codingeveryday.calcapp.presentation
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.text.isDigitsOnly
@@ -78,7 +78,6 @@ class CalculatorFragment: Fragment() {
         setObservers()
         if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
             setupRecyclerView()
-        binding.input.inputType = InputType.TYPE_NULL
     }
 
     private fun setupRecyclerView() {
@@ -127,20 +126,12 @@ class CalculatorFragment: Fragment() {
             launchNSTranslatorBtn.setOnClickListener {
                 findNavController().navigate(R.id.action_calculatorFragment_to_toNumberSystemFragment)
             }
-            solutionBtn.setOnClickListener {
-                val answer = calcViewModel.state.value?.expr ?: ""
-                calcViewModel.calculate(base)
-                findNavController().navigate(
-                    CalculatorFragmentDirections.actionCalculatorFragmentToSolutionViewFragment(
-                        calcViewModel.solution, answer
-                    )
-                )
-            }
             equally.setOnClickListener {
                 calcViewModel.calculate(base)
             }
-            foregroundCalcBtn.setOnClickListener {
+            equally.setOnLongClickListener {
                 calcViewModel.calculate(base, foregroundMode = true, context = requireActivity().applicationContext)
+                true
             }
 
             backspace.setOnClickListener { calcViewModel.backspace() }
@@ -186,7 +177,7 @@ class CalculatorFragment: Fragment() {
                 }
             }
             input.setOnClickListener {
-                input.setTextColor(ContextCompat.getColor(requireActivity(), R.color.black))
+                input.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.black))
             }
         }
     }
@@ -218,7 +209,7 @@ class CalculatorFragment: Fragment() {
     private fun setObservers() {
         calcViewModel.state.observe(viewLifecycleOwner) {
             historyAdapter?.submitList(it.history)
-            binding.input.setText(formatExpression(it.expr))
+            (binding.input as TextView).text = formatExpression(it.expr)
             val angleLabel = if (it.angleUnit == AngleUnit.Radians) RAD else DEG
             binding.switchRadDeg?.text = angleLabel
             binding.numberSystem?.setTextColor(it.baseColor)
@@ -244,4 +235,9 @@ class CalculatorFragment: Fragment() {
         return sb.toString()
     }
 
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

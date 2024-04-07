@@ -19,6 +19,6 @@ interface HistoryItemDao {
     @Query("DELETE FROM ${HistoryItemDbModel.tableName} WHERE 1")
     suspend fun clear()
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addItem(historyItem: HistoryItemDbModel)
 }
