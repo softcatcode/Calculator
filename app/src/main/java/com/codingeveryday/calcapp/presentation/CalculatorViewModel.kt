@@ -1,11 +1,13 @@
 package com.codingeveryday.calcapp.presentation
 
+import android.app.Application
 import android.content.Context
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.data.CalcService
 import com.codingeveryday.calcapp.data.states.CalculatorViewModelState
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
@@ -22,12 +24,13 @@ import javax.inject.Inject
 
 class CalculatorViewModel @Inject constructor(
     private val calculateUseCase: CalculateUseCase,
-    private val getHistoryListUseCase: GetHistoryListUseCase,
     private val removeHistoryItemUseCase: RemoveHistoryItemUseCase,
     private val addHistoryItemUseCase: AddHistoryItemUseCase,
     private val clearHistoryUseCase: ClearHistoryUseCase,
-    private val exprBuilder: ExpressionBuilderInterface
-): ViewModel() {
+    private val exprBuilder: ExpressionBuilderInterface,
+    getHistoryListUseCase: GetHistoryListUseCase,
+    application: Application
+): AndroidViewModel(application) {
 
     private val _state = MutableLiveData<CalculatorViewModelState>()
     val state: LiveData<CalculatorViewModelState> = _state
@@ -35,7 +38,8 @@ class CalculatorViewModel @Inject constructor(
     val errorEvent = MutableLiveData("")
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-        errorEvent.postValue("Error")
+        val msg = getApplication<Application>().getString(R.string.calc_error_message)
+        errorEvent.postValue(msg)
     }
 
     val history = getHistoryListUseCase()

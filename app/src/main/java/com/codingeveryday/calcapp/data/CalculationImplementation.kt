@@ -33,6 +33,8 @@ class CalculationImplementation @Inject constructor(
         Expression.DIV_ID -> calculator.div(first, second!!)
         Expression.MOD_ID -> calculator.mod(first, second!!)
         Expression.POW_ID -> calculator.pow(first, second!!)
+        Expression.MINUS_ID -> calculator.minus(first)
+        Expression.LOG_ID -> calculator.log(first, second!!)
         else -> throw Exception("Unknown operation: $id")
     }
 
