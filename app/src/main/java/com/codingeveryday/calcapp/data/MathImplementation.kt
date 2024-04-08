@@ -377,6 +377,9 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     override fun minus(a: Number) = Number(a.digits, a.order, !a.sign, a.base)
+    override fun log(a: Number, b: Number): Number {
+        TODO("Not yet implemented")
+    }
 
     private fun epsValue(base: Int) = Number(mutableListOf(1), MAX_ACCURACY_ORDER, true, base)
 

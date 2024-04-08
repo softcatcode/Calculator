@@ -37,4 +37,6 @@ interface MathInterface {
 
     fun minus(a: Number): Number
 
+    fun log(a: Number, b: Number): Number
+
 }
