@@ -1,12 +1,14 @@
 package com.codingeveryday.calcapp.data
 
 import android.app.Application
-import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [HistoryItemDbModel::class], version = 1, exportSchema = false)
+
+@Database(entities = [HistoryItemDbModel::class], version = 2, exportSchema = false)
 abstract class AppDataBase: RoomDatabase() {
 
     abstract fun getHistoryItemDao(): HistoryItemDao
@@ -16,6 +18,15 @@ abstract class AppDataBase: RoomDatabase() {
         private val LOCK = Any()
         private var INSTANCE: AppDataBase? = null
 
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "alter table ${HistoryItemDbModel.tableName} add column base int;\n"
+                        .plus("delete from ${HistoryItemDbModel.tableName} where 1")
+                )
+            }
+        }
+
         fun getInstance(application: Application): AppDataBase {
             INSTANCE?.let { return it }
             synchronized(LOCK) {
@@ -24,7 +35,7 @@ abstract class AppDataBase: RoomDatabase() {
                     application,
                     AppDataBase::class.java,
                     DB_NAME
-                ).build()
+                ).addMigrations(MIGRATION_1_2).build()
                 INSTANCE = db
                 return db
             }

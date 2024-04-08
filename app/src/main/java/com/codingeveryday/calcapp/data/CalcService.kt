@@ -32,8 +32,8 @@ class CalcService: Service() {
     lateinit var calcUseCase: CalculateUseCase
     @Inject
     lateinit var historyDao: HistoryItemDao
-
-    var mapper = HistoryItemMapperImpl()
+    @Inject
+    lateinit var mapper: HistoryItemMapper
 
     override fun onCreate() {
         component.inject(this@CalcService)
@@ -63,7 +63,7 @@ class CalcService: Service() {
                 val result = calcUseCase(initExpr, base, angleUnit)
                 historyDao.addItem(
                     mapper.mapHistoryItemToDbModel(
-                        HistoryItem(initExpr, result)
+                        HistoryItem(initExpr, result, base)
                     )
                 )
                 success = true

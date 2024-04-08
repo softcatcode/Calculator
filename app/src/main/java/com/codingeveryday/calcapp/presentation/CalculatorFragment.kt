@@ -211,7 +211,7 @@ class CalculatorFragment: Fragment() {
             historyAdapter?.submitList(it)
         }
         calcViewModel.state.observe(viewLifecycleOwner) {
-            (binding.input as TextView).text = formatExpression(it.expr)
+            binding.input.text = formatExpression(it.expr)
             val angleLabel = if (it.angleUnit == AngleUnit.Radians) RAD else DEG
             binding.switchRadDeg?.text = angleLabel
             binding.numberSystem?.setTextColor(it.baseColor)

@@ -58,7 +58,7 @@ class CalculatorViewModel @Inject constructor(
         if (!foregroundMode) {
             viewModelScope.launch(Dispatchers.Default + exceptionHandler) {
                 val result = calculateUseCase(state.expr, baseVal, state.angleUnit)
-                updateHistory(state.expr, result)
+                updateHistory(state.expr, result, baseVal)
                 withContext(Dispatchers.Main) {
                     setExpr(result)
                 }
@@ -136,11 +136,11 @@ class CalculatorViewModel @Inject constructor(
         }
     }
 
-    private fun updateHistory(expr: String, result: String) {
+    private fun updateHistory(expr: String, result: String, base: Int) {
         if (expr == result)
             return
         viewModelScope.launch(Dispatchers.IO) {
-            addHistoryItemUseCase(HistoryItem(expr, result))
+            addHistoryItemUseCase(HistoryItem(expr, result, base))
         }
     }
 }
