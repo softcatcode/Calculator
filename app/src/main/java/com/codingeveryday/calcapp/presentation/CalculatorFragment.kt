@@ -2,10 +2,11 @@ package com.codingeveryday.calcapp.presentation
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.text.isDigitsOnly
 import androidx.core.widget.addTextChangedListener
@@ -18,6 +19,7 @@ import com.codingeveryday.calcapp.CalculatorApplication
 import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.databinding.FragmentCalculatorBinding
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.COS
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.CTG
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.DEG
@@ -32,7 +34,6 @@ import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Compani
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUB
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUM
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.TG
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.openingBracket
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.BracketType
 import javax.inject.Inject
 
@@ -47,7 +48,6 @@ class CalculatorFragment: Fragment() {
         }
 
     private var historyAdapter: HistoryItemAdapter? = null
-    private var historyView: RecyclerView? = null
 
     private val component by lazy {
         (requireActivity().application as CalculatorApplication).component
@@ -78,7 +78,6 @@ class CalculatorFragment: Fragment() {
         setObservers()
         if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
             setupRecyclerView()
-        binding.input.inputType = InputType.TYPE_NULL
     }
 
     private fun setupRecyclerView() {
@@ -94,6 +93,9 @@ class CalculatorFragment: Fragment() {
             }
             onResClickListener = {
                 calcViewModel.addConstant(it.result)
+            }
+            formatExpressionCallback = {
+                formatExpression(it)
             }
         }
     }
@@ -116,12 +118,7 @@ class CalculatorFragment: Fragment() {
             }
         }
         val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(historyView)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+        touchHelper.attachToRecyclerView(binding.history)
     }
 
     private fun setOnClickListeners() {
@@ -129,20 +126,12 @@ class CalculatorFragment: Fragment() {
             launchNSTranslatorBtn.setOnClickListener {
                 findNavController().navigate(R.id.action_calculatorFragment_to_toNumberSystemFragment)
             }
-            solutionBtn.setOnClickListener {
-                val answer = calcViewModel.state.value?.expr ?: ""
-                calcViewModel.calculate(base)
-                findNavController().navigate(
-                    CalculatorFragmentDirections.actionCalculatorFragmentToSolutionViewFragment(
-                        calcViewModel.solution, answer
-                    )
-                )
-            }
             equally.setOnClickListener {
                 calcViewModel.calculate(base)
             }
-            foregroundCalcBtn.setOnClickListener {
+            equally.setOnLongClickListener {
                 calcViewModel.calculate(base, foregroundMode = true, context = requireActivity().applicationContext)
+                true
             }
 
             backspace.setOnClickListener { calcViewModel.backspace() }
@@ -157,7 +146,7 @@ class CalculatorFragment: Fragment() {
             seven.setOnClickListener { calcViewModel.appendDigit('7') }
             eight.setOnClickListener { calcViewModel.appendDigit('8') }
             nine.setOnClickListener { calcViewModel.appendDigit('9') }
-            brackets.setOnClickListener { calcViewModel.openBracket(openingBracket(BracketType.Round)) }
+            brackets.setOnClickListener { calcViewModel.openBracket(BracketType.Round) }
             plus.setOnClickListener { calcViewModel.addOperation(SUM) }
             sub.setOnClickListener { calcViewModel.addOperation(SUB) }
             mul.setOnClickListener { calcViewModel.addOperation(MUL) }
@@ -167,8 +156,8 @@ class CalculatorFragment: Fragment() {
             if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 numberSystem!!.setOnClickListener { numberSystem.setTextColor(ContextCompat.getColor(requireActivity(), R.color.black)) }
                 absStick!!.setOnClickListener { calcViewModel.addAbsStick() }
-                integerPartBrackets!!.setOnClickListener { calcViewModel.openBracket(openingBracket(BracketType.Square)) }
-                floatPartBrackets!!.setOnClickListener { calcViewModel.openBracket(openingBracket(BracketType.Curly)) }
+                integerPartBrackets!!.setOnClickListener { calcViewModel.openBracket(BracketType.Square) }
+                floatPartBrackets!!.setOnClickListener { calcViewModel.openBracket(BracketType.Curly) }
                 fac!!.setOnClickListener { calcViewModel.addOperation(FAC) }
                 pow!!.setOnClickListener { calcViewModel.addOperation(POW) }
                 sin!!.setOnClickListener { calcViewModel.addFunction(SIN) }
@@ -188,7 +177,7 @@ class CalculatorFragment: Fragment() {
                 }
             }
             input.setOnClickListener {
-                input.setTextColor(ContextCompat.getColor(requireActivity(), R.color.black))
+                input.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.black))
             }
         }
     }
@@ -218,13 +207,39 @@ class CalculatorFragment: Fragment() {
     }
 
     private fun setObservers() {
+        calcViewModel.history.observe(viewLifecycleOwner) {
+            historyAdapter?.submitList(it)
+        }
         calcViewModel.state.observe(viewLifecycleOwner) {
-            historyAdapter?.submitList(it.history)
-            binding.input.setText(it.expr)
+            binding.input.text = formatExpression(it.expr)
             val angleLabel = if (it.angleUnit == AngleUnit.Radians) RAD else DEG
             binding.switchRadDeg?.text = angleLabel
             binding.numberSystem?.setTextColor(it.baseColor)
         }
+        calcViewModel.errorEvent.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+                calcViewModel.resetError()
+            }
+        }
     }
 
+    private fun formatExpression(s: String): String {
+        val openAbs = CalculationInterface.openingBracket(BracketType.Triangle)
+        val closeAbs = CalculationInterface.closingBracket(BracketType.Triangle)
+        val sb = StringBuilder()
+        for (c in s) {
+            if (c == openAbs || c == closeAbs)
+                sb.append(CalculationInterface.ABS)
+            else
+                sb.append(c)
+        }
+        return sb.toString()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

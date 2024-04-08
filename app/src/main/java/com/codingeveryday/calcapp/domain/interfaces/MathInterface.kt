@@ -35,4 +35,8 @@ interface MathInterface {
 
     fun sqrt(a: Number): Number
 
+    fun minus(a: Number): Number
+
+    fun log(a: Number, b: Number): Number
+
 }

@@ -1,17 +1,22 @@
 package com.codingeveryday.calcapp.presentation
 
+import android.app.Application
 import android.content.Context
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.data.CalcService
 import com.codingeveryday.calcapp.data.states.CalculatorViewModelState
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.HistoryItem
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.domain.useCases.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,21 +24,31 @@ import javax.inject.Inject
 
 class CalculatorViewModel @Inject constructor(
     private val calculateUseCase: CalculateUseCase,
-    private val getHistoryListUseCase: GetHistoryListUseCase,
     private val removeHistoryItemUseCase: RemoveHistoryItemUseCase,
     private val addHistoryItemUseCase: AddHistoryItemUseCase,
     private val clearHistoryUseCase: ClearHistoryUseCase,
-    private val exprBuilder: ExpressionBuilderInterface
-): ViewModel() {
+    private val exprBuilder: ExpressionBuilderInterface,
+    getHistoryListUseCase: GetHistoryListUseCase,
+    application: Application
+): AndroidViewModel(application) {
 
-    private var _state = MutableLiveData(CalculatorViewModelState())
-    val state: LiveData<CalculatorViewModelState>
-        get() = _state
+    private val _state = MutableLiveData<CalculatorViewModelState>()
+    val state: LiveData<CalculatorViewModelState> = _state
 
     val errorEvent = MutableLiveData("")
 
-    var solution = ""
-        private set(value) { field = value }
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        val msg = getApplication<Application>().getString(R.string.calc_error_message)
+        errorEvent.postValue(msg)
+    }
+
+    val history = getHistoryListUseCase()
+
+    init {
+        CoroutineScope(Dispatchers.IO).launch {
+            _state.postValue(CalculatorViewModelState())
+        }
+    }
 
     fun calculate(
         base: String,
@@ -43,28 +58,27 @@ class CalculatorViewModel @Inject constructor(
     ) {
         val state = _state.value ?: CalculatorViewModelState()
         val baseVal = base.toInt()
-        try {
-            assert(baseVal in 1..36)
-            if (!foregroundMode) {
-                viewModelScope.launch(Dispatchers.Default) {
-                    val result = calculateUseCase(state.expr, baseVal, state.angleUnit)
-                    solution = result.second
-                    updateHistory(state.expr, result.first)
-                    withContext(Dispatchers.Main) {
-                        setExpr(result.first)
-                    }
-                }
-            } else if (!CalcService.running) {
-                context?.let {
-                    ContextCompat.startForegroundService(
-                        it,
-                        CalcService.newIntent(it, state.expr, baseVal, angleUnit)
-                    )
+        assert(baseVal in 1..36)
+        if (!foregroundMode) {
+            viewModelScope.launch(Dispatchers.Default + exceptionHandler) {
+                val result = calculateUseCase(state.expr, baseVal, state.angleUnit)
+                updateHistory(state.expr, result, baseVal)
+                withContext(Dispatchers.Main) {
+                    setExpr(result)
                 }
             }
-        } catch (_: Exception) {
-            errorEvent.value = "Error"
+        } else if (!CalcService.running) {
+            context?.let {
+                ContextCompat.startForegroundService(
+                    it,
+                    CalcService.newIntent(it, state.expr, baseVal, angleUnit)
+                )
+            }
         }
+    }
+
+    fun resetError() {
+        errorEvent.value = ""
     }
 
     fun setExpr(expr: String) {
@@ -83,8 +97,8 @@ class CalculatorViewModel @Inject constructor(
         exprBuilder.addDigit(d)
         _state.value = _state.value?.copy(expr = exprBuilder.get())
     }
-    fun openBracket(br: Char) {
-        exprBuilder.addBracket(br)
+    fun openBracket(type: CalculationInterface.Companion.BracketType) {
+        exprBuilder.addBracket(type)
         _state.value = _state.value?.copy(expr = exprBuilder.get())
     }
     fun addOperation(operation: Char) {
@@ -116,23 +130,21 @@ class CalculatorViewModel @Inject constructor(
     fun clearHistory() {
         viewModelScope.launch(Dispatchers.IO) {
             clearHistoryUseCase()
-            _state.postValue(_state.value?.copy(history = getHistoryListUseCase()))
         }
     }
     fun removeHistoryItem(index: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val list = _state.value?.history ?: listOf()
-            val maxIndex = list.size - 1
-            if (index in 0..maxIndex) {
+            val list = history.value ?: listOf()
+            if (index in 0..list.lastIndex)
                 removeHistoryItemUseCase(list[index].id)
-            }
-            _state.postValue(_state.value?.copy(history = getHistoryListUseCase()))
         }
     }
-    private fun updateHistory(expr: String, result: String) {
+
+    private fun updateHistory(expr: String, result: String, base: Int) {
+        if (expr == result)
+            return
         viewModelScope.launch(Dispatchers.IO) {
-            addHistoryItemUseCase(HistoryItem(expr, result))
-            _state.postValue(_state.value?.copy(history = getHistoryListUseCase()))
+            addHistoryItemUseCase(HistoryItem(expr, result, base))
         }
     }
 }

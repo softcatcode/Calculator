@@ -1,6 +1,5 @@
 package com.codingeveryday.calcapp.data
 
-import android.util.Log
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.interfaces.MathInterface
@@ -270,7 +269,7 @@ class MathImplementation @Inject constructor(): MathInterface {
         val num = mul(sum(two, Number("1", a.base)), halfPi)
         if (cmp(x, num) == -1)
             return tailorRowSin(sub(x, pi)).apply { sign = false }
-        return tailorRowSin(sub(x, num)).apply { sign = false }
+        return tailorRowSin(sub(doublePi, x)).apply { sign = false }
     }
 
     override fun cos(a: Number, angleUnit: AngleUnit): Number {
@@ -283,26 +282,27 @@ class MathImplementation @Inject constructor(): MathInterface {
         if (cmp(x, halfPi) == -1)
             return tailorRowCos(a)
         if (cmp(x, pi) == -1)
-            return tailorRowSin(sub(pi, x)).apply { sign = false }
+            return tailorRowSin(sub(x, halfPi)).apply { sign = false }
         val num = mul(sum(two, Number("1", a.base)), halfPi)
         if (cmp(x, num) == -1)
             return tailorRowCos(sub(x, pi)).apply { sign = false }
-        return tailorRowCos(sub(x, num))
+        return tailorRowCos(sub(doublePi, x))
     }
-
     override fun tan(a: Number, angleUnit: AngleUnit) = div(sin(a, angleUnit), cos(a, angleUnit))
 
-    override fun ctg(a: Number, angleUnit: AngleUnit) = div(Number("1", a.base), tan(a, angleUnit))
+    override fun ctg(a: Number, angleUnit: AngleUnit) = div(cos(a, angleUnit), sin(a, angleUnit))
 
     override fun abs(a: Number) = Number(a.digits, a.order, true, a.base)
 
     override fun fractionPart(a: Number) = sub(a, intPart(a))
 
     override fun intPart(a: Number): Number {
+        if (a.digits.size <= -a.order)
+            return if (a.sign) Number("0", a.base) else Number("-1", a.base)
         val digits = if (a.order < 0)
             a.digits.subList(-a.order, a.digits.size)
         else
-            MutableList<Byte>(a.digits.size + a.order) {0}.apply { addAll(a.digits) }
+            MutableList<Byte>(a.order) {0}.apply { addAll(a.digits) }
         var num = Number(digits, 0, a.sign, a.base)
         if (!a.sign) {
             num = sub(num, Number("1", num.base))
@@ -312,20 +312,19 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     private fun decrement(a: MutableList<Byte>, base: Int) {
-        var i = a.size - 1
+        var i = 0
         val zero = 0.toByte()
-        while (i >= 0 && a[i] == zero)
-            --i
-        a[i].minus(1)
-        if (a[i] == 0.toByte())
-            a.removeAt(i)
-        else
+        while (i < a.size && a[i] == zero)
             ++i
+        a[i] = a[i].minus(1).toByte()
         val maxDigit = (base - 1).toByte()
-        while (i < a.size) {
+        --i
+        while (i >= 0) {
             a[i] = maxDigit
-            ++i
+            --i
         }
+        if (a.last() == zero && a.size > 1)
+            a.removeLast()
     }
 
     override fun fac(a: Number): Number {
@@ -334,7 +333,7 @@ class MathImplementation @Inject constructor(): MathInterface {
         if (!a.sign)
             throw Exception("Attempt to calculate factorial of a negative $a")
         val value = MutableList<Byte>(a.order) {0}.apply { addAll(a.digits) }
-        var result = mutableListOf<Byte>(0)
+        var result = mutableListOf<Byte>(1)
         while (value.size > 1 || value[0] != 0.toByte()) {
             result = mul(result, value, a.base)
             decrement(value, a.base)
@@ -359,7 +358,7 @@ class MathImplementation @Inject constructor(): MathInterface {
         var l = Number("0", a.base)
         var r = Number(a.digits, order, a.sign, a.base)
         val eps = epsValue(a.base)
-        while (cmp(sub(r, l), eps) >= 0) {
+        while (cmp(sub(r, l), eps) > 0) {
             val num = div(sum(l, r), two)
             if (cmp(mul(num, num), a) > 0)
                 r = num
@@ -375,6 +374,11 @@ class MathImplementation @Inject constructor(): MathInterface {
         if (cmp(fr, eps) < 0)
             result = sub(result, fr)
         return result
+    }
+
+    override fun minus(a: Number) = Number(a.digits, a.order, !a.sign, a.base)
+    override fun log(a: Number, b: Number): Number {
+        TODO("Not yet implemented")
     }
 
     private fun epsValue(base: Int) = Number(mutableListOf(1), MAX_ACCURACY_ORDER, true, base)

@@ -8,6 +8,7 @@ class HistoryItemDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val expr: String,
+    val base: Int?,
     val result: String
 ) {
     companion object {

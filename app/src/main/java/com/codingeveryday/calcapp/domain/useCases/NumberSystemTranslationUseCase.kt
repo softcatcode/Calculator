@@ -5,7 +5,7 @@ import com.codingeveryday.calcapp.domain.interfaces.TranslationInterface
 import javax.inject.Inject
 
 class NumberSystemTranslationUseCase @Inject constructor(private val repository: TranslationInterface) {
-    operator fun invoke(a: Number, fromBase: Int, toBase: Int): Number {
-        return repository.transformNS(a, fromBase, toBase)
+    operator fun invoke(a: Number, toBase: Int): Number {
+        return repository.transformNS(a, toBase)
     }
 }

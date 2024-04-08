@@ -55,7 +55,8 @@
                     app:layout_constraintWidth_percent="0.15"
                     android:src="@drawable/clear"
                     android:background="@color/calculatorBackgroundColor"
-                    android:scaleType="centerInside"/>
+                    android:scaleType="centerInside"
+                    android:contentDescription="@string/clear_btn_description" />
 
                 <TextView
                     android:layout_marginEnd="5dp"
@@ -117,83 +118,44 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/calcKeyboard"
-                app:layout_constraintHeight_percent="0.45">
+                app:layout_constraintHeight_percent="0.4">
+
                 <LinearLayout
                     android:id="@+id/inputLayout"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/resButtonsLayout"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@color/white"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    app:layout_constraintHeight_percent="0.7">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/input"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="100"
-                        android:autoSizeMaxTextSize="35sp"
-                        android:background="@color/white"
-                        android:singleLine="true"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/grey"
-                        android:textSize="35sp" />
-
-                        <ImageButton
-                            android:id="@+id/backspace"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:src="@drawable/backspace"
-                            tools:ignore="ContentDescription" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:id="@+id/resButtonsLayout"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:orientation="horizontal">
-                    <Button
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginTop="5dp"
-                        android:id="@+id/solutionBtn"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ScrollView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:autoSizeMaxTextSize="20sp"
-                        android:backgroundTint="@color/green"
-                        android:text="@string/solution"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-                    <Button
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
+                        android:layout_weight="100">
+                        <TextView
+                            android:id="@+id/input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:singleLine="false"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/grey"
+                            android:textSize="35sp" />
+                    </ScrollView>
+
+                    <ImageButton
+                        android:id="@+id/backspace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="5dp"
-                        android:id="@+id/foregroundCalcBtn"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:autoSizeMaxTextSize="20sp"
-                        android:backgroundTint="@color/green"
-                        android:text="@string/foreground_calc"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
+                        android:layout_marginEnd="5dp"
+                        android:background="@color/white"
+                        android:src="@drawable/backspace"
+                        tools:ignore="ContentDescription" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -206,7 +168,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/calcKeyboard"
                 android:orientation="horizontal"
-                app:layout_constraintWidth_percent="0.42857"
+                app:layout_constraintWidth_percent="0.4"
                 tools:ignore="DisableBaselineAlignment">
 
                 <LinearLayout
@@ -223,8 +185,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText,NestedWeights" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -235,8 +195,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/floatPartBrackets"
@@ -246,8 +204,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -266,6 +222,7 @@
                         android:layout_weight="1"
                         android:textSize="20sp"
                         tools:ignore="HardcodedText,NestedWeights" />
+
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/switchRadDeg"
                         style="@style/button_operation"
@@ -274,8 +231,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/sin"
@@ -286,8 +241,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/cos"
@@ -298,8 +251,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -329,8 +280,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -341,9 +290,7 @@
                         android:textStyle="italic"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"/>
+                        android:layout_height="0dp"/>
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/ctg"
                         style="@style/button_operation"
@@ -353,8 +300,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -370,8 +315,7 @@
                 app:layout_constraintStart_toEndOf="@id/extraButtons"
                 android:background="@color/calculatorBackgroundColor"
                 android:orientation="vertical"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="5dp">
+                android:layout_marginStart="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -397,6 +341,7 @@
                         style="@style/button_operation"
                         android:text="(...)"
                         android:textSize="15sp"
+                        android:layout_marginTop="0dp"
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -404,6 +349,7 @@
                         style="@style/button_operation"
                         android:text="√"
                         android:textSize="15sp"
+                        android:layout_marginTop="0dp"
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -411,7 +357,8 @@
                         style="@style/button_operation"
                         android:text="×"
                         android:textSize="15sp"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText"
+                        android:layout_marginTop="0dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -448,7 +395,8 @@
                         style="@style/button_operation"
                         android:text="/"
                         android:textSize="15sp"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText"
+                        android:layout_marginTop="0dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -486,7 +434,8 @@
                         android:letterSpacing="-0.5"
                         android:text="+"
                         android:textSize="15sp"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText"
+                        android:layout_marginTop="0dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -523,7 +472,8 @@
                         android:letterSpacing="-0.5"
                         android:text="---"
                         android:textSize="15sp"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText"
+                        android:layout_marginTop="0dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -536,7 +486,9 @@
                     <ImageButton
                         android:id="@+id/launchNSTranslatorBtn"
                         style="@style/button_operation"
-                        android:src="@drawable/pointer_right"
+                        android:src="@drawable/translate_icon"
+                        android:scaleType="fitXY"
+                        android:layout_marginTop="0dp"
                         tools:ignore="ContentDescription" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -551,6 +503,7 @@
                         style="@style/button_operation"
                         android:text="."
                         android:textSize="15sp"
+                        android:layout_marginTop="0dp"
                         tools:ignore="HardcodedText" />
 
                     <ImageButton

@@ -10,11 +10,13 @@
         android:id="@+id/btnBack"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:backgroundTint="@color/green"
+        android:backgroundTint="@color/lightBlueColor"
         android:src="@drawable/pointer_left"
-        app:layout_constraintHeight_percent="0.12"
-        app:layout_constraintWidth_percent="0.2"
-        tools:ignore="ContentDescription,MissingConstraints" />
+        app:layout_constraintHeight_percent="0.09"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.3"
+        tools:ignore="ContentDescription" />
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
@@ -22,58 +24,42 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintHeight_percent="0.7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnBack"
         app:layout_constraintVertical_bias="0">
 
         <ScrollView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/output"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:textSize="30sp" />
         </ScrollView>
     </HorizontalScrollView>
 
-    <TextView
-        android:id="@+id/answerLabel"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/answerFieldColor"
-        android:gravity="center"
-        android:text="@string/answer"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/horizontalScrollView"
-        app:layout_constraintWidth_percent="0.2"
-        app:layout_constraintHeight_percent="0.25"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="5dp"/>
-
     <ScrollView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@id/answerLabel"
+        android:background="@color/inputFieldColor"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/answerLabel"
-        app:layout_constraintTop_toTopOf="@+id/answerLabel"
-        app:layout_constraintVertical_bias="0.735"
-        android:background="@color/answerFieldColor">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+        android:layout_margin="5dp">
 
         <TextView
             android:id="@+id/answerField"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:text=""
+            android:text="@string/answer"
             android:textColor="@color/black"
-            android:textSize="30sp" />
+            android:textSize="20sp"
+            android:textStyle="bold"/>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

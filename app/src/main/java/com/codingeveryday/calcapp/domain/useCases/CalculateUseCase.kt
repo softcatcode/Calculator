@@ -5,11 +5,7 @@ import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import javax.inject.Inject
 
 class CalculateUseCase @Inject constructor(private val repository: CalculationInterface) {
-    operator fun invoke(
-        expr: String,
-        base: Int,
-        angleUnit: AngleUnit = AngleUnit.Radians
-    ): Pair<String, String> {
+    operator fun invoke(expr: String, base: Int, angleUnit: AngleUnit = AngleUnit.Radians): String {
         return repository.calculateValue(expr, base, angleUnit)
     }
 }

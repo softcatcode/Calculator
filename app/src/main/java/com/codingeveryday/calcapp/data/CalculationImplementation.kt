@@ -6,7 +6,6 @@ import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.entities.UnaryOperation
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.processAbs
 import com.codingeveryday.calcapp.domain.interfaces.MathInterface
 import com.codingeveryday.calcapp.domain.interfaces.ParseExpressionInterface
 import javax.inject.Inject
@@ -16,7 +15,6 @@ class CalculationImplementation @Inject constructor(
     private val parser: ParseExpressionInterface
 ): CalculationInterface {
 
-    private var solution = ""
     private var angleUnit = AngleUnit.Radians
 
     private fun applyOperation(id: Int, first: Number, second: Number? = null) = when (id) {
@@ -35,6 +33,8 @@ class CalculationImplementation @Inject constructor(
         Expression.DIV_ID -> calculator.div(first, second!!)
         Expression.MOD_ID -> calculator.mod(first, second!!)
         Expression.POW_ID -> calculator.pow(first, second!!)
+        Expression.MINUS_ID -> calculator.minus(first)
+        Expression.LOG_ID -> calculator.log(first, second!!)
         else -> throw Exception("Unknown operation: $id")
     }
 
@@ -46,10 +46,9 @@ class CalculationImplementation @Inject constructor(
         }
     }
 
-    override fun calculateValue(expr: String, base: Int, angleUnit: AngleUnit): Pair<String, String> {
-        val expression = parser.parseExpression(processAbs(expr), base)
-        solution = ""
+    override fun calculateValue(expr: String, base: Int, angleUnit: AngleUnit): String {
+        val expression = parser.parseExpression(expr, base)
         this.angleUnit = angleUnit
-        return calculate(expression).toString(normal = false) to solution
+        return calculate(expression).toString()
     }
 }

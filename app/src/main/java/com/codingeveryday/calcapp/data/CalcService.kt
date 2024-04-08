@@ -12,6 +12,7 @@ import com.codingeveryday.calcapp.CalculatorApplication
 import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.HistoryItem
+import com.codingeveryday.calcapp.domain.interfaces.HistoryItemMapper
 import com.codingeveryday.calcapp.domain.useCases.CalculateUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +32,8 @@ class CalcService: Service() {
     lateinit var calcUseCase: CalculateUseCase
     @Inject
     lateinit var historyDao: HistoryItemDao
+    @Inject
+    lateinit var mapper: HistoryItemMapper
 
     override fun onCreate() {
         component.inject(this@CalcService)
@@ -59,8 +62,8 @@ class CalcService: Service() {
             try {
                 val result = calcUseCase(initExpr, base, angleUnit)
                 historyDao.addItem(
-                    HistoryItemMapper.mapHistoryItemToDbModel(
-                        HistoryItem(initExpr, result.first)
+                    mapper.mapHistoryItemToDbModel(
+                        HistoryItem(initExpr, result, base)
                     )
                 )
                 success = true
@@ -117,7 +120,7 @@ class CalcService: Service() {
         private const val EXPR_KEY = "expression"
         private const val BASE_KEY = "base"
         private const val ANGLE_UNIT_KEY = "angle_unit"
-        var running = true
+        var running = false
             private set
 
         fun newIntent(context: Context, expr: String, base: Int, angleUnit: AngleUnit) =

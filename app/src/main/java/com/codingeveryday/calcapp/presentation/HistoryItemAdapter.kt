@@ -10,6 +10,7 @@ class HistoryItemAdapter: ListAdapter<HistoryItem, HistoryItemViewHolder>(Histor
 
     var onExprClickListener: ((HistoryItem) -> Unit)? = null
     var onResClickListener: ((HistoryItem) -> Unit)? = null
+    var formatExpressionCallback: (String) -> String = { it }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryItemViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -18,14 +19,16 @@ class HistoryItemAdapter: ListAdapter<HistoryItem, HistoryItemViewHolder>(Histor
     }
 
     override fun onBindViewHolder(holder: HistoryItemViewHolder, position: Int) {
-        holder.exprField.text = getItem(position).expr
-        holder.resField.text = getItem(position).result
+        val item = getItem(position)
+        holder.exprField.text = formatExpressionCallback(item.expr)
+        holder.resField.text = item.result
         holder.exprField.setOnClickListener {
             onExprClickListener?.invoke(getItem(position))
         }
         holder.resField.setOnClickListener {
             onResClickListener?.invoke(getItem(position))
         }
+        holder.baseField.text = item.base.toString()
     }
 
     override fun getItemViewType(position: Int): Int {

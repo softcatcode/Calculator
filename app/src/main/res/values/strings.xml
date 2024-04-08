@@ -28,4 +28,5 @@
     <string name="calculation_error_solution">Calculation error.</string>
     <string name="invalid_number">invalid number</string>
     <string name="direction">direction</string>
+    <string name="clear_btn_description">clear history</string>
 </resources>
