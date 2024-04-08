@@ -1,19 +1,24 @@
 package com.codingeveryday.calcapp.data
 
+import androidx.lifecycle.MediatorLiveData
 import com.codingeveryday.calcapp.domain.entities.HistoryItem
+import com.codingeveryday.calcapp.domain.interfaces.HistoryItemMapper
 import com.codingeveryday.calcapp.domain.interfaces.HistoryManagerInterface
 import javax.inject.Inject
 
 class HistoryManagerImplementation @Inject constructor(
-    private val historyItemDao: HistoryItemDao
+    private val historyItemDao: HistoryItemDao,
+    private val mapper: HistoryItemMapper
 ): HistoryManagerInterface {
 
-    override fun getHistoryList() = historyItemDao.getItemList().map {
-        HistoryItem(expr = it.expr, result = it.result, id = it.id)
+    override fun getHistoryList() = MediatorLiveData<List<HistoryItem>>().apply {
+        addSource(historyItemDao.getItemList()) {
+            value = mapper.mapListDbModelToListEntity(it)
+        }
     }
 
     override suspend fun addItem(hisItem: HistoryItem) {
-        historyItemDao.addItem(HistoryItemMapper.mapHistoryItemToDbModel(hisItem))
+        historyItemDao.addItem(mapper.mapHistoryItemToDbModel(hisItem))
     }
 
     override suspend fun removeItem(id: Int) {

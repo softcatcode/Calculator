@@ -6,7 +6,7 @@ import com.codingeveryday.calcapp.domain.interfaces.TranslationInterface
 import javax.inject.Inject
 import kotlin.math.abs
 
-class TranslationImplementation@Inject constructor(
+class TranslationImplementation @Inject constructor(
     private val math: MathInterface
 ): TranslationInterface {
 

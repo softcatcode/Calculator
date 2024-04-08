@@ -7,6 +7,5 @@ import com.codingeveryday.calcapp.domain.entities.HistoryItem
 data class CalculatorViewModelState(
     val expr: String = "",
     val baseColor: Int = Color.BLACK,
-    val angleUnit: AngleUnit = AngleUnit.Radians,
-    val history: List<HistoryItem> = listOf()
+    val angleUnit: AngleUnit = AngleUnit.Radians
 )

@@ -12,6 +12,7 @@ import com.codingeveryday.calcapp.CalculatorApplication
 import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.HistoryItem
+import com.codingeveryday.calcapp.domain.interfaces.HistoryItemMapper
 import com.codingeveryday.calcapp.domain.useCases.CalculateUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +32,8 @@ class CalcService: Service() {
     lateinit var calcUseCase: CalculateUseCase
     @Inject
     lateinit var historyDao: HistoryItemDao
+
+    var mapper = HistoryItemMapperImpl()
 
     override fun onCreate() {
         component.inject(this@CalcService)
@@ -59,7 +62,7 @@ class CalcService: Service() {
             try {
                 val result = calcUseCase(initExpr, base, angleUnit)
                 historyDao.addItem(
-                    HistoryItemMapper.mapHistoryItemToDbModel(
+                    mapper.mapHistoryItemToDbModel(
                         HistoryItem(initExpr, result)
                     )
                 )

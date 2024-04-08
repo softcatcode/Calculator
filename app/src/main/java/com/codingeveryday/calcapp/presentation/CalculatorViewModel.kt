@@ -29,22 +29,20 @@ class CalculatorViewModel @Inject constructor(
     private val exprBuilder: ExpressionBuilderInterface
 ): ViewModel() {
 
-    private var _state = MutableLiveData<CalculatorViewModelState>()
-    val state: LiveData<CalculatorViewModelState>
-        get() = _state
+    private val _state = MutableLiveData<CalculatorViewModelState>()
+    val state: LiveData<CalculatorViewModelState> = _state
 
     val errorEvent = MutableLiveData("")
-
-    var solution = ""
-        private set
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         errorEvent.postValue("Error")
     }
 
+    val history = getHistoryListUseCase()
+
     init {
         CoroutineScope(Dispatchers.IO).launch {
-            _state.postValue(CalculatorViewModelState(history = getHistoryListUseCase()))
+            _state.postValue(CalculatorViewModelState())
         }
     }
 
@@ -128,16 +126,13 @@ class CalculatorViewModel @Inject constructor(
     fun clearHistory() {
         viewModelScope.launch(Dispatchers.IO) {
             clearHistoryUseCase()
-            _state.postValue(_state.value?.copy(history = getHistoryListUseCase()))
         }
     }
     fun removeHistoryItem(index: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            val list = _state.value?.history ?: listOf()
-            val maxIndex = list.size - 1
-            if (index in 0..maxIndex)
+            val list = history.value ?: listOf()
+            if (index in 0..list.lastIndex)
                 removeHistoryItemUseCase(list[index].id)
-            _state.postValue(_state.value?.copy(history = getHistoryListUseCase()))
         }
     }
 
@@ -146,7 +141,6 @@ class CalculatorViewModel @Inject constructor(
             return
         viewModelScope.launch(Dispatchers.IO) {
             addHistoryItemUseCase(HistoryItem(expr, result))
-            _state.postValue(_state.value?.copy(history = getHistoryListUseCase()))
         }
     }
 }
