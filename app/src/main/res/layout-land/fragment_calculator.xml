@@ -185,8 +185,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText,NestedWeights" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -197,8 +195,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/floatPartBrackets"
@@ -208,8 +204,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -228,6 +222,7 @@
                         android:layout_weight="1"
                         android:textSize="20sp"
                         tools:ignore="HardcodedText,NestedWeights" />
+
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/switchRadDeg"
                         style="@style/button_operation"
@@ -236,8 +231,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/sin"
@@ -248,8 +241,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/cos"
@@ -260,8 +251,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -291,8 +280,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -303,9 +290,7 @@
                         android:textStyle="italic"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"/>
+                        android:layout_height="0dp"/>
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/ctg"
                         style="@style/button_operation"
@@ -315,8 +300,6 @@
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
                         tools:ignore="HardcodedText" />
                 </LinearLayout>
 
@@ -332,8 +315,7 @@
                 app:layout_constraintStart_toEndOf="@id/extraButtons"
                 android:background="@color/calculatorBackgroundColor"
                 android:orientation="vertical"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="5dp">
+                android:layout_marginStart="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -359,6 +341,7 @@
                         style="@style/button_operation"
                         android:text="(...)"
                         android:textSize="15sp"
+                        android:layout_marginTop="0dp"
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -366,6 +349,7 @@
                         style="@style/button_operation"
                         android:text="√"
                         android:textSize="15sp"
+                        android:layout_marginTop="0dp"
                         tools:ignore="HardcodedText" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -373,7 +357,8 @@
                         style="@style/button_operation"
                         android:text="×"
                         android:textSize="15sp"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText"
+                        android:layout_marginTop="0dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -410,7 +395,8 @@
                         style="@style/button_operation"
                         android:text="/"
                         android:textSize="15sp"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText"
+                        android:layout_marginTop="0dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -448,7 +434,8 @@
                         android:letterSpacing="-0.5"
                         android:text="+"
                         android:textSize="15sp"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText"
+                        android:layout_marginTop="0dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -485,7 +472,8 @@
                         android:letterSpacing="-0.5"
                         android:text="---"
                         android:textSize="15sp"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText"
+                        android:layout_marginTop="0dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -500,6 +488,7 @@
                         style="@style/button_operation"
                         android:src="@drawable/translate_icon"
                         android:scaleType="fitXY"
+                        android:layout_marginTop="0dp"
                         tools:ignore="ContentDescription" />
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -514,6 +503,7 @@
                         style="@style/button_operation"
                         android:text="."
                         android:textSize="15sp"
+                        android:layout_marginTop="0dp"
                         tools:ignore="HardcodedText" />
 
                     <ImageButton
