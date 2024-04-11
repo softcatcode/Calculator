@@ -73,7 +73,7 @@ open class Expression {
             OPENING_BRACKETS.indexOf(a) == CLOSING_BRACKETS.indexOf(b)
 
         fun postfixUnary(id: Int?) = (id == FAC_ID)
-        fun prefixUnary(id: Int?) = (id != null && !postfixUnary(id))
+        fun prefixUnary(id: Int?) = (id in listOf(SIN_ID, COS_ID, TAN_ID, CTG_ID, MINUS_ID, SQRT_ID))
     }
 }
 
