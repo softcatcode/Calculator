@@ -3,6 +3,7 @@ package com.codingeveryday.calcapp.di
 import android.app.Application
 import com.codingeveryday.calcapp.data.CalcService
 import com.codingeveryday.calcapp.presentation.CalculatorFragment
+import com.codingeveryday.calcapp.presentation.KeyboardDialog
 import com.codingeveryday.calcapp.presentation.ToNumberSystemFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -22,6 +23,8 @@ interface ApplicationComponent {
     fun inject(nsFragment: ToNumberSystemFragment)
 
     fun inject(service: CalcService)
+
+    fun inject(dialog: KeyboardDialog)
 
     @Component.Factory
     interface ApplicationComponentFactory {
