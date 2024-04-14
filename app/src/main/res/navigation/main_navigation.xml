@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation.xml"
     app:startDestination="@id/calculatorFragment">
     <fragment
@@ -12,22 +11,15 @@
             android:id="@+id/action_calculatorFragment_to_toNumberSystemFragment"
             app:destination="@id/toNumberSystemFragment" />
         <action
-            android:id="@+id/action_calculatorFragment_to_solutionViewFragment"
-            app:destination="@id/solutionViewFragment" />
+            android:id="@+id/action_calculatorFragment_to_keyboardDialog"
+            app:destination="@id/keyboardFragment" />
     </fragment>
     <fragment
         android:id="@+id/toNumberSystemFragment"
         android:name="com.codingeveryday.calcapp.presentation.ToNumberSystemFragment"
         android:label="ToNumberSystemFragment" />
     <fragment
-        android:id="@+id/solutionViewFragment"
-        android:name="com.codingeveryday.calcapp.presentation.SolutionViewFragment"
-        android:label="SolutionViewFragment" >
-        <argument
-            android:name="solution"
-            app:argType="string" />
-        <argument
-            android:name="answer"
-            app:argType="string" />
-    </fragment>
+        android:id="@+id/keyboardFragment"
+        android:name="com.codingeveryday.calcapp.presentation.KeyboardDialog"
+        android:label="KeyboardDialog" />
 </navigation>
