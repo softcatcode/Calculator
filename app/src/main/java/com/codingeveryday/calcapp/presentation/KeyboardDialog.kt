@@ -22,7 +22,7 @@ class KeyboardDialog: DialogFragment() {
     }
 
     @Inject
-    private lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
 
     private val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[KeyboardFragmentViewModel::class.java]
