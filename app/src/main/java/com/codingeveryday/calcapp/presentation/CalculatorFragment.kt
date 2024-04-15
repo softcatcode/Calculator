@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.text.isDigitsOnly
@@ -132,6 +131,9 @@ class CalculatorFragment: Fragment() {
             equally.setOnLongClickListener {
                 calcViewModel.calculate(base, foregroundMode = true, context = requireActivity().applicationContext)
                 true
+            }
+            keyboard.setOnClickListener {
+                findNavController().navigate(R.id.action_calculatorFragment_to_keyboardDialog)
             }
 
             backspace.setOnClickListener { calcViewModel.backspace() }

@@ -156,8 +156,7 @@ class ExpressionParser @Inject constructor(
 
     private fun parseBinaryOperations(list: MutableList<ParseObject>, operations: List<Int>) {
         var i = 1
-        val lastIndex = list.size - 2
-        while (i <= lastIndex) {
+        while (i < list.lastIndex) {
             if (list[i].operationId in operations) {
                 list[i] = ParseObject(
                     BinaryOperation(list[i - 1].expr!!, list[i + 1].expr!!, list[i].operationId!!),
@@ -166,7 +165,8 @@ class ExpressionParser @Inject constructor(
                 list.removeAt(i - 1)
                 list.removeAt(i)
             }
-            ++i
+            else
+                ++i
         }
     }
 
