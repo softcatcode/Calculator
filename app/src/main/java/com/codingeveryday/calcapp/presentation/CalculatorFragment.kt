@@ -239,10 +239,6 @@ class CalculatorFragment: Fragment() {
         return sb.toString()
     }
 
-    private fun setupKeyboardDialog() {
-
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

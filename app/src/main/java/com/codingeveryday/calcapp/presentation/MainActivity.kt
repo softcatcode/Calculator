@@ -1,10 +1,14 @@
 package com.codingeveryday.calcapp.presentation
 
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.codingeveryday.calcapp.R
 
 class MainActivity : AppCompatActivity() {

@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.codingeveryday.calcapp.CalculatorApplication
 import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.presentation.compose.KeyboardFragmentDesign
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import javax.inject.Inject
 
-class KeyboardDialog: DialogFragment() {
+class KeyboardDialog: BottomSheetDialogFragment() {
 
     val onOkClicked: () -> Unit = {}
 
@@ -34,22 +35,18 @@ class KeyboardDialog: DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         component.inject(this)
-        return inflater.inflate(
-            R.layout.fragment_keyboard_dialog, container, false
-        ).findViewById<ComposeView>(R.id.compose_view).apply {
+        val view = inflater.inflate(R.layout.fragment_keyboard_dialog, container, false)
+        view.findViewById<ComposeView>(R.id.compose_view).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
                 KeyboardFragmentDesign(viewModel, ::onClose)
             }
         }
+        return view
     }
 
     private fun onClose() {
         onOkClicked()
         dismiss()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 }

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_navigation.xml"
     app:startDestination="@id/calculatorFragment">
+
     <fragment
         android:id="@+id/calculatorFragment"
         android:name="com.codingeveryday.calcapp.presentation.CalculatorFragment"
@@ -12,14 +13,16 @@
             app:destination="@id/toNumberSystemFragment" />
         <action
             android:id="@+id/action_calculatorFragment_to_keyboardDialog"
-            app:destination="@id/keyboardFragment" />
+            app:destination="@id/keyboardDialog" />
     </fragment>
+
     <fragment
         android:id="@+id/toNumberSystemFragment"
         android:name="com.codingeveryday.calcapp.presentation.ToNumberSystemFragment"
         android:label="ToNumberSystemFragment" />
-    <fragment
-        android:id="@+id/keyboardFragment"
+
+    <dialog
+        android:id="@+id/keyboardDialog"
         android:name="com.codingeveryday.calcapp.presentation.KeyboardDialog"
         android:label="KeyboardDialog" />
 </navigation>
