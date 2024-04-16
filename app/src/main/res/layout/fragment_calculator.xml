@@ -5,8 +5,7 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/calculatorBackgroundColor">
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/calcHead"
@@ -18,59 +17,49 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/calcKeyboard">
 
-        <LinearLayout
-            android:id="@+id/inputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/white"
-            android:gravity="center"
-            android:orientation="horizontal"
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.8">
+            <TextView
+                android:id="@+id/input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"
+                android:textSize="30sp" />
+        </ScrollView>
 
-            <ScrollView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="100">
-                <TextView
-                    android:id="@+id/input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:singleLine="false"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/grey"
-                    android:textSize="50sp" />
-            </ScrollView>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/scroll_view">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/keyboard"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:src="@drawable/keyboard"
+                tools:ignore="ContentDescription" />
 
-                <ImageButton
-                    android:id="@+id/keyboard"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    tools:ignore="ContentDescription"
-                    android:background="@color/white"
-                    android:src="@drawable/keyboard"/>
+            <ImageButton
+                android:id="@+id/backspace"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:background="@color/white"
+                android:src="@drawable/backspace"
+                tools:ignore="ContentDescription" />
 
-                <ImageButton
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:id="@+id/backspace"
-                    android:background="@color/white"
-                    android:src="@drawable/backspace"
-                    tools:ignore="ContentDescription"/>
-
-            </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
