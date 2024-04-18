@@ -21,7 +21,7 @@
         android:name="com.codingeveryday.calcapp.presentation.ToNumberSystemFragment"
         android:label="ToNumberSystemFragment" />
 
-    <dialog
+    <fragment
         android:id="@+id/keyboardDialog"
         android:name="com.codingeveryday.calcapp.presentation.KeyboardDialog"
         android:label="KeyboardDialog" />

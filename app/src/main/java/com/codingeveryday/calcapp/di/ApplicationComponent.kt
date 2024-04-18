@@ -2,6 +2,7 @@ package com.codingeveryday.calcapp.di
 
 import android.app.Application
 import com.codingeveryday.calcapp.data.CalcService
+import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.presentation.CalculatorFragment
 import com.codingeveryday.calcapp.presentation.KeyboardDialog
 import com.codingeveryday.calcapp.presentation.ToNumberSystemFragment
@@ -29,7 +30,8 @@ interface ApplicationComponent {
     @Component.Factory
     interface ApplicationComponentFactory {
         fun create(
-            @BindsInstance application: Application
+            @BindsInstance application: Application,
+            @BindsInstance exprBuilder: ExpressionBuilderInterface
         ): ApplicationComponent
     }
 }

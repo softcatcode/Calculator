@@ -120,7 +120,7 @@ fun KeyboardFragmentDesign(
         Button(
             modifier = Modifier
                 .fillMaxSize(),
-            onClick = onOkClicked,
+            onClick = { onOkClicked() },
             shape = RoundedCornerShape(5.dp),
             colors = ButtonDefaults.buttonColors().copy(
                 containerColor = colorResource(id = R.color.teal_200)

@@ -17,7 +17,7 @@ import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Compani
 import java.util.Stack
 import javax.inject.Inject
 
-class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
+class ExpressionBuilder: ExpressionBuilderInterface {
 
     private var builder = StringBuilder()
     override fun addBracket(bracketType: BracketType): ExpressionBuilder {
@@ -26,6 +26,7 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
         if (builder.isEmpty() || builder.last() in OPERATIONS + OPENING_BRACKETS)
             builder.append(open)
         else if (builder.last() in DIGITS + CLOSING_BRACKETS + CONSTANTS) {
+            // TODO: design a new algorithm
             if (correctBracketSequence())
                 builder.append("${CalculationInterface.MUL}$open")
             else

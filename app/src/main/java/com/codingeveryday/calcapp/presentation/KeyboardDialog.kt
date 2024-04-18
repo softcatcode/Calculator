@@ -6,17 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.codingeveryday.calcapp.CalculatorApplication
 import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.presentation.compose.KeyboardFragmentDesign
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import javax.inject.Inject
 
-class KeyboardDialog: BottomSheetDialogFragment() {
-
-    val onOkClicked: () -> Unit = {}
+class KeyboardDialog: Fragment() {
 
     private val component by lazy {
         (requireActivity().application as CalculatorApplication).component
@@ -46,7 +44,6 @@ class KeyboardDialog: BottomSheetDialogFragment() {
     }
 
     private fun onClose() {
-        onOkClicked()
-        dismiss()
+        findNavController().popBackStack()
     }
 }

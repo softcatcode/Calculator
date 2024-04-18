@@ -32,7 +32,7 @@ class CalculatorViewModel @Inject constructor(
     application: Application
 ): AndroidViewModel(application) {
 
-    private val _state = MutableLiveData<CalculatorViewModelState>()
+    private val _state = MutableLiveData(CalculatorViewModelState(""))
     val state: LiveData<CalculatorViewModelState> = _state
 
     val errorEvent = MutableLiveData("")
@@ -138,6 +138,10 @@ class CalculatorViewModel @Inject constructor(
             if (index in 0..list.lastIndex)
                 removeHistoryItemUseCase(list[index].id)
         }
+    }
+
+    fun updateExpression() {
+        _state.value = state.value?.copy(expr = exprBuilder.get())
     }
 
     private fun updateHistory(expr: String, result: String, base: Int) {

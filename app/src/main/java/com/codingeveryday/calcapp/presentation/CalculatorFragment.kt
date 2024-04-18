@@ -79,6 +79,11 @@ class CalculatorFragment: Fragment() {
             setupRecyclerView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        calcViewModel.updateExpression()
+    }
+
     private fun setupRecyclerView() {
         historyAdapter = HistoryItemAdapter()
         with (binding.history!!) {
