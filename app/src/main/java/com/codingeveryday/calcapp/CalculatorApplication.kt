@@ -1,7 +1,7 @@
 package com.codingeveryday.calcapp
 
 import android.app.Application
-import com.codingeveryday.calcapp.data.ExpressionBuilder
+import com.codingeveryday.calcapp.data.implementations.ExpressionBuilder
 import com.codingeveryday.calcapp.di.DaggerApplicationComponent
 
 class CalculatorApplication: Application() {

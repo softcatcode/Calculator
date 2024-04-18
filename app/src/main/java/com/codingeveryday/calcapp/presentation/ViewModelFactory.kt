@@ -2,7 +2,7 @@ package com.codingeveryday.calcapp.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.codingeveryday.calcapp.di.ApplicationScope
+import com.codingeveryday.calcapp.di.annotations.ApplicationScope
 import javax.inject.Inject
 import javax.inject.Provider
 

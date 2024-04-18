@@ -1,6 +1,6 @@
 package com.codingeveryday.calcapp.domain.interfaces
 
-import com.codingeveryday.calcapp.data.HistoryItemDbModel
+import com.codingeveryday.calcapp.data.database.HistoryItemDbModel
 import com.codingeveryday.calcapp.domain.entities.HistoryItem
 
 interface HistoryItemMapper {

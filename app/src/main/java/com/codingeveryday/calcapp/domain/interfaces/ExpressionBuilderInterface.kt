@@ -1,6 +1,6 @@
 package com.codingeveryday.calcapp.domain.interfaces
 
-import com.codingeveryday.calcapp.data.ExpressionBuilder
+import com.codingeveryday.calcapp.data.implementations.ExpressionBuilder
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.BracketType
 
 interface ExpressionBuilderInterface {
