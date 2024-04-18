@@ -4,6 +4,7 @@ import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.interfaces.MathInterface
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.min
 
@@ -353,26 +354,32 @@ class MathImplementation @Inject constructor(): MathInterface {
             throw RuntimeException("attempt to calculate sqrt from a negative number")
 
         val two = if (a.base > 2) Number("2", a.base) else Number("10", 2)
-        val order = if (a.order % 2 == 0) 0 else 1
+        val argumentOrder = if (a.order % 2 == 0) 0 else 1
+        val argument = Number(a.digits, argumentOrder, a.sign, a.base)
 
         var l = Number("0", a.base)
-        var r = Number(a.digits, order, a.sign, a.base)
+        var r = argument.copy()
         val eps = epsValue(a.base)
         while (cmp(sub(r, l), eps) > 0) {
             val num = div(sum(l, r), two)
-            if (cmp(mul(num, num), a) > 0)
+            if (cmp(mul(num, num), argument) > 0)
                 r = num
             else
                 l = num
         }
         var result = div(sum(l, r), two)
-        if (a.order % 2 == -1)
-            result = div(result, Number("10", a.base))
-
-        result.order += a.order / 2
         val fr = fractionPart(result)
-        if (cmp(fr, eps) < 0)
+        if (cmp(fr, eps) <= 0)
             result = sub(result, fr)
+        val delta = sub(Number("1", a.base), fr)
+        if (cmp(delta, eps) <= 0)
+            result = sum(result, delta)
+
+        result.order += when (a.order % 2) {
+            0 -> a.order / 2
+            1 -> (a.order - 1) / 2
+            else -> (a.order + 1) / 2
+        }
         return result
     }
 
