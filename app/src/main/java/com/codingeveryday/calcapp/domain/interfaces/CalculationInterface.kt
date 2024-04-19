@@ -39,5 +39,13 @@ interface CalculationInterface {
             BracketType.Square -> ']'
             BracketType.Triangle -> '>'
         }
+
+        fun bracketType(bracket: Char) = when (bracket) {
+            in "()" -> BracketType.Round
+            in "[]" -> BracketType.Square
+            in "{}" -> BracketType.Curly
+            in "<>" -> BracketType.Triangle
+            else -> null
+        }
     }
 }

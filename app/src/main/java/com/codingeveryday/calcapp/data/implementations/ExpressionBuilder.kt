@@ -4,14 +4,20 @@ import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CLOSING_BRACKETS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CONSTANTS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.DIGITS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.FUNC_LETTERS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPENING_BRACKETS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPERATIONS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.binaryOperationId
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.matchingBrackets
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.operation
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.postfixUnary
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.unaryOperationId
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.POINT
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.BracketType
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.MUL
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.bracketType
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.closingBracket
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.openingBracket
 import java.util.Stack
@@ -19,18 +25,42 @@ import java.util.Stack
 class ExpressionBuilder: ExpressionBuilderInterface {
 
     private var builder = StringBuilder()
-    override fun addBracket(bracketType: BracketType): ExpressionBuilder {
-        val open = openingBracket(bracketType)
-        val close = closingBracket(bracketType)
-        if (builder.isEmpty() || builder.last() in OPERATIONS + OPENING_BRACKETS)
+    override fun addBracket(type: BracketType): ExpressionBuilder {
+        val open = openingBracket(type)
+        val close = closingBracket(type)
+        if (builder.isEmpty()) {
             builder.append(open)
-        else if (builder.last() in DIGITS + CLOSING_BRACKETS + CONSTANTS) {
-            // TODO: design a new algorithm
-            if (correctBracketSequence())
-                builder.append("${CalculationInterface.MUL}$open")
-            else
-                builder.append(close)
+            return this
         }
+        val last = builder.last()
+        if (last in FUNC_LETTERS + OPENING_BRACKETS) {
+            builder.append(open)
+            return this
+        }
+        if (last in OPERATIONS) {
+            val id = binaryOperationId[last] ?: unaryOperationId[last]
+            if (!postfixUnary(id)) {
+                builder.append(open)
+                return this
+            }
+        }
+        if (correctBracketSequence()) {
+            builder.append("$MUL$open")
+            return this
+        }
+        var balance = 0
+        var i = builder.lastIndex
+        while (balance >= 0) {
+            if (builder[i] in CLOSING_BRACKETS)
+                ++balance
+            else if (builder[i] in OPENING_BRACKETS)
+                --balance
+            --i
+        }
+        if (bracketType(builder[i]) != type)
+            builder.append("$MUL$open")
+        else
+            builder.append(close)
         return this
     }
 
@@ -51,7 +81,7 @@ class ExpressionBuilder: ExpressionBuilderInterface {
         if (builder.isEmpty() || builder.last() in OPERATIONS || builder.last() in OPENING_BRACKETS)
             builder.append("$name(")
         else if (builder.last() in CLOSING_BRACKETS + DIGITS + CONSTANTS)
-            builder.append("${CalculationInterface.MUL}$name(")
+            builder.append("${MUL}$name(")
         return this
     }
 
@@ -111,7 +141,7 @@ class ExpressionBuilder: ExpressionBuilderInterface {
         while (i >= 0 && builder[i] in DIGITS)
             --i
         if (i >= 0 && (builder[i] == POINT || builder.last() in CONSTANTS))
-            builder.append("${CalculationInterface.MUL}")
+            builder.append(MUL)
         if (builder.isEmpty() || builder.last() !in DIGITS)
             addDigit('0')
         builder.append(POINT)

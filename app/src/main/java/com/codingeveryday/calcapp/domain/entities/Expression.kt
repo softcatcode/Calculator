@@ -33,6 +33,7 @@ open class Expression {
         const val CONSTANTS = "$PI"
         const val OPENING_BRACKETS = "([{<"
         const val CLOSING_BRACKETS = ")]}>"
+        const val FUNC_LETTERS = "abcdefghijklmnopqrstuvwxyz"
         const val DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWYZ"
 
         val operation = mapOf(

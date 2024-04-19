@@ -7,6 +7,7 @@ import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CLOSING_BRACKETS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CONSTANTS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.DIGITS
+import com.codingeveryday.calcapp.domain.entities.Expression.Companion.FUNC_LETTERS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPENING_BRACKETS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.OPERATIONS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.postfixUnary
@@ -33,7 +34,7 @@ class ExpressionParser @Inject constructor(
     }
 
     private val isNumberPiece: (Char) -> Boolean = { c -> c in DIGITS || c == '.' || c == ',' }
-    private val isFuncPiece: (Char) -> Boolean = { c -> c in 'a'..'z' }
+    private val isFuncPiece: (Char) -> Boolean = { c -> c in FUNC_LETTERS }
     private val isOperation: (Char) -> Boolean = { c -> c in OPERATIONS }
     private val isConstant: (Char) -> Boolean = { c -> c in CONSTANTS }
     private val bracketSequenceException = Exception("Illegal bracket sequence")
