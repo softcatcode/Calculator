@@ -392,7 +392,32 @@ class MathImplementation @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    private fun tailorRowLnArgPlusOne(x: Number): Number {
+        var numerator = x.copy()
+        val numeratorMulRatio = x.copy().apply { sign = !sign }
+        val one = Number("1", x.base)
+        var denominator = one.copy()
+        val eps = constantProvider.epsValue(x.base)
+        var prevResult: Number
+        var result = div(numerator, denominator)
+        do {
+            prevResult = result
+            numerator = mul(numerator, numeratorMulRatio)
+            denominator = sum(denominator, one)
+            result = div(numerator, denominator)
+        } while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0)
+        return result
+    }
+
     override fun ln(a: Number): Number {
-        TODO("Not yet implemented")
+        if (cmp(a, Number("0", a.base)) <= 0)
+            throw RuntimeException("ln from x <= 0 is undefined")
+
+        val one = Number("1", a.base)
+        val two = Number(if (a.base == 2) "10" else "2", a.base)
+        return if (cmp(a, two) == 1)
+            tailorRowLnArgPlusOne( sub(div(one, a), one) ).apply { sign = !sign }
+        else
+            tailorRowLnArgPlusOne(sub(a, one))
     }
 }
