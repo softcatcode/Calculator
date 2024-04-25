@@ -34,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintWidth_percent="0.3"
-            android:background="@color/green"
+            android:background="@color/btnBoundsColor"
             android:gravity="center"
             android:text="result"
             android:textColor="@color/white"

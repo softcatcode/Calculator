@@ -13,13 +13,13 @@
     <color name="blue">#0035B0</color>
     <color name="purple">#60559B</color>
     <color name="grey">#7A7A79</color>
-    <color name="calculatorBackgroundColor">#F3F999</color>
-    <color name="digitBoundsColor">#E6FA9706</color>
-    <color name="digitButtonColor">#EEECE4A1</color>
-    <color name="operationColor">#DCDD55</color>
     <color name="equallyColor">#B300CF30</color>
     <color name="lightBlueColor">#B33F97E4</color>
     <color name="answerFieldColor">#98E887</color>
     <color name="inputFieldColor">#D5F3F3</color>
     <color name="translationButtonColor">#4561BA</color>
+    <color name="calculatorBackgroundColor">#EDEDE8</color>
+    <color name="btnBoundsColor">#8108EA</color>
+    <color name="digitButtonColor">#594960F3</color>
+    <color name="operationColor">#4D8108EA</color>
 </resources>

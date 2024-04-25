@@ -19,7 +19,7 @@
             tools:listitem="@layout/history_item"
             app:layout_constraintWidth_percent="0.4"
             app:layout_constraintVertical_bias="0"
-            app:layout_constraintHeight_percent="0.75"
+            app:layout_constraintHeight_percent="0.8"
             android:layout_marginTop="2dp"
             android:background="@color/calculatorBackgroundColor"/>
 
@@ -69,7 +69,6 @@
                     android:text="@string/number_system"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:background="@drawable/param_label"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/numberSystem"
                     app:layout_constraintStart_toEndOf="@id/clearHistoryBtn"
@@ -217,6 +216,15 @@
                         style="@style/button_operation"
                         android:text="{...}"
                         android:textSize="15sp"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        tools:ignore="HardcodedText" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/log"
+                        style="@style/button_operation"
+                        android:text="㏒₂"
+                        android:textSize="17sp"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
