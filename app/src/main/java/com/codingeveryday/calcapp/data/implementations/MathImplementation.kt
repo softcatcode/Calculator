@@ -2,12 +2,16 @@ package com.codingeveryday.calcapp.data.implementations
 
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.Number
+import com.codingeveryday.calcapp.domain.interfaces.ConstantProviderInterface
+import com.codingeveryday.calcapp.domain.interfaces.ConstantProviderInterface.Companion.MAX_ACCURACY_ORDER
 import com.codingeveryday.calcapp.domain.interfaces.MathInterface
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 
-class MathImplementation @Inject constructor(): MathInterface {
+class MathImplementation @Inject constructor(
+    private val constantProvider: ConstantProviderInterface
+): MathInterface {
 
     private fun sum(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
         val n = max(a.size, b.size)
@@ -208,7 +212,7 @@ class MathImplementation @Inject constructor(): MathInterface {
 
         var prevResult = Number("0", a.base)
         var result = a.copy()
-        val eps = epsValue(a.base)
+        val eps = constantProvider.epsValue(a.base)
 
         while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0) {
             numerator = mul(numerator, numeratorMulRatio)
@@ -232,7 +236,7 @@ class MathImplementation @Inject constructor(): MathInterface {
 
         var prevResult = Number("0", a.base)
         var result = one.copy()
-        val eps = epsValue(a.base)
+        val eps = constantProvider.epsValue(a.base)
 
         while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0) {
             numerator = mul(numerator, numeratorMulRatio)
@@ -252,11 +256,11 @@ class MathImplementation @Inject constructor(): MathInterface {
         val three = sum(two, Number("1", a.base))
         val num = mul(mul(three, three), two).apply { order++ }
 
-        return div(mul(a, piValue(a.base)), num)
+        return div(mul(a, constantProvider.piValue(a.base)), num)
     }
 
     override fun sin(a: Number, angleUnit: AngleUnit): Number {
-        val pi = piValue(a.base)
+        val pi = constantProvider.piValue(a.base)
         val two = Number(if (a.base == 2) "10" else "2", a.base)
         val doublePi = mul(pi, two)
         val halfPi = div(pi, two)
@@ -273,7 +277,7 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     override fun cos(a: Number, angleUnit: AngleUnit): Number {
-        val pi = piValue(a.base)
+        val pi = constantProvider.piValue(a.base)
         val two = Number(if (a.base == 2) "10" else "2", a.base)
         val doublePi = mul(pi, two)
         val halfPi = div(pi, two)
@@ -358,7 +362,7 @@ class MathImplementation @Inject constructor(): MathInterface {
 
         var l = Number("0", a.base)
         var r = argument.copy()
-        val eps = epsValue(a.base)
+        val eps = constantProvider.epsValue(a.base)
         while (cmp(sub(r, l), eps) > 0) {
             val num = div(sum(l, r), two)
             if (cmp(mul(num, num), argument) > 0)
@@ -383,17 +387,9 @@ class MathImplementation @Inject constructor(): MathInterface {
     }
 
     override fun minus(a: Number) = Number(a.digits, a.order, !a.sign, a.base)
+
     override fun log(a: Number, b: Number): Number {
         TODO("Not yet implemented")
     }
 
-    private fun epsValue(base: Int) = Number(mutableListOf(1), MAX_ACCURACY_ORDER, true, base)
-
-    companion object {
-        private const val MAX_ACCURACY_ORDER = -10
-
-        private val PI_DEC = Number("3.1415926", 10)
-
-        fun piValue(base: Int) = PI_DEC
-    }
 }
