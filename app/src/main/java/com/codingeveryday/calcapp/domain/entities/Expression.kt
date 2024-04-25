@@ -36,7 +36,7 @@ open class Expression {
         const val SQRT_ID = 17
         const val MINUS_ID = 18
 
-        const val OPERATIONS = "$SUM$SUB$MUL$DIV$FAC$POW$SQRT$LOG"
+        const val OPERATIONS = "$SUM$SUB$MUL$DIV$FAC$POW$SQRT"
         const val CONSTANTS = "$PI"
         const val OPENING_BRACKETS = "([{<"
         const val CLOSING_BRACKETS = ")]}>"
