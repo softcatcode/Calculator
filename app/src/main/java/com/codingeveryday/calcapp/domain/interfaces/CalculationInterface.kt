@@ -18,11 +18,12 @@ interface CalculationInterface {
         const val SQRT = '√'
         const val SIN = "sin"
         const val COS = "cos"
-        const val TG = "tg"
+        const val TAN = "tg"
         const val CTG = "ctg"
         const val RAD = "rad"
         const val DEG = "deg"
         const val PI = 'π'
+        const val LOG = "log₂"
 
         enum class BracketType { Round, Square, Curly, Triangle }
 

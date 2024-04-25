@@ -32,8 +32,9 @@ import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Compani
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SQRT
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUB
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUM
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.TG
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.BracketType
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.LOG
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.TAN
 import com.codingeveryday.calcapp.presentation.main.adapters.HistoryItemAdapter
 import com.codingeveryday.calcapp.presentation.ViewModelFactory
 import javax.inject.Inject
@@ -174,8 +175,9 @@ class CalculatorFragment: Fragment() {
                 pow!!.setOnClickListener { calcViewModel.addOperation(POW) }
                 sin!!.setOnClickListener { calcViewModel.addFunction(SIN) }
                 cos!!.setOnClickListener { calcViewModel.addFunction(COS) }
-                tg!!.setOnClickListener { calcViewModel.addFunction(TG) }
+                tg!!.setOnClickListener { calcViewModel.addFunction(TAN) }
                 ctg!!.setOnClickListener { calcViewModel.addFunction(CTG) }
+                log!!.setOnClickListener { calcViewModel.addFunction(LOG) }
                 pi!!.setOnClickListener { calcViewModel.addConstant(PI.toString()) }
                 switchRadDeg!!.setOnClickListener {
                     if (switchRadDeg.text == RAD)

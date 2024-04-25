@@ -1,13 +1,18 @@
 package com.codingeveryday.calcapp.domain.entities
 
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.COS
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.CTG
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUM
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUB
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.MUL
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.DIV
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.FAC
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.LOG
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.PI
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.POW
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SIN
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SQRT
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.TAN
 
 open class Expression {
     companion object {
@@ -29,11 +34,11 @@ open class Expression {
         const val SQRT_ID = 16
         const val MINUS_ID = 17
 
-        const val OPERATIONS = "$SUM$SUB$MUL$DIV$FAC$POW$SQRT"
+        const val OPERATIONS = "$SUM$SUB$MUL$DIV$FAC$POW$SQRT$LOG"
         const val CONSTANTS = "$PI"
         const val OPENING_BRACKETS = "([{<"
         const val CLOSING_BRACKETS = ")]}>"
-        const val FUNC_LETTERS = "abcdefghijklmnopqrstuvwxyz"
+        const val FUNC_LETTERS = "abcdefghijklmnopqrstuvwxyz₂"
         const val DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWYZ"
 
         val operation = mapOf(
@@ -62,19 +67,18 @@ open class Expression {
         )
 
         val funcId = mapOf(
-            "sin" to SIN_ID,
-            "cos" to COS_ID,
-            "tg" to TAN_ID,
-            "tan" to TAN_ID,
-            "ctg" to CTG_ID,
-            "log" to LOG_ID
+            SIN to SIN_ID,
+            COS to COS_ID,
+            TAN to TAN_ID,
+            CTG to CTG_ID,
+            LOG to LOG_ID
         )
 
         fun matchingBrackets(a: Char, b: Char) =
             OPENING_BRACKETS.indexOf(a) == CLOSING_BRACKETS.indexOf(b)
 
         fun postfixUnary(id: Int?) = (id == FAC_ID)
-        fun prefixUnary(id: Int?) = (id in listOf(SIN_ID, COS_ID, TAN_ID, CTG_ID, MINUS_ID, SQRT_ID))
+        fun prefixUnary(id: Int?) = (id in listOf(SIN_ID, COS_ID, TAN_ID, CTG_ID, MINUS_ID, SQRT_ID, LOG_ID))
     }
 }
 
