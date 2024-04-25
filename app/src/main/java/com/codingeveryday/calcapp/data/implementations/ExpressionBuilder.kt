@@ -57,7 +57,7 @@ class ExpressionBuilder: ExpressionBuilderInterface {
                 --balance
             --i
         }
-        if (bracketType(builder[i]) != type)
+        if (bracketType(builder[i + 1]) != type)
             builder.append("$MUL$open")
         else
             builder.append(close)
