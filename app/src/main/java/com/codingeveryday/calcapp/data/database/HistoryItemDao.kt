@@ -14,7 +14,7 @@ interface HistoryItemDao {
     @Query("DELETE FROM ${HistoryItemDbModel.tableName} WHERE id = :id")
     suspend fun deleteItem(id: Int)
 
-    @Query("SELECT * FROM ${HistoryItemDbModel.tableName}")
+    @Query("SELECT * FROM ${HistoryItemDbModel.tableName} ORDER BY id DESC")
     fun getItemList(): LiveData<List<HistoryItemDbModel>>
 
     @Query("DELETE FROM ${HistoryItemDbModel.tableName} WHERE 1")
