@@ -400,12 +400,13 @@ class MathImplementation @Inject constructor(
         val eps = constantProvider.epsValue(x.base)
         var prevResult: Number
         var result = div(numerator, denominator)
+        var iterationLimit = 500
         do {
             prevResult = result
             numerator = mul(numerator, numeratorMulRatio)
             denominator = sum(denominator, one)
-            result = div(numerator, denominator)
-        } while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0)
+            result = sum(result, div(numerator, denominator))
+        } while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0 && iterationLimit-- > 0)
         return result
     }
 
