@@ -392,4 +392,7 @@ class MathImplementation @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    override fun ln(a: Number): Number {
+        TODO("Not yet implemented")
+    }
 }

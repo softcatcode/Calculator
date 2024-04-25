@@ -223,7 +223,8 @@
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/log"
                         style="@style/button_operation"
-                        android:text="㏒₂"
+                        android:text="㏑"
+                        android:textStyle="italic"
                         android:textSize="17sp"
                         android:layout_weight="1"
                         android:layout_width="match_parent"

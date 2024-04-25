@@ -24,6 +24,7 @@ interface CalculationInterface {
         const val DEG = "deg"
         const val PI = 'π'
         const val LOG = "log₂"
+        const val LN = "ln"
 
         enum class BracketType { Round, Square, Curly, Triangle }
 

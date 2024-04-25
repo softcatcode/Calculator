@@ -35,6 +35,7 @@ class CalculationImplementation @Inject constructor(
         Expression.POW_ID -> calculator.pow(first, second!!)
         Expression.MINUS_ID -> calculator.minus(first)
         Expression.LOG_ID -> calculator.log(first, second!!)
+        Expression.LN_ID -> calculator.ln(first)
         else -> throw Exception("Unknown operation: $id")
     }
 
