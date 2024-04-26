@@ -177,7 +177,7 @@ class CalculatorFragment: Fragment() {
                 cos!!.setOnClickListener { calcViewModel.addFunction(COS) }
                 tg!!.setOnClickListener { calcViewModel.addFunction(TAN) }
                 ctg!!.setOnClickListener { calcViewModel.addFunction(CTG) }
-                log!!.setOnClickListener { calcViewModel.addFunction(LN) }
+                ln!!.setOnClickListener { calcViewModel.addFunction(LN) }
                 pi!!.setOnClickListener { calcViewModel.addConstant(PI.toString()) }
                 switchRadDeg!!.setOnClickListener {
                     if (switchRadDeg.text == RAD)

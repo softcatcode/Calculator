@@ -189,6 +189,16 @@
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/switchRadDeg"
+                        style="@style/button_operation"
+                        android:text="rad"
+                        android:textSize="12sp"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        tools:ignore="HardcodedText" />
+
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/absStick"
                         style="@style/button_operation"
                         android:text="|...|"
@@ -216,16 +226,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         tools:ignore="HardcodedText" />
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/log"
-                        style="@style/button_operation"
-                        android:text="㏑"
-                        android:textStyle="italic"
-                        android:textSize="17sp"
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        tools:ignore="HardcodedText" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -245,14 +245,16 @@
                         tools:ignore="HardcodedText,NestedWeights" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/switchRadDeg"
+                        android:id="@+id/ln"
                         style="@style/button_operation"
-                        android:text="rad"
-                        android:textSize="12sp"
+                        android:text="㏑"
+                        android:textStyle="italic"
+                        android:textSize="17sp"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         tools:ignore="HardcodedText" />
+
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/sin"
                         style="@style/button_operation"
@@ -292,10 +294,11 @@
                         android:textSize="20sp"
                         tools:ignore="HardcodedText,NestedWeights" />
 
-                    <androidx.appcompat.widget.AppCompatButton
+                    <ImageButton
                         android:id="@+id/pi"
                         style="@style/button_operation"
-                        android:text="π"
+                        android:src="@drawable/pi"
+                        android:scaleType="centerInside"
                         android:textSize="12sp"
                         android:textStyle="italic"
                         android:layout_weight="1"
