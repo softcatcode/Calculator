@@ -1,5 +1,6 @@
 package com.codingeveryday.calcapp.data.implementations
 
+import android.util.Log
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.interfaces.ConstantProviderInterface
@@ -188,7 +189,7 @@ class MathImplementation @Inject constructor(
     override fun pow(a: Number, b: Number): Number {
         if (a.base != b.base)
             throw Exception("Numbers are in different number systems: ${a.base} and ${b.base}")
-        if (b.order != 0)
+        if (b.order < 0)
             throw Exception("Attempt to calculate a float power")
         if (b.digits.indexOfFirst { it > 0 } == -1)
             return Number("1", a.base)
@@ -400,12 +401,13 @@ class MathImplementation @Inject constructor(
         val eps = constantProvider.epsValue(x.base)
         var prevResult: Number
         var result = div(numerator, denominator)
-        var iterationLimit = 500
+        var iterationLimit = 100
         do {
             prevResult = result
             numerator = mul(numerator, numeratorMulRatio)
             denominator = sum(denominator, one)
             result = sum(result, div(numerator, denominator))
+            Log.i("mumu", "$iterationLimit: $result")
         } while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0 && iterationLimit-- > 0)
         return result
     }
