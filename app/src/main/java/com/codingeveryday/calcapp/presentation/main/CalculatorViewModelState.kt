@@ -6,5 +6,6 @@ import com.codingeveryday.calcapp.domain.entities.AngleUnit
 data class CalculatorViewModelState(
     val expr: String = "",
     val baseColorId: Int = R.color.btnTextColor,
-    val angleUnit: AngleUnit = AngleUnit.Radians
+    val angleUnit: AngleUnit = AngleUnit.Radians,
+    val uiBlocked: Boolean = false
 )
