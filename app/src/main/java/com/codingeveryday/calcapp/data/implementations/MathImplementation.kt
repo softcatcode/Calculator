@@ -224,7 +224,7 @@ class MathImplementation @Inject constructor(
             prevResult = result
             result = sum(result, div(numerator, denominator))
         }
-        return result
+        return round(result, 1)
     }
 
     private fun tailorRowCos(a: Number): Number {
@@ -248,7 +248,7 @@ class MathImplementation @Inject constructor(
             prevResult = result
             result = sum(result, div(numerator, denominator))
         }
-        return result
+        return round(result, 1)
     }
 
     private fun toRad(a: Number): Number {
@@ -352,6 +352,19 @@ class MathImplementation @Inject constructor(
         return cmp(first, second)
     }
 
+    private fun round(a: Number, digitsAfterPoint: Int = 0): Number {
+        var x: Number = a.copy().apply { order += digitsAfterPoint }
+        val eps = constantProvider.epsValue(a.base).apply { order += digitsAfterPoint }
+        val fr = fractionPart(x)
+        if (cmp(fr, eps) <= 0)
+            x = sub(x, fr)
+        val delta = sub(Number("1", a.base), fr)
+        if (cmp(delta, eps) <= 0)
+            x = sum(x, delta)
+        x.order -= digitsAfterPoint
+        return x
+    }
+
     override fun sqrt(a: Number): Number {
         if (!a.sign)
             throw RuntimeException("attempt to calculate sqrt from a negative number")
@@ -371,12 +384,7 @@ class MathImplementation @Inject constructor(
                 l = num
         }
         var result = div(sum(l, r), two)
-        val fr = fractionPart(result)
-        if (cmp(fr, eps) <= 0)
-            result = sub(result, fr)
-        val delta = sub(Number("1", a.base), fr)
-        if (cmp(delta, eps) <= 0)
-            result = sum(result, delta)
+        result = round(result)
 
         result.order += when (a.order % 2) {
             0 -> a.order / 2

@@ -529,7 +529,7 @@
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/dot"
                         style="@style/button_operation"
-                        android:text="."
+                        android:text=","
                         android:textSize="15sp"
                         android:layout_marginTop="0dp"
                         tools:ignore="HardcodedText" />
