@@ -18,7 +18,8 @@
     <color name="answerFieldColor">#98E887</color>
     <color name="inputFieldColor">#D5F3F3</color>
     <color name="translationButtonColor">#4561BA</color>
-    <color name="calculatorBackgroundColor">#EDEDE8</color>
+    <color name="transparent">#00C966F4</color>
+    <color name="calculatorBackgroundColor">#29C966F4</color>
     <color name="btnBoundsColor">#8108EA</color>
     <color name="digitButtonColor">#594960F3</color>
     <color name="operationColor">#4D8108EA</color>

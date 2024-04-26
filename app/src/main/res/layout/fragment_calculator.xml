@@ -259,7 +259,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_weight="100"
                 android:src="@drawable/equals"
-                app:tint="@color/calculatorBackgroundColor"
+                app:tint="@color/white"
                 android:scaleType="centerInside"
                 android:background="@drawable/equally"
                 tools:ignore="ContentDescription" />
