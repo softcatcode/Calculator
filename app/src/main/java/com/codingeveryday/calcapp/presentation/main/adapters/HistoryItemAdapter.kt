@@ -10,26 +10,27 @@ import com.codingeveryday.calcapp.presentation.main.adapters.viewHolders.History
 
 class HistoryItemAdapter: ListAdapter<HistoryItem, HistoryItemViewHolder>(HistoryItemDiffCallback()) {
 
-    var onExprClickListener: ((HistoryItem) -> Unit)? = null
-    var onResClickListener: ((HistoryItem) -> Unit)? = null
+    var onExprClickListener: ((String) -> Unit)? = null
+    var onResClickListener: ((String) -> Unit)? = null
     var formatExpressionCallback: (String) -> String = { it }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryItemViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.history_item, parent, false)
-        return HistoryItemViewHolder(view)
+        val holder = HistoryItemViewHolder(view)
+        holder.exprField.setOnClickListener {
+            onExprClickListener?.invoke(holder.exprField.text.toString())
+        }
+        holder.resField.setOnClickListener {
+            onResClickListener?.invoke(holder.resField.text.toString())
+        }
+        return holder
     }
 
     override fun onBindViewHolder(holder: HistoryItemViewHolder, position: Int) {
         val item = getItem(position)
         holder.exprField.text = formatExpressionCallback(item.expr)
         holder.resField.text = item.result
-        holder.exprField.setOnClickListener {
-            onExprClickListener?.invoke(getItem(position))
-        }
-        holder.resField.setOnClickListener {
-            onResClickListener?.invoke(getItem(position))
-        }
         holder.baseField.text = item.base.toString()
     }
 

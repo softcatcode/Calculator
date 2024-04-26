@@ -99,10 +99,10 @@ class CalculatorFragment: Fragment() {
         setOnSwipeEvent()
         with (historyAdapter!!) {
             onExprClickListener = {
-                calcViewModel.setExpr(it.expr)
+                calcViewModel.setExpr(it)
             }
             onResClickListener = {
-                calcViewModel.addConstant(it.result)
+                calcViewModel.addConstant(it)
             }
             formatExpressionCallback = {
                 formatExpression(it)
