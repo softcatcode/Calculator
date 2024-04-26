@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/calculatorFragment"
-        android:name="com.codingeveryday.calcapp.presentation.CalculatorFragment"
+        android:name="com.codingeveryday.calcapp.presentation.main.CalculatorFragment"
         android:label="CalculatorFragment" >
         <action
             android:id="@+id/action_calculatorFragment_to_toNumberSystemFragment"
@@ -18,11 +18,11 @@
 
     <fragment
         android:id="@+id/toNumberSystemFragment"
-        android:name="com.codingeveryday.calcapp.presentation.ToNumberSystemFragment"
+        android:name="com.codingeveryday.calcapp.presentation.translation.ToNumberSystemFragment"
         android:label="ToNumberSystemFragment" />
 
-    <dialog
+    <fragment
         android:id="@+id/keyboardDialog"
-        android:name="com.codingeveryday.calcapp.presentation.KeyboardDialog"
+        android:name="com.codingeveryday.calcapp.presentation.keyboard.KeyboardDialog"
         android:label="KeyboardDialog" />
 </navigation>

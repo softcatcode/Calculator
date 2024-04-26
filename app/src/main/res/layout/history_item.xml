@@ -8,13 +8,13 @@
     android:layout_marginEnd="5dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
-    app:cardCornerRadius="10dp"
-    android:backgroundTint="@color/operationColor" >
+    app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/operationColor">
 
         <TextView
             android:id="@+id/expr"
@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="expression"
-            android:textColor="@color/black"
+            android:textColor="@color/btnTextColor"
             android:textSize="20sp"
             android:textStyle="italic"
             app:layout_constraintEnd_toStartOf="@+id/result"
@@ -34,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintWidth_percent="0.3"
-            android:background="@color/green"
+            android:background="@color/btnBoundsColor"
             android:gravity="center"
             android:text="result"
             android:textColor="@color/white"
@@ -54,7 +54,7 @@
             android:textStyle="bold"
             android:gravity="bottom"
             android:layout_marginStart="3dp"
-            android:textColor="@color/black"
+            android:textColor="@color/btnTextColor"
             android:textSize="14sp"
             tools:ignore="HardcodedText" />
 
