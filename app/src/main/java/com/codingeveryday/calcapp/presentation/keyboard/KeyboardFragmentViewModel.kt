@@ -16,4 +16,9 @@ class KeyboardFragmentViewModel @Inject constructor(
         exprBuilder.addDigit(digit)
         _textFieldState.value = exprBuilder.get()
     }
+
+    fun backspace() {
+        exprBuilder.backspace()
+        _textFieldState.value = exprBuilder.get()
+    }
 }

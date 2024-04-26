@@ -92,7 +92,11 @@ fun Keyboard(
 }
 
 @Composable
-fun InputView(modifier: Modifier = Modifier, text: String) {
+fun InputView(
+    modifier: Modifier = Modifier,
+    text: String,
+    onBackspaceClicked: () -> Unit
+) {
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(5.dp),
@@ -116,7 +120,7 @@ fun InputView(modifier: Modifier = Modifier, text: String) {
                 modifier = Modifier
                     .width(50.dp)
                     .padding(end = 5.dp)
-                    .clickable { },
+                    .clickable { onBackspaceClicked() },
                 contentDescription = null,
                 painter = painterResource(id = R.drawable.backspace),
                 tint = Color.Black
@@ -145,7 +149,8 @@ fun KeyboardFragmentDesign(
                 .fillMaxWidth()
                 .padding(bottom = 2.dp)
                 .background(Color.White),
-            text = text
+            text = text,
+            onBackspaceClicked = { viewModel.backspace() }
         )
         Keyboard(
             characters = DIGITS.substring(0, 10),
