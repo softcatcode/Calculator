@@ -81,10 +81,7 @@ fun Keyboard(
             val labels = characters.substring(i, min(i + charactersInRow, characters.length))
                 .toCharArray().map { "$it" }
             ButtonRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(colorResource(id = R.color.calculatorBackgroundColor))
-                    .weight(3f),
+                modifier = Modifier.fillMaxWidth().weight(3f),
                 labelList = labels,
                 onClick = onClick
             )
@@ -103,9 +100,7 @@ fun InputView(modifier: Modifier = Modifier, text: String) {
         border = BorderStroke(2.dp, colorResource(id = R.color.purple_500))
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(colorResource(id = R.color.calculatorBackgroundColor)),
+            modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -157,8 +152,7 @@ fun KeyboardFragmentDesign(
             charactersInRow = 5,
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.25f)
-                .background(colorResource(id = R.color.calculatorBackgroundColor)),
+                .fillMaxHeight(0.25f),
             onClick = { viewModel.addDigit(it[0]) }
         )
         Keyboard(
@@ -166,8 +160,7 @@ fun KeyboardFragmentDesign(
             charactersInRow = 4,
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.9f)
-                .background(colorResource(id = R.color.calculatorBackgroundColor)),
+                .fillMaxHeight(0.9f),
             onClick = { viewModel.addDigit(it[0]) }
         )
         Button(
