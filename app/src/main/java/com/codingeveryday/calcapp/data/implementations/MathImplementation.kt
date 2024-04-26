@@ -177,6 +177,8 @@ class MathImplementation @Inject constructor(
             result.add(0, nextDigit.toByte())
             --order
         }
+        if (first.indexOfFirst { it > 0 }  != -1 && result.indexOfFirst { it > 0 } == -1)
+            result.add(0, 1)
 
         return Number(result, order, a.sign == b.sign, a.base)
     }
@@ -408,7 +410,7 @@ class MathImplementation @Inject constructor(
         val eps = constantProvider.epsValue(x.base)
         var prevResult: Number
         var result = div(numerator, denominator)
-        var iterationLimit = 100
+        var iterationLimit = 200
         do {
             prevResult = result
             numerator = mul(numerator, numeratorMulRatio)
