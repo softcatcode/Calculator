@@ -2,25 +2,33 @@ package com.codingeveryday.calcapp.presentation.keyboard
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.codingeveryday.calcapp.R
@@ -34,86 +42,132 @@ fun ButtonRow(
     onClick: (String) -> Unit
 ) {
     Row(modifier) {
-        labelList.forEach {
-            OutlinedButton(
+        Spacer(modifier =  Modifier.weight(1f))
+        labelList.forEachIndexed { index, item ->
+            Button(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .weight(1f)
-                    .padding(2.dp),
-                onClick = { onClick(it) },
+                    .fillMaxWidth(1f / (labelList.size - index + 2)),
+                onClick = { onClick(item) },
                 colors = ButtonDefaults.buttonColors().copy(
-                    containerColor = colorResource(id = R.color.purple_200),
-                ),
-                border = BorderStroke(2.dp, colorResource(id = R.color.purple_500))
+                    containerColor = colorResource(id = R.color.digitButtonColor),
+                )
             ) {
                 Text(
-                    text = it,
+                    modifier = Modifier.fillMaxWidth(),
+                    text = item,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = Color.Black,
+                    textAlign = TextAlign.Center
                 )
             }
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }
 
 @Composable
-fun AllDigitsKeyboard(
+fun Keyboard(
+    characters: String,
+    charactersInRow: Int,
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit = {}
 ) {
     Column(modifier) {
         var i = 0
-        val n = 6
-        while (i < DIGITS.length) {
-            val labels = DIGITS.substring(i, min(i + n, DIGITS.length))
+        Spacer(modifier = Modifier.weight(1f))
+        while (i < characters.length) {
+            val labels = characters.substring(i, min(i + charactersInRow, characters.length))
                 .toCharArray().map { "$it" }
             ButtonRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.White)
-                    .weight(1f),
+                    .background(colorResource(id = R.color.calculatorBackgroundColor))
+                    .weight(3f),
                 labelList = labels,
                 onClick = onClick
             )
-            i += n
+            Spacer(modifier = Modifier.weight(1f))
+            i += charactersInRow
         }
+    }
+}
+
+@Composable
+fun InputView(modifier: Modifier = Modifier, text: String) {
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(5.dp),
+        colors = CardDefaults.cardColors().copy(containerColor = Color.White),
+        border = BorderStroke(2.dp, colorResource(id = R.color.purple_500))
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colorResource(id = R.color.calculatorBackgroundColor)),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f)
+                    .padding(start = 5.dp),
+                text = text,
+                color = Color.Black,
+                fontSize = 50.sp,
+            )
+            Icon(
+                modifier = Modifier
+                    .width(50.dp)
+                    .padding(end = 5.dp)
+                    .clickable { },
+                contentDescription = null,
+                painter = painterResource(id = R.drawable.backspace),
+                tint = Color.Black
+            )
+        }
+
     }
 }
 
 @Composable
 fun KeyboardFragmentDesign(
     viewModel: KeyboardFragmentViewModel,
-    onOkClicked: () -> Unit
+    onOkClicked: () -> Unit = {}
 ) {
-    val text = viewModel.textFieldState.observeAsState("")
+    val text by viewModel.textFieldState.observeAsState("")
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .background(colorResource(id = R.color.calculatorBackgroundColor))
             .padding(5.dp)
     ) {
-        Card(
+        InputView(
             modifier = Modifier
-                .fillMaxHeight(0.3f)
+                .fillMaxHeight(0.2f)
                 .fillMaxWidth()
                 .padding(bottom = 2.dp)
                 .background(Color.White),
-            shape = RoundedCornerShape(5.dp),
-            colors = CardDefaults.cardColors().copy(containerColor = Color.White),
-            border = BorderStroke(2.dp, colorResource(id = R.color.purple_500))
-        ) {
-            Text(
-                text = text.value,
-                color = Color.Black,
-                fontSize = 30.sp,
-            )
-        }
-        AllDigitsKeyboard(
+            text = text
+        )
+        Keyboard(
+            characters = DIGITS.substring(0, 10),
+            charactersInRow = 5,
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.25f)
+                .background(colorResource(id = R.color.calculatorBackgroundColor)),
+            onClick = { viewModel.addDigit(it[0]) }
+        )
+        Keyboard(
+            characters = DIGITS.substring(10, DIGITS.length),
+            charactersInRow = 4,
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.9f)
-                .background(Color.White),
+                .background(colorResource(id = R.color.calculatorBackgroundColor)),
             onClick = { viewModel.addDigit(it[0]) }
         )
         Button(
@@ -122,7 +176,7 @@ fun KeyboardFragmentDesign(
             onClick = { onOkClicked() },
             shape = RoundedCornerShape(5.dp),
             colors = ButtonDefaults.buttonColors().copy(
-                containerColor = colorResource(id = R.color.teal_200)
+                containerColor = colorResource(id = R.color.btnBoundsColor)
             )
         ) {
             Text(
