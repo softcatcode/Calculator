@@ -252,7 +252,6 @@ class MathImplementation @Inject constructor(
     }
 
     private fun toRad(a: Number): Number {
-        // integrate the translate function later
         val two = if (a.base == 2) Number("10", a.base) else Number("2", a.base)
         val three = sum(two, Number("1", a.base))
         val num = mul(mul(three, three), two).apply { order++ }
@@ -268,7 +267,7 @@ class MathImplementation @Inject constructor(
         val x = mod(if (angleUnit == AngleUnit.Radians) a else toRad(a), doublePi)
 
         if (cmp(x, halfPi) == -1)
-            return tailorRowSin(a)
+            return tailorRowSin(x)
         if (cmp(x, pi) == -1)
             return tailorRowCos(sub(x, halfPi))
         val num = mul(sum(two, Number("1", a.base)), halfPi)
@@ -285,7 +284,7 @@ class MathImplementation @Inject constructor(
         val x = mod(if (angleUnit == AngleUnit.Radians) a else toRad(a), doublePi)
 
         if (cmp(x, halfPi) == -1)
-            return tailorRowCos(a)
+            return tailorRowCos(x)
         if (cmp(x, pi) == -1)
             return tailorRowSin(sub(x, halfPi)).apply { sign = false }
         val num = mul(sum(two, Number("1", a.base)), halfPi)
