@@ -23,4 +23,5 @@
     <color name="btnBoundsColor">#8108EA</color>
     <color name="digitButtonColor">#594960F3</color>
     <color name="operationColor">#4D8108EA</color>
+    <color name="btnTextColor">#3E1C88</color>
 </resources>

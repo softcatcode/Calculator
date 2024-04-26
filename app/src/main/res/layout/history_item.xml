@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="expression"
-            android:textColor="@color/black"
+            android:textColor="@color/btnTextColor"
             android:textSize="20sp"
             android:textStyle="italic"
             app:layout_constraintEnd_toStartOf="@+id/result"
@@ -54,7 +54,7 @@
             android:textStyle="bold"
             android:gravity="bottom"
             android:layout_marginStart="3dp"
-            android:textColor="@color/black"
+            android:textColor="@color/btnTextColor"
             android:textSize="14sp"
             tools:ignore="HardcodedText" />
 

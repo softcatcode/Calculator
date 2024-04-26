@@ -167,7 +167,7 @@ class CalculatorFragment: Fragment() {
             dot.setOnClickListener { calcViewModel.addPoint() }
             sqrt.setOnClickListener { calcViewModel.addFunction(SQRT.toString()) }
             if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                numberSystem!!.setOnClickListener { numberSystem.setTextColor(ContextCompat.getColor(requireActivity(), R.color.black)) }
+                numberSystem!!.setOnClickListener { numberSystem.setTextColor(ContextCompat.getColor(requireActivity(), R.color.btnTextColor)) }
                 absStick!!.setOnClickListener { calcViewModel.addAbsStick() }
                 integerPartBrackets!!.setOnClickListener { calcViewModel.openBracket(BracketType.Square) }
                 floatPartBrackets!!.setOnClickListener { calcViewModel.openBracket(BracketType.Curly) }
@@ -228,7 +228,7 @@ class CalculatorFragment: Fragment() {
             binding.input.text = formatExpression(it.expr)
             val angleLabel = if (it.angleUnit == AngleUnit.Radians) RAD else DEG
             binding.switchRadDeg?.text = angleLabel
-            binding.numberSystem?.setTextColor(it.baseColor)
+            binding.numberSystem?.setTextColor(ContextCompat.getColor(requireActivity(), it.baseColorId))
         }
         calcViewModel.errorEvent.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
