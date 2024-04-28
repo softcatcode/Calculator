@@ -1,6 +1,5 @@
 package com.codingeveryday.calcapp.data.implementations
 
-import android.util.Log
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.interfaces.ConstantProviderInterface
@@ -410,13 +409,12 @@ class MathImplementation @Inject constructor(
         val eps = constantProvider.epsValue(x.base)
         var prevResult: Number
         var result = div(numerator, denominator)
-        var iterationLimit = 200
+        var iterationLimit = 100
         do {
             prevResult = result
             numerator = mul(numerator, numeratorMulRatio)
             denominator = sum(denominator, one)
             result = sum(result, div(numerator, denominator))
-            Log.i("mumu", "$iterationLimit: $result")
         } while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0 && iterationLimit-- > 0)
         return result
     }
@@ -427,6 +425,24 @@ class MathImplementation @Inject constructor(
 
         val one = Number("1", a.base)
         val two = Number(if (a.base == 2) "10" else "2", a.base)
+        val e = constantProvider.expValue(a.base)
+        val invE = div(one, e)
+
+        val tooSmall = cmp(a, invE) <= 0
+        val tooBig = cmp(a, e) >= 0
+        if (tooBig || tooSmall) {
+            var power = one.copy().apply { sign = tooBig }
+            var num: Number = if (tooBig) e else invE
+            var nextNum = mul(num, num)
+            while ((tooSmall && cmp(nextNum, a) == 1) || (tooBig && cmp(nextNum, a) == -1)) {
+                num = nextNum
+                nextNum = mul(num, num)
+                power = mul(power, two)
+            }
+            val x = div(a, num)
+            return sum(power, ln(x))
+        }
+
         return if (cmp(a, two) == 1)
             tailorRowLnArgPlusOne( sub(div(one, a), one) ).apply { sign = !sign }
         else
