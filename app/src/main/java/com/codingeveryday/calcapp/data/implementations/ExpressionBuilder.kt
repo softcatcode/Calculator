@@ -34,6 +34,8 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
             return this
         }
         val last = builder.last()
+        if (last == POINT)
+            return this
         if (last in FUNC_LETTERS + OPENING_BRACKETS) {
             builder.append(open)
             return this
