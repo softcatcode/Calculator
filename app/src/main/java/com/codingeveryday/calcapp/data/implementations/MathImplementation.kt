@@ -216,7 +216,7 @@ class MathImplementation @Inject constructor(
         var result = a.copy()
         val eps = constantProvider.epsValue(a.base)
 
-        while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0) {
+        while (cmp(sub(result, prevResult).apply { sign = true }, eps) > 0) {
             numerator = mul(numerator, numeratorMulRatio)
             denominator = mul(mul(denominator, i), j)
             i = sum(j, one)
@@ -240,7 +240,7 @@ class MathImplementation @Inject constructor(
         var result = one.copy()
         val eps = constantProvider.epsValue(a.base)
 
-        while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0) {
+        while (cmp(sub(result, prevResult).apply { sign = true }, eps) > 0) {
             numerator = mul(numerator, numeratorMulRatio)
             denominator = mul(mul(denominator, i), j)
             i = sum(j, one)
@@ -415,7 +415,7 @@ class MathImplementation @Inject constructor(
             numerator = mul(numerator, numeratorMulRatio)
             denominator = sum(denominator, one)
             result = sum(result, div(numerator, denominator))
-        } while (cmp(sub(result, prevResult).apply { sign = true }, eps) >= 0 && iterationLimit-- > 0)
+        } while (cmp(sub(result, prevResult).apply { sign = true }, eps) > 0 && iterationLimit-- > 0)
         return result
     }
 
