@@ -6,7 +6,6 @@ import com.codingeveryday.calcapp.di.annotations.ApplicationScope
 import com.codingeveryday.calcapp.di.modules.DataModule
 import com.codingeveryday.calcapp.di.modules.DomainModule
 import com.codingeveryday.calcapp.di.modules.ViewModelModule
-import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.presentation.main.CalculatorFragment
 import com.codingeveryday.calcapp.presentation.keyboard.KeyboardDialog
 import com.codingeveryday.calcapp.presentation.translation.ToNumberSystemFragment
@@ -35,7 +34,6 @@ interface ApplicationComponent {
     interface ApplicationComponentFactory {
         fun create(
             @BindsInstance application: Application,
-            @BindsInstance exprBuilder: ExpressionBuilderInterface
         ): ApplicationComponent
     }
 }

@@ -3,14 +3,17 @@ package com.codingeveryday.calcapp.di.modules
 import com.codingeveryday.calcapp.data.implementations.CalculationImplementation
 import com.codingeveryday.calcapp.data.implementations.ConstantInterpreter
 import com.codingeveryday.calcapp.data.implementations.ConstantProvider
+import com.codingeveryday.calcapp.data.implementations.ExpressionBuilder
 import com.codingeveryday.calcapp.data.implementations.ExpressionParser
 import com.codingeveryday.calcapp.data.implementations.HistoryItemMapperImpl
 import com.codingeveryday.calcapp.data.implementations.HistoryManagerImplementation
 import com.codingeveryday.calcapp.data.implementations.MathImplementation
 import com.codingeveryday.calcapp.data.implementations.TranslationImplementation
+import com.codingeveryday.calcapp.di.annotations.ApplicationScope
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import com.codingeveryday.calcapp.domain.interfaces.ConstantInterpreterInterface
 import com.codingeveryday.calcapp.domain.interfaces.ConstantProviderInterface
+import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.domain.interfaces.HistoryItemMapper
 import com.codingeveryday.calcapp.domain.interfaces.HistoryManagerInterface
 import com.codingeveryday.calcapp.domain.interfaces.MathInterface
@@ -21,6 +24,10 @@ import dagger.Module
 
 @Module
 interface DomainModule {
+
+    @ApplicationScope
+    @Binds
+    fun bindExpressionBuilder(impl: ExpressionBuilder): ExpressionBuilderInterface
 
     @Binds
     fun bindConstantProvider(impl: ConstantProvider): ConstantProviderInterface

@@ -1,7 +1,7 @@
 package com.codingeveryday.calcapp.di.annotations
 
-import javax.inject.Singleton
+import javax.inject.Scope
 
-@Singleton
+@Scope
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ApplicationScope
