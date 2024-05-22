@@ -6,6 +6,6 @@ import com.codingeveryday.calcapp.di.DaggerApplicationComponent
 
 class CalculatorApplication: Application() {
     val component by lazy {
-        DaggerApplicationComponent.factory().create(this, ExpressionBuilder())
+        DaggerApplicationComponent.factory().create(this)
     }
 }

@@ -21,8 +21,9 @@ import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Compani
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.closingBracket
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.openingBracket
 import java.util.Stack
+import javax.inject.Inject
 
-class ExpressionBuilder: ExpressionBuilderInterface {
+class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
 
     private var builder = StringBuilder()
     override fun addBracket(type: BracketType): ExpressionBuilder {
@@ -33,6 +34,8 @@ class ExpressionBuilder: ExpressionBuilderInterface {
             return this
         }
         val last = builder.last()
+        if (last == POINT)
+            return this
         if (last in FUNC_LETTERS + OPENING_BRACKETS) {
             builder.append(open)
             return this
