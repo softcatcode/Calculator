@@ -18,6 +18,9 @@ import com.codingeveryday.calcapp.CalculatorApplication
 import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.databinding.FragmentCalculatorBinding
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
+import com.codingeveryday.calcapp.domain.entities.BracketType
+import com.codingeveryday.calcapp.domain.entities.closingBracket
+import com.codingeveryday.calcapp.domain.entities.openingBracket
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.COS
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.CTG
@@ -32,7 +35,6 @@ import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Compani
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SQRT
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUB
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUM
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.BracketType
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.LN
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.TAN
 import com.codingeveryday.calcapp.presentation.main.adapters.HistoryItemAdapter
@@ -239,8 +241,8 @@ class CalculatorFragment: Fragment() {
     }
 
     private fun formatExpression(s: String): String {
-        val openAbs = CalculationInterface.openingBracket(BracketType.Triangle)
-        val closeAbs = CalculationInterface.closingBracket(BracketType.Triangle)
+        val openAbs = openingBracket(BracketType.Triangle)
+        val closeAbs = closingBracket(BracketType.Triangle)
         val sb = StringBuilder()
         for (c in s) {
             if (c == openAbs || c == closeAbs)
