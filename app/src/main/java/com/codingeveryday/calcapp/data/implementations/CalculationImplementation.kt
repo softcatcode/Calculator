@@ -48,8 +48,12 @@ class CalculationImplementation @Inject constructor(
     }
 
     override fun calculateValue(expr: String, base: Int, angleUnit: AngleUnit): String {
-        val expression = parser.parseExpression(expr, base)
-        this.angleUnit = angleUnit
-        return calculate(expression).toString()
+        return try {
+            val expression = parser.parseExpression(expr, base)
+            this.angleUnit = angleUnit
+            calculate(expression).toString()
+        } catch (_: Exception) {
+            ""
+        }
     }
 }
