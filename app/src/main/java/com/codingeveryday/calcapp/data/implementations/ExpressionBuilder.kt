@@ -89,6 +89,8 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
     }
 
     override fun addDigit(d: Char): ExpressionBuilder {
+        if (d !in DIGITS)
+            return this
         if (builder.isNotEmpty() && builder.last() in CLOSING_BRACKETS + CONSTANTS)
             builder.append(operation[Expression.MUL_ID])
         builder.append(d)
@@ -96,6 +98,8 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
     }
 
     override fun addOperation(op: Char): ExpressionBuilder {
+        if (op !in OPERATIONS)
+            return this
         if (builder.isEmpty()) {
             if (op == CalculationInterface.SUB)
                 builder.append(op)
@@ -140,6 +144,8 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
     }
 
     override fun addPoint(): ExpressionBuilder {
+        if (builder.isNotEmpty() && builder.last() == POINT)
+            return this
         var i = builder.lastIndex
         while (i >= 0 && builder[i] in DIGITS)
             --i
