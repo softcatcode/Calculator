@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = HistoryItemDbModel.tableName)
-class HistoryItemDbModel(
+data class HistoryItemDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val expr: String,
