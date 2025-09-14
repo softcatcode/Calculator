@@ -1,10 +1,10 @@
-package com.codingeveryday.calcapp.data.implementations
+package com.codingeveryday.calcapp.data.core.implementations
 
+import com.codingeveryday.calcapp.data.core.interfaces.ConstantProviderInterface
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.Number
-import com.codingeveryday.calcapp.domain.interfaces.ConstantProviderInterface
-import com.codingeveryday.calcapp.domain.interfaces.ConstantProviderInterface.Companion.MAX_ACCURACY_ORDER
-import com.codingeveryday.calcapp.domain.interfaces.MathInterface
+import com.codingeveryday.calcapp.data.core.interfaces.ConstantProviderInterface.Companion.MAX_ACCURACY_ORDER
+import com.codingeveryday.calcapp.data.core.interfaces.MathInterface
 import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min

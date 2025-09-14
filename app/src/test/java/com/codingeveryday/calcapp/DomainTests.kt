@@ -14,12 +14,12 @@ import com.codingeveryday.calcapp.domain.entities.bracketType
 import com.codingeveryday.calcapp.domain.entities.closingBracket
 import com.codingeveryday.calcapp.domain.entities.openingBracket
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
-import com.codingeveryday.calcapp.domain.interfaces.ConstantInterpreterInterface
-import com.codingeveryday.calcapp.domain.interfaces.ConstantProviderInterface
+import com.codingeveryday.calcapp.data.core.interfaces.ConstantInterpreterInterface
+import com.codingeveryday.calcapp.data.core.interfaces.ConstantProviderInterface
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.domain.interfaces.HistoryManagerInterface
-import com.codingeveryday.calcapp.domain.interfaces.MathInterface
-import com.codingeveryday.calcapp.domain.interfaces.ParseExpressionInterface
+import com.codingeveryday.calcapp.data.core.interfaces.MathInterface
+import com.codingeveryday.calcapp.data.core.interfaces.ParseExpressionInterface
 import com.codingeveryday.calcapp.domain.interfaces.TranslationInterface
 import com.codingeveryday.calcapp.domain.useCases.AddHistoryItemUseCase
 import com.codingeveryday.calcapp.domain.useCases.CalculateUseCase

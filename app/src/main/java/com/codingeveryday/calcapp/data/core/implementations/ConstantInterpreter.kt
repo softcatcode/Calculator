@@ -1,8 +1,8 @@
-package com.codingeveryday.calcapp.data.implementations
+package com.codingeveryday.calcapp.data.core.implementations
 
+import com.codingeveryday.calcapp.data.core.interfaces.ConstantInterpreterInterface
+import com.codingeveryday.calcapp.data.core.interfaces.ConstantProviderInterface
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
-import com.codingeveryday.calcapp.domain.interfaces.ConstantInterpreterInterface
-import com.codingeveryday.calcapp.domain.interfaces.ConstantProviderInterface
 import javax.inject.Inject
 
 class ConstantInterpreter @Inject constructor(

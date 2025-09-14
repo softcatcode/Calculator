@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId "com.calcapp.calculator"
-        minSdk 34
+        minSdk 35
         targetSdk 36
         versionCode 7
         versionName "2.0"
