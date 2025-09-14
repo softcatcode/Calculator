@@ -2,8 +2,8 @@ package com.codingeveryday.calcapp.data.implementations
 
 import androidx.lifecycle.MediatorLiveData
 import com.codingeveryday.calcapp.data.database.HistoryItemDao
+import com.codingeveryday.calcapp.data.mapper.HistoryItemMapper
 import com.codingeveryday.calcapp.domain.entities.HistoryItem
-import com.codingeveryday.calcapp.domain.interfaces.HistoryItemMapper
 import com.codingeveryday.calcapp.domain.interfaces.HistoryManagerInterface
 import javax.inject.Inject
 

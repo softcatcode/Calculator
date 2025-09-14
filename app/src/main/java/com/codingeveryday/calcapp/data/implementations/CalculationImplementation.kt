@@ -6,8 +6,8 @@ import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.entities.UnaryOperation
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
-import com.codingeveryday.calcapp.domain.interfaces.MathInterface
-import com.codingeveryday.calcapp.domain.interfaces.ParseExpressionInterface
+import com.codingeveryday.calcapp.data.core.interfaces.MathInterface
+import com.codingeveryday.calcapp.data.core.interfaces.ParseExpressionInterface
 import javax.inject.Inject
 
 class CalculationImplementation @Inject constructor(

@@ -1,7 +1,9 @@
 @file:Suppress("NAME_SHADOWING")
 
-package com.codingeveryday.calcapp.data.implementations
+package com.codingeveryday.calcapp.data.core.implementations
 
+import com.codingeveryday.calcapp.data.core.interfaces.ConstantInterpreterInterface
+import com.codingeveryday.calcapp.data.core.interfaces.ParseExpressionInterface
 import com.codingeveryday.calcapp.domain.entities.BinaryOperation
 import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CLOSING_BRACKETS
@@ -15,10 +17,9 @@ import com.codingeveryday.calcapp.domain.entities.Expression.Companion.prefixUna
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.domain.entities.UnaryOperation
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
-import com.codingeveryday.calcapp.domain.interfaces.ConstantInterpreterInterface
-import com.codingeveryday.calcapp.domain.interfaces.ParseExpressionInterface
 import java.util.Stack
 import javax.inject.Inject
+import kotlin.text.iterator
 
 class ExpressionParser @Inject constructor(
     private val constantInterpreter: ConstantInterpreterInterface

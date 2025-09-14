@@ -1,7 +1,7 @@
 package com.codingeveryday.calcapp.data.implementations
 
 import com.codingeveryday.calcapp.domain.entities.Number
-import com.codingeveryday.calcapp.domain.interfaces.MathInterface
+import com.codingeveryday.calcapp.data.core.interfaces.MathInterface
 import com.codingeveryday.calcapp.domain.interfaces.TranslationInterface
 import javax.inject.Inject
 import kotlin.math.abs

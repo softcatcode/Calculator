@@ -1,4 +1,4 @@
-package com.codingeveryday.calcapp.domain.interfaces
+package com.codingeveryday.calcapp.data.core.interfaces
 
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
 import com.codingeveryday.calcapp.domain.entities.Number

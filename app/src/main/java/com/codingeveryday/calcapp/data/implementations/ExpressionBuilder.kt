@@ -1,5 +1,6 @@
 package com.codingeveryday.calcapp.data.implementations
 
+import com.codingeveryday.calcapp.domain.entities.BracketType
 import com.codingeveryday.calcapp.domain.entities.Expression
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CLOSING_BRACKETS
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.CONSTANTS
@@ -12,14 +13,13 @@ import com.codingeveryday.calcapp.domain.entities.Expression.Companion.matchingB
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.operation
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.postfixUnary
 import com.codingeveryday.calcapp.domain.entities.Expression.Companion.unaryOperationId
+import com.codingeveryday.calcapp.domain.entities.bracketType
+import com.codingeveryday.calcapp.domain.entities.closingBracket
+import com.codingeveryday.calcapp.domain.entities.openingBracket
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.POINT
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.BracketType
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.MUL
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.bracketType
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.closingBracket
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.openingBracket
 import java.util.Stack
 import javax.inject.Inject
 

@@ -1,7 +1,7 @@
 package com.codingeveryday.calcapp.domain.interfaces
 
 import com.codingeveryday.calcapp.data.implementations.ExpressionBuilder
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.BracketType
+import com.codingeveryday.calcapp.domain.entities.BracketType
 
 interface ExpressionBuilderInterface {
     fun addBracket(type: BracketType): ExpressionBuilder

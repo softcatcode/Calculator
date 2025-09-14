@@ -10,8 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.data.CalcService
 import com.codingeveryday.calcapp.domain.entities.AngleUnit
+import com.codingeveryday.calcapp.domain.entities.BracketType
 import com.codingeveryday.calcapp.domain.entities.HistoryItem
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.domain.useCases.*
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -96,7 +96,7 @@ class CalculatorViewModel @Inject constructor(
         exprBuilder.addDigit(d)
         _state.value = _state.value?.copy(expr = exprBuilder.get())
     }
-    fun openBracket(type: CalculationInterface.Companion.BracketType) {
+    fun openBracket(type: BracketType) {
         exprBuilder.addBracket(type)
         _state.value = _state.value?.copy(expr = exprBuilder.get())
     }

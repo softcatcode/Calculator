@@ -36,6 +36,8 @@ class Number: Expression {
             else
                 digits.add(DIGITS.indexOf(value[i]).toByte())
         }
+        if (digits.find { it > 0 } == null)
+            sign = true
         Number(digits, order, sign, base).let {
             digits = it.digits
             order = it.order
