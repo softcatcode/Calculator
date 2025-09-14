@@ -33,8 +33,9 @@ class CalculationInstrumentationTest {
         val expr = ""
         val base = 10
 
-        val result = calculator.calculateValue(expr, base)
-
-        assertEquals(result, "")
+        try {
+            calculator.calculateValue(expr, base)
+            assert(false)
+        } catch(_: Exception) {}
     }
 }
