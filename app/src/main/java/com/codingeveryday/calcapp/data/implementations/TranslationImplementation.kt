@@ -68,6 +68,9 @@ class TranslationImplementation @Inject constructor(
     }
 
     override fun transformNS(a: Number, toBase: Int): Number {
+        if (a.base !in 2..36)
+            return a
+
         val int = math.intPart(a)
         val digits = MutableList<Byte>(int.order) {0}.apply { addAll(int.digits) }
         val intPartResult = translateIntPart(digits, a.base, toBase, a.sign)
