@@ -1,5 +1,6 @@
 package com.codingeveryday.calcapp
 
+import com.codingeveryday.calcapp.data.database.HistoryItemDbModel
 import com.codingeveryday.calcapp.domain.entities.HistoryItem
 import com.codingeveryday.calcapp.domain.entities.Number
 import kotlin.random.Random
@@ -20,6 +21,16 @@ object TestDataGenerator {
     fun getRandomHistoryItem(): HistoryItem {
         val data = expressions[Random.nextInt(0, expressions.size)]
         return HistoryItem(
+            expr = data.first,
+            result = data.second,
+            base = getRandomBase(),
+            id = Random.nextInt(10, 100)
+        )
+    }
+
+    fun getRandomHistory() = List<HistoryItemDbModel>(Random.nextInt(1, 11)) {
+        val data = expressions[Random.nextInt(0, expressions.size)]
+        HistoryItemDbModel(
             expr = data.first,
             result = data.second,
             base = getRandomBase(),
