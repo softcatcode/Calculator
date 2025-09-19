@@ -7,6 +7,7 @@ constraintlayout = "2.2.1"
 coreKtx = "1.17.0"
 coreTesting = "2.2.0"
 espressoCore = "3.7.0"
+ioQametaAllureGradlePlugin = "3.0.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 kotlin = "2.2.20"
@@ -23,6 +24,7 @@ ksp = "2.2.20-2.0.3"
 dagger = "2.57.1"
 composeLivedata = "1.9.1"
 uiAndroid = "1.9.1"
+allure = "3.0.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -43,6 +45,7 @@ androidx-ui = { module = "androidx.compose.ui:ui" }
 androidx-ui-android = { module = "androidx.compose.ui:ui-android", version.ref = "uiAndroid" }
 androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+io-qameta-allure-gradle-plugin = { module = "io.qameta.allure:io.qameta.allure.gradle.plugin", version.ref = "ioQametaAllureGradlePlugin" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
@@ -61,3 +64,4 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 android-library = { id = "com.android.library", version.ref = "agp" }
 navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "safeargs" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+allure = { id = "io.qameta.allure", version.ref = "allure" }
