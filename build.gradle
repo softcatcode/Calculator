@@ -3,6 +3,8 @@ buildscript {
     dependencies {
         // jetpack navigation
         classpath libs.navigation.safe.args.gradle.plugin
+
+        classpath(libs.io.qameta.allure.gradle.plugin)
     }
 }
 
@@ -13,4 +15,5 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.navigation.safeargs) apply false
     alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.allure) apply false
 }
