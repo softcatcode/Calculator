@@ -27,6 +27,7 @@ dagger = "2.57.1"
 composeLivedata = "1.9.1"
 uiAndroid = "1.9.1"
 allure = "3.0.0"
+timber = "4.7.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -60,6 +61,7 @@ dagger-core = { group = "com.google.dagger", name = "dagger", version.ref = "dag
 dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
 androidx-compose-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "composeLivedata" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

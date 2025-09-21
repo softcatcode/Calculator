@@ -6,6 +6,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.codingeveryday.calcapp.R
+import com.codingeveryday.calcapp.presentation.LogsTree
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         if (!checkNotificationPermission()) {
             requestNotificationPermission()
         }
+        Timber.plant(LogsTree)
     }
 
     private fun checkNotificationPermission() = ActivityCompat.checkSelfPermission(
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     ) == PackageManager.PERMISSION_GRANTED
 
     private fun requestNotificationPermission() {
+        Timber.i("Notification permission is requested.")
         ActivityCompat.requestPermissions(
             this,
             arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
@@ -36,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Timber.i("Permission result (code $requestCode): ($permissions) -> ($grantResults)")
         when (requestCode) {
             NOTIFICATION_PERMISSION_RC -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {

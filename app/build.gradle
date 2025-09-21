@@ -96,4 +96,5 @@ dependencies {
 
     implementation(libs.mockito.core)
     implementation(libs.mockito.kotlin)
+    implementation(libs.timber)
 }

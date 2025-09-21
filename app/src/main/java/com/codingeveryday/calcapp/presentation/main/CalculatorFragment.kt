@@ -39,6 +39,7 @@ import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Compani
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.TAN
 import com.codingeveryday.calcapp.presentation.main.adapters.HistoryItemAdapter
 import com.codingeveryday.calcapp.presentation.ViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 class CalculatorFragment: Fragment() {
@@ -69,6 +70,7 @@ class CalculatorFragment: Fragment() {
         get() = _binding ?: throw RuntimeException("calculator's binding is null")
 
     override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, bundle: Bundle?): View {
+        Timber.i("${this::class.simpleName}.onCreateView")
         component.inject(this)
         super.onCreateView(inflater, parent, bundle)
         _binding = FragmentCalculatorBinding.inflate(inflater, parent, false)
@@ -76,6 +78,7 @@ class CalculatorFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Timber.i("${this::class.simpleName}.onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
         setTextChangedListeners()
@@ -85,6 +88,7 @@ class CalculatorFragment: Fragment() {
     }
 
     override fun onResume() {
+        Timber.i("${this::class.simpleName}.onResume")
         super.onResume()
         calcViewModel.updateExpression()
     }
@@ -126,6 +130,7 @@ class CalculatorFragment: Fragment() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                Timber.i("History item is swiped.")
                 calcViewModel.removeHistoryItem(viewHolder.adapterPosition)
             }
         }
@@ -181,19 +186,8 @@ class CalculatorFragment: Fragment() {
                 ctg!!.setOnClickListener { calcViewModel.addFunction(CTG) }
                 ln!!.setOnClickListener { calcViewModel.addFunction(LN) }
                 pi!!.setOnClickListener { calcViewModel.addConstant(PI.toString()) }
-                switchRadDeg!!.setOnClickListener {
-                    if (switchRadDeg.text == RAD)
-                        switchRadDeg.text = DEG
-                    else
-                        switchRadDeg.text = RAD
-                    calcViewModel.switchRadDeg()
-                }
-                clearHistoryBtn!!.setOnClickListener {
-                    calcViewModel.clearHistory()
-                }
-            }
-            input.setOnClickListener {
-                input.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.black))
+                switchRadDeg!!.setOnClickListener { calcViewModel.switchRadDeg() }
+                clearHistoryBtn!!.setOnClickListener { calcViewModel.clearHistory() }
             }
         }
     }
@@ -210,6 +204,7 @@ class CalculatorFragment: Fragment() {
     }
 
     private fun setActiveDigitButtons(base: Int) {
+        Timber.i("${this::class.simpleName}.setActiveDigitButtons($base)")
         binding.zero.isClickable = base > 0
         binding.one.isClickable = base > 1
         binding.two.isClickable = base > 2
@@ -224,15 +219,18 @@ class CalculatorFragment: Fragment() {
 
     private fun setObservers() {
         calcViewModel.history.observe(viewLifecycleOwner) {
+            Timber.i("calcViewModel.history observer")
             historyAdapter?.submitList(it)
         }
         calcViewModel.state.observe(viewLifecycleOwner) {
+            Timber.i("calcViewModel.state observer")
             binding.input.text = formatExpression(it.expr)
             val angleLabel = if (it.angleUnit == AngleUnit.Radians) RAD else DEG
             binding.switchRadDeg?.text = angleLabel
             binding.numberSystem?.setTextColor(ContextCompat.getColor(requireActivity(), it.baseColorId))
         }
         calcViewModel.errorEvent.observe(viewLifecycleOwner) {
+            Timber.i("calcViewModel.errorEvent observer")
             if (it.isNotEmpty()) {
                 Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
                 calcViewModel.resetError()
@@ -241,6 +239,7 @@ class CalculatorFragment: Fragment() {
     }
 
     private fun formatExpression(s: String): String {
+        Timber.i("${this::class.simpleName}.formatExpression($s)")
         val openAbs = openingBracket(BracketType.Triangle)
         val closeAbs = closingBracket(BracketType.Triangle)
         val sb = StringBuilder()
@@ -255,6 +254,7 @@ class CalculatorFragment: Fragment() {
 
 
     override fun onDestroyView() {
+        Timber.i("${this::class.simpleName}.onDestroyView()")
         super.onDestroyView()
         _binding = null
     }

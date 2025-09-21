@@ -7,6 +7,7 @@ import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.domain.entities.HistoryItem
 import com.codingeveryday.calcapp.presentation.main.adapters.diffUtils.HistoryItemDiffCallback
 import com.codingeveryday.calcapp.presentation.main.adapters.viewHolders.HistoryItemViewHolder
+import timber.log.Timber
 
 class HistoryItemAdapter: ListAdapter<HistoryItem, HistoryItemViewHolder>(HistoryItemDiffCallback()) {
 
@@ -15,6 +16,7 @@ class HistoryItemAdapter: ListAdapter<HistoryItem, HistoryItemViewHolder>(Histor
     var formatExpressionCallback: (String) -> String = { it }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryItemViewHolder {
+        Timber.i("${this::class.simpleName}.onCreateViewHolder(viewType=$viewType)")
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.history_item, parent, false)
         val holder = HistoryItemViewHolder(view)
@@ -28,6 +30,7 @@ class HistoryItemAdapter: ListAdapter<HistoryItem, HistoryItemViewHolder>(Histor
     }
 
     override fun onBindViewHolder(holder: HistoryItemViewHolder, position: Int) {
+        Timber.i("${this::class.simpleName}.onBindViewHolder($holder, $position)")
         val item = getItem(position)
         holder.exprField.text = formatExpressionCallback(item.expr)
         holder.resField.text = item.result
