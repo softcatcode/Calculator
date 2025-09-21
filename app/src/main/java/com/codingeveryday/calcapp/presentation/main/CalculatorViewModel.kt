@@ -52,19 +52,16 @@ class CalculatorViewModel @Inject constructor(
     }
 
     fun calculate(
-        base: String,
         angleUnit: AngleUnit = AngleUnit.Radians,
         foregroundMode: Boolean = false,
         context: Context? = null
     ) {
         val state = _state.value ?: CalculatorViewModelState()
-        val baseVal = base.toInt()
-        assert(baseVal in 1..36)
         if (!foregroundMode) {
             viewModelScope.launch(Dispatchers.Default + exceptionHandler) {
                 Timber.i("Calculation is launched.")
-                val result = calculateUseCase(state.expr, baseVal, state.angleUnit)
-                updateHistory(state.expr, result, baseVal)
+                val result = calculateUseCase(state.expr, state.base, state.angleUnit)
+                updateHistory(state.expr, result, state.base)
                 withContext(Dispatchers.Main) {
                     setExpr(result)
                 }
@@ -74,7 +71,7 @@ class CalculatorViewModel @Inject constructor(
                 Timber.i("Foreground calculation is launching.")
                 ContextCompat.startForegroundService(
                     it,
-                    CalcService.newIntent(it, state.expr, baseVal, angleUnit)
+                    CalcService.newIntent(it, state.expr, state.base, angleUnit)
                 )
             }
         }
@@ -163,6 +160,15 @@ class CalculatorViewModel @Inject constructor(
 
     fun sendLogs() {
         Timber.i("${this::class.simpleName}.sendLogs()")
+    }
+
+    fun setBase(base: String) {
+        Timber.i("${this::class.simpleName}.setBase($base)")
+        try {
+            val baseVal = base.toInt()
+            if (baseVal in 2..36)
+                _state.value = state.value?.copy(base = baseVal)
+        } catch (_: Exception) {}
     }
 
     private fun updateHistory(expr: String, result: String, base: Int) {

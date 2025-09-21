@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.text.isDigitsOnly
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -44,14 +43,6 @@ import javax.inject.Inject
 
 class CalculatorFragment: Fragment() {
 
-    private val base: String
-        get() {
-            return if (binding.numberSystem == null)
-                "10"
-            else
-                binding.numberSystem?.text.toString()
-        }
-
     private var historyAdapter: HistoryItemAdapter? = null
 
     private val component by lazy {
@@ -80,6 +71,7 @@ class CalculatorFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Timber.i("${this::class.simpleName}.onViewCreated")
         super.onViewCreated(view, savedInstanceState)
+        binding.numberSystem?.setText((calcViewModel.state.value?.base ?: 10).toString())
         setOnClickListeners()
         setTextChangedListeners()
         setObservers()
@@ -150,10 +142,10 @@ class CalculatorFragment: Fragment() {
                 findNavController().navigate(R.id.action_calculatorFragment_to_toNumberSystemFragment)
             }
             equally.setOnClickListener {
-                calcViewModel.calculate(base)
+                calcViewModel.calculate()
             }
             equally.setOnLongClickListener {
-                calcViewModel.calculate(base, foregroundMode = true, context = requireActivity().applicationContext)
+                calcViewModel.calculate(foregroundMode = true, context = requireActivity().applicationContext)
                 true
             }
             keyboard.setOnClickListener {
@@ -205,10 +197,7 @@ class CalculatorFragment: Fragment() {
         if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
             return
         binding.numberSystem?.addTextChangedListener {
-            if (it!!.length > 2)
-                it.delete(2, 3)
-            if (base.isNotEmpty() && base.isDigitsOnly())
-                setActiveDigitButtons(base.toInt())
+            calcViewModel.setBase(it.toString())
         }
     }
 
@@ -237,6 +226,7 @@ class CalculatorFragment: Fragment() {
             val angleLabel = if (it.angleUnit == AngleUnit.Radians) RAD else DEG
             binding.switchRadDeg?.text = angleLabel
             binding.numberSystem?.setTextColor(ContextCompat.getColor(requireActivity(), it.baseColorId))
+            setActiveDigitButtons(it.base)
         }
         calcViewModel.errorEvent.observe(viewLifecycleOwner) {
             Timber.i("calcViewModel.errorEvent observer")

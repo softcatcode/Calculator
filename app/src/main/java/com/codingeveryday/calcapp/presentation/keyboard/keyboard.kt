@@ -166,7 +166,7 @@ fun KeyboardScreen(
             onClick = { onDigitClick(it[0]) }
         )
         Keyboard(
-            characters = DIGITS.substring(10, DIGITS.length),
+            characters = DIGITS.substring(10, DIGITS.length) + '.',
             charactersInRow = 4,
             modifier = Modifier
                 .fillMaxWidth()
@@ -200,7 +200,12 @@ fun KeyboardFragmentDesign(
         KeyboardScreen(
             text = text,
             onBackspaceClicked = { viewModel.backspace() },
-            onDigitClick = { viewModel.addDigit(it) },
+            onDigitClick = { c ->
+                if (c in DIGITS)
+                    viewModel.addDigit(c)
+                else if (c == '.')
+                    viewModel.addPoint()
+            },
             onOkClicked = onOkClicked,
             paddings = paddings
         )

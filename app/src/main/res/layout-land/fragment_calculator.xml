@@ -69,13 +69,13 @@
                     android:textColor="@color/btnTextColor"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/numberSystem"
+                    app:layout_constraintEnd_toStartOf="@id/number_system"
                     app:layout_constraintStart_toEndOf="@id/clearHistoryBtn"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.6" />
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/numberSystem"
+                    android:id="@+id/number_system"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="50"

@@ -19,6 +19,12 @@ class KeyboardFragmentViewModel @Inject constructor(
         _textFieldState.value = exprBuilder.get()
     }
 
+    fun addPoint() {
+        Timber.i("${this::class.simpleName}.addPoint()")
+        exprBuilder.addPoint()
+        _textFieldState.value = exprBuilder.get()
+    }
+
     fun backspace() {
         Timber.i("${this::class.simpleName}.backspace()")
         exprBuilder.backspace()
