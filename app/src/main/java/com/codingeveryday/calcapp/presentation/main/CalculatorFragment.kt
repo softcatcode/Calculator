@@ -93,6 +93,12 @@ class CalculatorFragment: Fragment() {
         calcViewModel.updateExpression()
     }
 
+    override fun onDestroyView() {
+        Timber.i("${this::class.simpleName}.onDestroyView()")
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun setupRecyclerView() {
         historyAdapter = HistoryItemAdapter()
         with (binding.history!!) {
@@ -189,6 +195,9 @@ class CalculatorFragment: Fragment() {
                 switchRadDeg!!.setOnClickListener { calcViewModel.switchRadDeg() }
                 clearHistoryBtn!!.setOnClickListener { calcViewModel.clearHistory() }
             }
+            sendLogs.setOnClickListener {
+                calcViewModel.sendLogs()
+            }
         }
     }
 
@@ -250,12 +259,5 @@ class CalculatorFragment: Fragment() {
                 sb.append(c)
         }
         return sb.toString()
-    }
-
-
-    override fun onDestroyView() {
-        Timber.i("${this::class.simpleName}.onDestroyView()")
-        super.onDestroyView()
-        _binding = null
     }
 }

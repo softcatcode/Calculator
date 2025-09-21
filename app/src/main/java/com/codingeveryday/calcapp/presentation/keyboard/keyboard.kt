@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,6 +19,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -131,13 +133,16 @@ fun InputView(
 }
 
 @Composable
-fun KeyboardFragmentDesign(
-    viewModel: KeyboardFragmentViewModel,
-    onOkClicked: () -> Unit = {}
+fun KeyboardScreen(
+    text: String = "",
+    onBackspaceClicked: () -> Unit = {},
+    onDigitClick: (Char) -> Unit = {},
+    onOkClicked: () -> Unit = {},
+    paddings: PaddingValues = PaddingValues(0.dp)
 ) {
-    val text by viewModel.textFieldState.observeAsState("")
     Column(
         modifier = Modifier
+            .padding(paddings)
             .fillMaxWidth()
             .wrapContentHeight()
             .background(colorResource(id = R.color.calculatorBackgroundColor))
@@ -150,7 +155,7 @@ fun KeyboardFragmentDesign(
                 .padding(bottom = 2.dp)
                 .background(Color.White),
             text = text,
-            onBackspaceClicked = { viewModel.backspace() }
+            onBackspaceClicked = onBackspaceClicked
         )
         Keyboard(
             characters = DIGITS.substring(0, 10),
@@ -158,7 +163,7 @@ fun KeyboardFragmentDesign(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.25f),
-            onClick = { viewModel.addDigit(it[0]) }
+            onClick = { onDigitClick(it[0]) }
         )
         Keyboard(
             characters = DIGITS.substring(10, DIGITS.length),
@@ -166,12 +171,12 @@ fun KeyboardFragmentDesign(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.9f),
-            onClick = { viewModel.addDigit(it[0]) }
+            onClick = { onDigitClick(it[0]) }
         )
         Button(
             modifier = Modifier
                 .fillMaxSize(),
-            onClick = { onOkClicked() },
+            onClick = onOkClicked,
             shape = RoundedCornerShape(5.dp),
             colors = ButtonDefaults.buttonColors().copy(
                 containerColor = colorResource(id = R.color.btnBoundsColor)
@@ -182,5 +187,22 @@ fun KeyboardFragmentDesign(
                 fontSize = 30.sp,
             )
         }
+    }
+}
+
+@Composable
+fun KeyboardFragmentDesign(
+    viewModel: KeyboardFragmentViewModel,
+    onOkClicked: () -> Unit = {}
+) {
+    val text by viewModel.textFieldState.observeAsState("")
+    Scaffold { paddings ->
+        KeyboardScreen(
+            text = text,
+            onBackspaceClicked = { viewModel.backspace() },
+            onDigitClick = { viewModel.addDigit(it) },
+            onOkClicked = onOkClicked,
+            paddings = paddings
+        )
     }
 }

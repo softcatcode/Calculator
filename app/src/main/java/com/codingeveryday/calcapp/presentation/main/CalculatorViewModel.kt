@@ -161,6 +161,10 @@ class CalculatorViewModel @Inject constructor(
         _state.value = state.value?.copy(expr = exprBuilder.get())
     }
 
+    fun sendLogs() {
+        Timber.i("${this::class.simpleName}.sendLogs()")
+    }
+
     private fun updateHistory(expr: String, result: String, base: Int) {
         Timber.i("${this::class.simpleName}.updateHistory($expr, $result, $base)")
         if (expr == result)

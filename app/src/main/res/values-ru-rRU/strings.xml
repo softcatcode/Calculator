@@ -30,4 +30,5 @@
     <string name="invalid_number">ошибка в числе</string>
     <string name="direction">направление</string>
     <string name="clear_btn_description">очистить историю</string>
+    <string name="send_logs">Отправить логи</string>
 </resources>
