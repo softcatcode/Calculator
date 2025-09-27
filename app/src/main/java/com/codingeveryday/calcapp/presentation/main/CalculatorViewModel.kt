@@ -28,6 +28,7 @@ class CalculatorViewModel @Inject constructor(
     private val addHistoryItemUseCase: AddHistoryItemUseCase,
     private val clearHistoryUseCase: ClearHistoryUseCase,
     private val exprBuilder: ExpressionBuilderInterface,
+    private val shareLogsUseCase: ShareLogsUseCase,
     getHistoryListUseCase: GetHistoryListUseCase,
     application: Application
 ): AndroidViewModel(application) {
@@ -158,8 +159,9 @@ class CalculatorViewModel @Inject constructor(
         _state.value = state.value?.copy(expr = exprBuilder.get())
     }
 
-    fun sendLogs() {
+    fun sendLogs(context: Context) {
         Timber.i("${this::class.simpleName}.sendLogs()")
+        shareLogsUseCase(context)
     }
 
     fun setBase(base: String) {

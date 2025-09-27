@@ -188,7 +188,7 @@ class CalculatorFragment: Fragment() {
                 clearHistoryBtn!!.setOnClickListener { calcViewModel.clearHistory() }
             }
             sendLogs.setOnClickListener {
-                calcViewModel.sendLogs()
+                calcViewModel.sendLogs(requireActivity())
             }
         }
     }

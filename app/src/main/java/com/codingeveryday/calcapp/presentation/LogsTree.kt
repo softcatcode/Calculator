@@ -39,7 +39,10 @@ object LogsTree: Timber.Tree() {
 
     private fun dumpToFile(tag: String, msg: String) {
         val fileName = getLogFileName()
-        val file = File(INTERNAL_STORAGE, fileName)
+        val dir = File(LOGS_STORAGE)
+        if (!dir.exists())
+            dir.mkdir()
+        val file = File(LOGS_STORAGE, fileName)
         if (!file.exists()) {
             if (!file.createNewFile()) {
                 return
@@ -48,5 +51,7 @@ object LogsTree: Timber.Tree() {
         file.appendText("[$tag] ${msg.replace('\n', ' ')}\n")
     }
 
+    const val LOG_DIR_NAME = "log_storage"
     private val DEFAULT_TAG = LogsTree::class.simpleName.toString()
+    val LOGS_STORAGE = "$INTERNAL_STORAGE/$LOG_DIR_NAME"
 }
