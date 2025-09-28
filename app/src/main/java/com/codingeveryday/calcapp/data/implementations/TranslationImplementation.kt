@@ -3,6 +3,7 @@ package com.codingeveryday.calcapp.data.implementations
 import com.codingeveryday.calcapp.domain.entities.Number
 import com.codingeveryday.calcapp.data.core.interfaces.MathInterface
 import com.codingeveryday.calcapp.domain.interfaces.TranslationInterface
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -68,9 +69,9 @@ class TranslationImplementation @Inject constructor(
     }
 
     override fun transformNS(a: Number, toBase: Int): Number {
+        Timber.i("${this::class.simpleName}.transformNS($a, $toBase)")
         if (a.base !in 2..36)
             return a
-
         val int = math.intPart(a)
         val digits = MutableList<Byte>(int.order) {0}.apply { addAll(int.digits) }
         val intPartResult = translateIntPart(digits, a.base, toBase, a.sign)

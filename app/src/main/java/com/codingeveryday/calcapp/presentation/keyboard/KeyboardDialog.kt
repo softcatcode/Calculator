@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.codingeveryday.calcapp.CalculatorApplication
 import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.presentation.ViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
 class KeyboardDialog: Fragment() {
@@ -32,6 +33,7 @@ class KeyboardDialog: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Timber.i("${this::class.simpleName}.onCreateView")
         component.inject(this)
         val view = inflater.inflate(R.layout.fragment_keyboard_dialog, container, false)
         view.findViewById<ComposeView>(R.id.compose_view).apply {
@@ -44,6 +46,7 @@ class KeyboardDialog: Fragment() {
     }
 
     private fun onClose() {
+        Timber.i("${this::class.simpleName}.onClose()")
         findNavController().popBackStack()
     }
 }

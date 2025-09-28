@@ -16,6 +16,8 @@ import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.domain.interfaces.HistoryManagerInterface
 import com.codingeveryday.calcapp.data.core.interfaces.MathInterface
 import com.codingeveryday.calcapp.data.core.interfaces.ParseExpressionInterface
+import com.codingeveryday.calcapp.data.implementations.ShareDataImpl
+import com.codingeveryday.calcapp.domain.interfaces.ShareDataInterface
 import com.codingeveryday.calcapp.domain.interfaces.TranslationInterface
 import dagger.Binds
 import dagger.Module
@@ -47,4 +49,7 @@ interface DomainModule {
 
     @Binds
     fun bindTransformationImpl(impl: TranslationImplementation): TranslationInterface
+
+    @Binds
+    fun bindShareDataInterface(impl: ShareDataImpl): ShareDataInterface
 }

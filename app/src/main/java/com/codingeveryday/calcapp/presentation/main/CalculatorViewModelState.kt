@@ -7,5 +7,6 @@ data class CalculatorViewModelState(
     val expr: String = "",
     val baseColorId: Int = R.color.btnTextColor,
     val angleUnit: AngleUnit = AngleUnit.Radians,
-    val uiBlocked: Boolean = false
+    val uiBlocked: Boolean = false,
+    val base: Int = 10
 )
