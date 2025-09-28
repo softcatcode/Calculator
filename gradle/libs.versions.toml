@@ -13,11 +13,13 @@ junitVersion = "1.3.0"
 kotlin = "2.2.20"
 kotlinxCoroutinesCore = "1.10.2"
 kotlinxCoroutinesAndroid = "1.10.2"
+kotlinxCoroutinesTest = "1.8.1"
 material = "1.13.0"
 mockitoKotlin = "6.0.0"
 mockitoCore = "5.19.0"
 navigationFragmentKtx = "2.9.4"
 navigationSafeArgsGradlePlugin = "2.9.4"
+robolectric = "4.16"
 roomKtx = "2.8.0"
 safeargs = "2.9.4"
 ksp = "2.2.20-2.0.3"
@@ -25,6 +27,7 @@ dagger = "2.57.1"
 composeLivedata = "1.9.1"
 uiAndroid = "1.9.1"
 allure = "3.0.0"
+timber = "4.7.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -49,6 +52,7 @@ io-qameta-allure-gradle-plugin = { module = "io.qameta.allure:io.qameta.allure.g
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoCore" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
@@ -56,6 +60,8 @@ navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-
 dagger-core = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
 dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
 androidx-compose-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "composeLivedata" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
