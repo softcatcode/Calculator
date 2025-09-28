@@ -469,4 +469,13 @@ class ExpressionBuilderTest {
 
         assert(builder.get() == "8.")
     }
+
+    @Test
+    fun enterPlusAfterFac() {
+        builder.setExpression("5!")
+
+        builder.addOperation('+')
+
+        assert(builder.get() == "5!+")
+    }
 }

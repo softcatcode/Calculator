@@ -17,6 +17,7 @@ import com.codingeveryday.calcapp.domain.entities.bracketType
 import com.codingeveryday.calcapp.domain.entities.closingBracket
 import com.codingeveryday.calcapp.domain.entities.openingBracket
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
+import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.FAC
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.POINT
 import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
 import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.MUL
@@ -106,7 +107,7 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
             return this
         }
         if (
-            builder.last() in CLOSING_BRACKETS + DIGITS + CONSTANTS ||
+            builder.last() in CLOSING_BRACKETS + DIGITS + CONSTANTS + FAC ||
             builder.last() in OPENING_BRACKETS && op == CalculationInterface.SUB
         ) {
             builder.append(op)
