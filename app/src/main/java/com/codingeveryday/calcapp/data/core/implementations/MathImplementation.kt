@@ -129,9 +129,7 @@ class MathImplementation @Inject constructor(
         return Number(result, a.order + b.order, sign, a.base)
     }
 
-    private fun isZero(a: Number) = Number(a.digits, a.order, a.sign, a.base).let{
-        it.order != 0 && it.sign && it.digits.size == 1 && it.digits[0] == 0.toByte()
-    }
+    private fun correct(a: Number) = Number(a.digits, a.order, a.sign, a.base)
 
     private fun afterMaxTimesSub(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
         var n = a.size - b.size
@@ -155,7 +153,8 @@ class MathImplementation @Inject constructor(
     override fun div(a: Number, b: Number): Number {
         if (a.base != b.base)
             throw Exception("Numbers are in different number systems: ${a.base} and ${b.base}")
-        if (isZero(b))
+        val b = correct(b)
+        if (b.order == 0 && b.sign && b.digits.size == 1 && b.digits[0] == 0.toByte())
             throw RuntimeException("Division by 0 occurred")
 
         val n = min(a.order, b.order)
@@ -273,8 +272,12 @@ class MathImplementation @Inject constructor(
             return tailorRowCos(sub(x, halfPi))
         val num = mul(sum(two, Number("1", a.base)), halfPi)
         if (cmp(x, num) == -1)
-            return tailorRowSin(sub(x, pi)).apply { sign = false }
-        return tailorRowSin(sub(doublePi, x)).apply { sign = false }
+            return tailorRowSin(sub(x, pi)).apply {
+                sign = this.order == 0 && this.digits.size == 1 && this.digits[0] == 0.toByte()
+            }
+        return tailorRowSin(sub(doublePi, x)).apply {
+            sign = this.order == 0 && this.digits.size == 1 && this.digits[0] == 0.toByte()
+        }
     }
 
     override fun cos(a: Number, angleUnit: AngleUnit): Number {
@@ -287,10 +290,14 @@ class MathImplementation @Inject constructor(
         if (cmp(x, halfPi) == -1)
             return tailorRowCos(x)
         if (cmp(x, pi) == -1)
-            return tailorRowSin(sub(x, halfPi)).apply { sign = false }
+            return tailorRowSin(sub(x, halfPi)).apply {
+                sign = this.order == 0 && this.digits.size == 1 && this.digits[0] == 0.toByte()
+            }
         val num = mul(sum(two, Number("1", a.base)), halfPi)
         if (cmp(x, num) == -1)
-            return tailorRowCos(sub(x, pi)).apply { sign = false }
+            return tailorRowCos(sub(x, pi)).apply {
+                sign = this.order == 0 && this.digits.size == 1 && this.digits[0] == 0.toByte()
+            }
         return tailorRowCos(sub(doublePi, x))
     }
     override fun tan(a: Number, angleUnit: AngleUnit) = div(sin(a, angleUnit), cos(a, angleUnit))
@@ -356,6 +363,7 @@ class MathImplementation @Inject constructor(
     private fun round(a: Number, digitsAfterPoint: Int = 0): Number {
         var x: Number = a.copy().apply { order += digitsAfterPoint }
         val eps = constantProvider.epsValue(a.base).apply { order += digitsAfterPoint }
+        eps.order++
         val fr = fractionPart(x)
         if (cmp(fr, eps) <= 0)
             x = sub(x, fr)
@@ -363,7 +371,7 @@ class MathImplementation @Inject constructor(
         if (cmp(delta, eps) <= 0)
             x = sum(x, delta)
         x.order -= digitsAfterPoint
-        return x
+        return correct(x)
     }
 
     override fun sqrt(a: Number): Number {
