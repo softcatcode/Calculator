@@ -106,6 +106,11 @@ class ExpressionBuilder @Inject constructor(): ExpressionBuilderInterface {
                 builder.append(op)
             return this
         }
+        if (op == FAC) {
+            if (builder.last() in CLOSING_BRACKETS + DIGITS + CONSTANTS)
+                builder.append(op)
+            return this
+        }
         if (
             builder.last() in CLOSING_BRACKETS + DIGITS + CONSTANTS + FAC ||
             builder.last() in OPENING_BRACKETS && op == CalculationInterface.SUB
