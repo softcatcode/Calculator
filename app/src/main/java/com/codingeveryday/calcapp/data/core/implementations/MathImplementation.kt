@@ -9,11 +9,11 @@ import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 
-class MathImplementation @Inject constructor(
+open class MathImplementation @Inject constructor(
     private val constantProvider: ConstantProviderInterface
 ): MathInterface {
 
-    private fun sum(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
+    protected fun sum(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
         val n = max(a.size, b.size)
         var r: Byte = 0
         repeat (n - a.size) { a.add(0) }
@@ -33,8 +33,9 @@ class MathImplementation @Inject constructor(
         return a
     }
 
-    private fun sub(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
+    protected fun sub(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
         val n = max(a.size, b.size)
+        repeat(n - a.size) { a.add(0) }
         repeat(n - b.size) { b.add(0) }
         for (i in a.indices) {
             a[i] = a[i].minus(b[i]).toByte()
@@ -104,7 +105,7 @@ class MathImplementation @Inject constructor(
         return result
     }
 
-    private fun mul(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
+    protected fun mul(a: MutableList<Byte>, b: MutableList<Byte>, base: Int): MutableList<Byte> {
         var result = mutableListOf<Byte>(0)
         for (i in a.indices) {
             val num = MutableList<Byte>(i) {0}
