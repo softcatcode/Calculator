@@ -36,6 +36,12 @@ android {
             minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        benchmark {
+            initWith release
+            signingConfig signingConfigs.debug
+            matchingFallbacks = ['release']
+            debuggable false
+        }
     }
 
     compileOptions {
@@ -98,4 +104,5 @@ dependencies {
     implementation(libs.mockito.core)
     implementation(libs.mockito.kotlin)
     implementation(libs.timber)
+    implementation libs.androidx.profileinstaller
 }
