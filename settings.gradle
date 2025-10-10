@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "CalcApp"
 include ':app'
 include ':benchmark'
+include ':benchmark_algo'
