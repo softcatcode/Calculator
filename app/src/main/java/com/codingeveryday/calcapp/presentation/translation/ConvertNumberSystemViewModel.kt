@@ -5,17 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.codingeveryday.calcapp.domain.useCases.NumberSystemTranslationUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
-import com.codingeveryday.calcapp.domain.entities.Number
+import com.softcat.domain.useCases.NumberSystemTranslationUseCase
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.softcat.domain.entities.Number
 
 class ConvertNumberSystemViewModel @Inject constructor(
     private val translateUseCase: NumberSystemTranslationUseCase

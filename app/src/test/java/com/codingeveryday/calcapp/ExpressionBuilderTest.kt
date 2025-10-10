@@ -1,10 +1,10 @@
 package com.codingeveryday.calcapp
 
 import com.codingeveryday.calcapp.TestDataGenerator.getRandomExpr
-import com.codingeveryday.calcapp.data.implementations.ExpressionBuilder
-import com.codingeveryday.calcapp.domain.entities.BracketType
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.PI
-import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
+import com.softcat.data.implementations.ExpressionBuilder
+import com.softcat.domain.entities.BracketType
+import com.softcat.domain.interfaces.CalculationInterface.Companion.PI
+import com.softcat.domain.interfaces.ExpressionBuilderInterface
 import org.junit.Before
 import org.junit.Test
 

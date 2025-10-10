@@ -4,11 +4,11 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.codingeveryday.calcapp.domain.entities.HistoryItem
-import com.codingeveryday.calcapp.domain.useCases.AddHistoryItemUseCase
-import com.codingeveryday.calcapp.domain.useCases.ClearHistoryUseCase
-import com.codingeveryday.calcapp.domain.useCases.GetHistoryListUseCase
-import com.codingeveryday.calcapp.domain.useCases.RemoveHistoryItemUseCase
+import com.softcat.domain.entities.HistoryItem
+import com.softcat.domain.useCases.AddHistoryItemUseCase
+import com.softcat.domain.useCases.ClearHistoryUseCase
+import com.softcat.domain.useCases.GetHistoryListUseCase
+import com.softcat.domain.useCases.RemoveHistoryItemUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith

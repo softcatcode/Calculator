@@ -1,12 +1,11 @@
 package com.codingeveryday.calcapp
 
-import com.codingeveryday.calcapp.data.core.implementations.ExpressionParser
-import com.codingeveryday.calcapp.data.core.interfaces.MathInterface
-import com.codingeveryday.calcapp.data.implementations.CalculationImplementation
-import com.codingeveryday.calcapp.domain.entities.BinaryOperation
-import com.codingeveryday.calcapp.domain.entities.Expression
-import com.codingeveryday.calcapp.domain.entities.Number
-import com.codingeveryday.calcapp.domain.entities.UnaryOperation
+import com.softcat.data.core.implementations.ExpressionParser
+import com.softcat.data.core.interfaces.MathInterface
+import com.softcat.data.implementations.CalculationImplementation
+import com.softcat.domain.entities.BinaryOperation
+import com.softcat.domain.entities.Expression
+import com.softcat.domain.entities.UnaryOperation
 import org.junit.Before
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
@@ -19,6 +18,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import kotlin.random.Random
+import com.softcat.domain.entities.Number
 
 class CalculationTest {
 

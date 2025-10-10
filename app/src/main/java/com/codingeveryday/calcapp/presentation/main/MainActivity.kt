@@ -5,8 +5,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.codingeveryday.calcapp.CalculatorApplication.Companion.INTERNAL_STORAGE
 import com.codingeveryday.calcapp.R
-import com.codingeveryday.calcapp.presentation.LogsTree
+import com.softcat.data.LogsTree
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         if (!checkNotificationPermission()) {
             requestNotificationPermission()
         }
-        Timber.plant(LogsTree)
+        Timber.plant(LogsTree(INTERNAL_STORAGE.path))
     }
 
     private fun checkNotificationPermission() = ActivityCompat.checkSelfPermission(

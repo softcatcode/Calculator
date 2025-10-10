@@ -36,7 +36,7 @@
         </activity>
 
         <service
-            android:name=".data.CalcService"
+            android:name=".CalcService"
             android:exported="true"
             android:foregroundServiceType="mediaPlayback" />
 

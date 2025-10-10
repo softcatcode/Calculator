@@ -7,13 +7,18 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.codingeveryday.calcapp.CalcService
 import com.codingeveryday.calcapp.R
-import com.codingeveryday.calcapp.data.CalcService
-import com.codingeveryday.calcapp.domain.entities.AngleUnit
-import com.codingeveryday.calcapp.domain.entities.BracketType
-import com.codingeveryday.calcapp.domain.entities.HistoryItem
-import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
-import com.codingeveryday.calcapp.domain.useCases.*
+import com.softcat.domain.entities.AngleUnit
+import com.softcat.domain.entities.BracketType
+import com.softcat.domain.entities.HistoryItem
+import com.softcat.domain.interfaces.ExpressionBuilderInterface
+import com.softcat.domain.useCases.AddHistoryItemUseCase
+import com.softcat.domain.useCases.CalculateUseCase
+import com.softcat.domain.useCases.ClearHistoryUseCase
+import com.softcat.domain.useCases.GetHistoryListUseCase
+import com.softcat.domain.useCases.RemoveHistoryItemUseCase
+import com.softcat.domain.useCases.ShareLogsUseCase
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -159,9 +164,9 @@ class CalculatorViewModel @Inject constructor(
         _state.value = state.value?.copy(expr = exprBuilder.get())
     }
 
-    fun sendLogs(context: Context) {
-        Timber.i("${this::class.simpleName}.sendLogs()")
-        shareLogsUseCase(context)
+    fun sendLogs(context: Context, logsStoragePath: String) {
+        Timber.i("${this::class.simpleName}.sendLogs(logsStoragePath=$logsStoragePath)")
+        shareLogsUseCase(context, logsStoragePath)
     }
 
     fun setBase(base: String) {

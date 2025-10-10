@@ -1,7 +1,7 @@
 package com.codingeveryday.calcapp.presentation.main
 
 import com.codingeveryday.calcapp.R
-import com.codingeveryday.calcapp.domain.entities.AngleUnit
+import com.softcat.domain.entities.AngleUnit
 
 data class CalculatorViewModelState(
     val expr: String = "",

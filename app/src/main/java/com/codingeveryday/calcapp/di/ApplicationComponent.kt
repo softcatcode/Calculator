@@ -1,7 +1,7 @@
 package com.codingeveryday.calcapp.di
 
 import android.app.Application
-import com.codingeveryday.calcapp.data.CalcService
+import com.codingeveryday.calcapp.CalcService
 import com.codingeveryday.calcapp.di.annotations.ApplicationScope
 import com.codingeveryday.calcapp.di.modules.DataModule
 import com.codingeveryday.calcapp.di.modules.DomainModule

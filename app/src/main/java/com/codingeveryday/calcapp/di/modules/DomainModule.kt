@@ -1,26 +1,29 @@
 package com.codingeveryday.calcapp.di.modules
 
-import com.codingeveryday.calcapp.data.implementations.CalculationImplementation
-import com.codingeveryday.calcapp.data.core.implementations.ConstantInterpreter
-import com.codingeveryday.calcapp.data.core.implementations.ConstantProvider
-import com.codingeveryday.calcapp.data.implementations.ExpressionBuilder
-import com.codingeveryday.calcapp.data.core.implementations.ExpressionParser
-import com.codingeveryday.calcapp.data.implementations.HistoryManagerImplementation
-import com.codingeveryday.calcapp.data.core.implementations.MathImplementation
-import com.codingeveryday.calcapp.data.implementations.TranslationImplementation
+import com.codingeveryday.calcapp.BuildConfig
+import com.codingeveryday.calcapp.CalculatorApplication
 import com.codingeveryday.calcapp.di.annotations.ApplicationScope
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
-import com.codingeveryday.calcapp.data.core.interfaces.ConstantInterpreterInterface
-import com.codingeveryday.calcapp.data.core.interfaces.ConstantProviderInterface
-import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
-import com.codingeveryday.calcapp.domain.interfaces.HistoryManagerInterface
-import com.codingeveryday.calcapp.data.core.interfaces.MathInterface
-import com.codingeveryday.calcapp.data.core.interfaces.ParseExpressionInterface
-import com.codingeveryday.calcapp.data.implementations.ShareDataImpl
-import com.codingeveryday.calcapp.domain.interfaces.ShareDataInterface
-import com.codingeveryday.calcapp.domain.interfaces.TranslationInterface
+import com.softcat.data.core.implementations.ConstantInterpreter
+import com.softcat.data.core.implementations.ConstantProvider
+import com.softcat.data.core.implementations.ExpressionParser
+import com.softcat.data.core.implementations.MathImplementation
+import com.softcat.data.core.interfaces.ConstantInterpreterInterface
+import com.softcat.data.core.interfaces.ConstantProviderInterface
+import com.softcat.data.core.interfaces.MathInterface
+import com.softcat.data.core.interfaces.ParseExpressionInterface
+import com.softcat.data.implementations.CalculationImplementation
+import com.softcat.data.implementations.ExpressionBuilder
+import com.softcat.data.implementations.HistoryManagerImplementation
+import com.softcat.data.implementations.ShareDataImpl
+import com.softcat.data.implementations.TranslationImplementation
+import com.softcat.domain.interfaces.CalculationInterface
+import com.softcat.domain.interfaces.ExpressionBuilderInterface
+import com.softcat.domain.interfaces.HistoryManagerInterface
+import com.softcat.domain.interfaces.ShareDataInterface
+import com.softcat.domain.interfaces.TranslationInterface
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 
 @Module
 interface DomainModule {
@@ -50,6 +53,12 @@ interface DomainModule {
     @Binds
     fun bindTransformationImpl(impl: TranslationImplementation): TranslationInterface
 
-    @Binds
-    fun bindShareDataInterface(impl: ShareDataImpl): ShareDataInterface
+    companion object {
+        @Provides
+        fun provideSharedDataInterface(): ShareDataInterface {
+            return ShareDataImpl(
+                "${BuildConfig.APPLICATION_ID}.provider"
+            )
+        }
+    }
 }
