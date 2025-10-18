@@ -44,6 +44,9 @@ dependencies {
     implementation libs.androidx.espresso.core
     implementation libs.androidx.uiautomator
     implementation libs.androidx.benchmark.macro.junit4
+
+    implementation(project(":data"))
+    implementation(project(":domain"))
 }
 
 androidComponents {

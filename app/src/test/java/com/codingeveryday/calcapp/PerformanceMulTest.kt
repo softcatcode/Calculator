@@ -2,12 +2,12 @@ package com.codingeveryday.calcapp
 
 import android.os.Debug
 import android.util.Log
-import com.codingeveryday.calcapp.data.core.implementations.ConstantProvider
-import com.codingeveryday.calcapp.data.core.implementations.FastMathImplementation
-import com.codingeveryday.calcapp.data.core.implementations.MathImplementation
-import com.codingeveryday.calcapp.domain.entities.Number
+import com.softcat.data.core.implementations.ConstantProvider
+import com.softcat.data.core.implementations.FastMathImplementation
+import com.softcat.data.core.implementations.MathImplementation
 import org.junit.Test
 import kotlin.time.measureTime
+import com.softcat.domain.entities.Number
 
 class PerformanceMulTest {
 
