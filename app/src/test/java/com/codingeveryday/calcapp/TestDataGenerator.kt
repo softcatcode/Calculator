@@ -1,8 +1,8 @@
 package com.codingeveryday.calcapp
 
-import com.codingeveryday.calcapp.domain.entities.HistoryItem
-import com.codingeveryday.calcapp.domain.entities.Number
+import com.softcat.domain.entities.HistoryItem
 import kotlin.random.Random
+import com.softcat.domain.entities.Number
 
 object TestDataGenerator {
 

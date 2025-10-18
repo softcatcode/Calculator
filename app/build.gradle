@@ -36,6 +36,12 @@ android {
             minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        benchmark {
+            initWith release
+            signingConfig signingConfigs.debug
+            matchingFallbacks = ['release']
+            debuggable = false
+        }
     }
 
     compileOptions {
@@ -60,6 +66,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.ui.android)
 
     // jetpack compose
     implementation(platform(libs.androidx.compose.bom))
@@ -73,12 +80,6 @@ dependencies {
     // jetpack navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-
-    // room database
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.ui.android)
-    ksp(libs.androidx.room.compiler)
 
     // coroutines
     implementation(libs.kotlinx.coroutines.core)
@@ -98,4 +99,14 @@ dependencies {
     implementation(libs.mockito.core)
     implementation(libs.mockito.kotlin)
     implementation(libs.timber)
+    implementation(libs.androidx.profileinstaller)
+
+    implementation(project(":domain"))
+    androidTestImplementation(project(":domain"))
+    testImplementation(project(":domain"))
+
+    implementation(project(":data"))
+    androidTestImplementation(project(":data"))
+    testImplementation(project(":data"))
+    implementation libs.androidx.room.runtime
 }

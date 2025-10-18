@@ -1,11 +1,11 @@
 package com.codingeveryday.calcapp
 
 import com.codingeveryday.calcapp.TestDataGenerator.getRandomHistoryItem
-import com.codingeveryday.calcapp.data.database.HistoryItemDao
-import com.codingeveryday.calcapp.data.database.HistoryItemDbModel
-import com.codingeveryday.calcapp.data.implementations.HistoryManagerImplementation
-import com.codingeveryday.calcapp.data.mapper.HistoryItemMapper
-import com.codingeveryday.calcapp.domain.entities.HistoryItem
+import com.softcat.data.database.HistoryItemDao
+import com.softcat.data.database.HistoryItemDbModel
+import com.softcat.data.implementations.HistoryManagerImplementation
+import com.softcat.data.mapper.HistoryItemMapper
+import com.softcat.domain.entities.HistoryItem
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test

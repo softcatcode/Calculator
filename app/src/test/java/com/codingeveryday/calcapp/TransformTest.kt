@@ -1,11 +1,11 @@
 package com.codingeveryday.calcapp
 
-import com.codingeveryday.calcapp.data.core.implementations.ConstantProvider
-import com.codingeveryday.calcapp.data.core.implementations.MathImplementation
-import com.codingeveryday.calcapp.data.implementations.TranslationImplementation
-import com.codingeveryday.calcapp.domain.entities.Number
+import com.softcat.data.core.implementations.ConstantProvider
+import com.softcat.data.core.implementations.MathImplementation
+import com.softcat.data.implementations.TranslationImplementation
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
+import com.softcat.domain.entities.Number
 
 class TransformTest {
 

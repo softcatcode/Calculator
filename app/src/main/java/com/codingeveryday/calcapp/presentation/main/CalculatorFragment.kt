@@ -16,28 +16,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.codingeveryday.calcapp.CalculatorApplication
 import com.codingeveryday.calcapp.R
 import com.codingeveryday.calcapp.databinding.FragmentCalculatorBinding
-import com.codingeveryday.calcapp.domain.entities.AngleUnit
-import com.codingeveryday.calcapp.domain.entities.BracketType
-import com.codingeveryday.calcapp.domain.entities.closingBracket
-import com.codingeveryday.calcapp.domain.entities.openingBracket
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.COS
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.CTG
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.DEG
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.DIV
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.FAC
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.MUL
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.PI
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.POW
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.RAD
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SIN
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SQRT
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUB
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.SUM
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.LN
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface.Companion.TAN
 import com.codingeveryday.calcapp.presentation.main.adapters.HistoryItemAdapter
 import com.codingeveryday.calcapp.presentation.ViewModelFactory
+import com.softcat.domain.entities.AngleUnit
+import com.softcat.domain.entities.BracketType
+import com.softcat.domain.entities.closingBracket
+import com.softcat.domain.entities.openingBracket
+import com.softcat.domain.interfaces.CalculationInterface
+import com.softcat.domain.interfaces.CalculationInterface.Companion.COS
+import com.softcat.domain.interfaces.CalculationInterface.Companion.CTG
+import com.softcat.domain.interfaces.CalculationInterface.Companion.DEG
+import com.softcat.domain.interfaces.CalculationInterface.Companion.DIV
+import com.softcat.domain.interfaces.CalculationInterface.Companion.FAC
+import com.softcat.domain.interfaces.CalculationInterface.Companion.LN
+import com.softcat.domain.interfaces.CalculationInterface.Companion.MUL
+import com.softcat.domain.interfaces.CalculationInterface.Companion.PI
+import com.softcat.domain.interfaces.CalculationInterface.Companion.POW
+import com.softcat.domain.interfaces.CalculationInterface.Companion.RAD
+import com.softcat.domain.interfaces.CalculationInterface.Companion.SIN
+import com.softcat.domain.interfaces.CalculationInterface.Companion.SQRT
+import com.softcat.domain.interfaces.CalculationInterface.Companion.SUB
+import com.softcat.domain.interfaces.CalculationInterface.Companion.SUM
+import com.softcat.domain.interfaces.CalculationInterface.Companion.TAN
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -188,7 +188,10 @@ class CalculatorFragment: Fragment() {
                 clearHistoryBtn!!.setOnClickListener { calcViewModel.clearHistory() }
             }
             sendLogs.setOnClickListener {
-                calcViewModel.sendLogs(requireActivity())
+                val activity = requireActivity()
+                val application = (activity.application as CalculatorApplication)
+                val logsStoragePath = application.getLogsStoragePath()
+                calcViewModel.sendLogs(activity, logsStoragePath)
             }
         }
     }

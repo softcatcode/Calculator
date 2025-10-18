@@ -1,12 +1,12 @@
 package com.codingeveryday.calcapp
 
-import com.codingeveryday.calcapp.data.core.implementations.ConstantProvider
-import com.codingeveryday.calcapp.data.core.implementations.MathImplementation
-import com.codingeveryday.calcapp.data.implementations.TranslationImplementation
-import com.codingeveryday.calcapp.domain.entities.Number
-import com.codingeveryday.calcapp.domain.useCases.NumberSystemTranslationUseCase
+import com.softcat.data.core.implementations.ConstantProvider
+import com.softcat.data.core.implementations.MathImplementation
+import com.softcat.data.implementations.TranslationImplementation
+import com.softcat.domain.useCases.NumberSystemTranslationUseCase
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
+import com.softcat.domain.entities.Number
 
 class NumberSystemTranslationUseCaseIntegrationTests {
 

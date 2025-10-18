@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
         android:minSdkVersion="34" />
+
     <application
-        android:allowBackup="true"
         android:name=".CalculatorApplication"
+        android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/calc_avatar"
@@ -17,6 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CalcApp"
         tools:targetApi="31">
+        <profileable android:shell="true" />
+
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true">
@@ -30,10 +34,11 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <service
-            android:name=".data.CalcService"
+            android:name=".CalcService"
             android:exported="true"
-            android:foregroundServiceType="mediaPlayback"/>
+            android:foregroundServiceType="mediaPlayback" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

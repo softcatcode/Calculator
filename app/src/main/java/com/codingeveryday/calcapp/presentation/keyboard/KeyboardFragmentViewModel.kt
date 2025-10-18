@@ -3,7 +3,7 @@ package com.codingeveryday.calcapp.presentation.keyboard
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
+import com.softcat.domain.interfaces.ExpressionBuilderInterface
 import timber.log.Timber
 import javax.inject.Inject
 

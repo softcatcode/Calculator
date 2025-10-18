@@ -1,0 +1,56 @@
+plugins {
+    alias(libs.plugins.android.test)
+    alias(libs.plugins.jetbrains.kotlin.android)
+}
+
+android {
+    namespace 'com.softcat.benchmark'
+    compileSdk 36
+
+    defaultConfig {
+        minSdk 35
+        targetSdk 35
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        // This benchmark buildType is used for benchmarking, and should function like your
+        // release build (for example, with minification on). It's signed with a debug key
+        // for easy local/CI testing.
+        benchmark {
+            debuggable = true
+            signingConfig = debug.signingConfig
+            matchingFallbacks = ["release"]
+            proguardFiles("benchmark-rules.pro")
+        }
+    }
+
+    targetProjectPath = ":app"
+    experimentalProperties["android.experimental.self-instrumenting"] = true
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+dependencies {
+    implementation libs.androidx.junit
+    implementation libs.androidx.espresso.core
+    implementation libs.androidx.uiautomator
+    implementation libs.androidx.benchmark.macro.junit4
+
+    implementation(project(":data"))
+    implementation(project(":domain"))
+}
+
+androidComponents {
+    beforeVariants(selector().all()) {
+        enable = buildType == "benchmark"
+    }
+}

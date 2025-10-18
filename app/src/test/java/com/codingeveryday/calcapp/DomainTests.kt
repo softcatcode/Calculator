@@ -7,26 +7,26 @@ import com.codingeveryday.calcapp.TestDataGenerator.getRandomExpr
 import com.codingeveryday.calcapp.TestDataGenerator.getRandomHistoryItemList
 import com.codingeveryday.calcapp.TestDataGenerator.getRandomNumber
 import com.codingeveryday.calcapp.TestDataGenerator.getRandomString
-import com.codingeveryday.calcapp.domain.entities.AngleUnit
-import com.codingeveryday.calcapp.domain.entities.BracketType
-import com.codingeveryday.calcapp.domain.entities.Expression.Companion.matchingBrackets
-import com.codingeveryday.calcapp.domain.entities.bracketType
-import com.codingeveryday.calcapp.domain.entities.closingBracket
-import com.codingeveryday.calcapp.domain.entities.openingBracket
-import com.codingeveryday.calcapp.domain.interfaces.CalculationInterface
-import com.codingeveryday.calcapp.data.core.interfaces.ConstantInterpreterInterface
-import com.codingeveryday.calcapp.data.core.interfaces.ConstantProviderInterface
-import com.codingeveryday.calcapp.domain.interfaces.ExpressionBuilderInterface
-import com.codingeveryday.calcapp.domain.interfaces.HistoryManagerInterface
-import com.codingeveryday.calcapp.data.core.interfaces.MathInterface
-import com.codingeveryday.calcapp.data.core.interfaces.ParseExpressionInterface
-import com.codingeveryday.calcapp.domain.interfaces.TranslationInterface
-import com.codingeveryday.calcapp.domain.useCases.AddHistoryItemUseCase
-import com.codingeveryday.calcapp.domain.useCases.CalculateUseCase
-import com.codingeveryday.calcapp.domain.useCases.ClearHistoryUseCase
-import com.codingeveryday.calcapp.domain.useCases.GetHistoryListUseCase
-import com.codingeveryday.calcapp.domain.useCases.NumberSystemTranslationUseCase
-import com.codingeveryday.calcapp.domain.useCases.RemoveHistoryItemUseCase
+import com.softcat.data.core.interfaces.ConstantInterpreterInterface
+import com.softcat.data.core.interfaces.ConstantProviderInterface
+import com.softcat.data.core.interfaces.MathInterface
+import com.softcat.data.core.interfaces.ParseExpressionInterface
+import com.softcat.domain.entities.AngleUnit
+import com.softcat.domain.entities.BracketType
+import com.softcat.domain.entities.Expression.Companion.matchingBrackets
+import com.softcat.domain.entities.bracketType
+import com.softcat.domain.entities.closingBracket
+import com.softcat.domain.entities.openingBracket
+import com.softcat.domain.interfaces.CalculationInterface
+import com.softcat.domain.interfaces.ExpressionBuilderInterface
+import com.softcat.domain.interfaces.HistoryManagerInterface
+import com.softcat.domain.interfaces.TranslationInterface
+import com.softcat.domain.useCases.AddHistoryItemUseCase
+import com.softcat.domain.useCases.CalculateUseCase
+import com.softcat.domain.useCases.ClearHistoryUseCase
+import com.softcat.domain.useCases.GetHistoryListUseCase
+import com.softcat.domain.useCases.NumberSystemTranslationUseCase
+import com.softcat.domain.useCases.RemoveHistoryItemUseCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -40,7 +40,7 @@ import org.mockito.kotlin.reset
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import kotlin.random.Random
-import com.codingeveryday.calcapp.domain.entities.Number
+import com.softcat.domain.entities.Number
 
 class DomainTests {
 

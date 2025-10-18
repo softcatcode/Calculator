@@ -34,7 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.codingeveryday.calcapp.R
-import com.codingeveryday.calcapp.domain.entities.Expression.Companion.DIGITS
+import com.softcat.domain.entities.Expression.Companion.DIGITS
 import kotlin.math.min
 
 @Composable

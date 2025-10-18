@@ -1,9 +1,9 @@
 package com.codingeveryday.calcapp.di.modules
 
 import android.app.Application
-import com.codingeveryday.calcapp.data.database.AppDataBase
-import com.codingeveryday.calcapp.data.database.HistoryItemDao
 import com.codingeveryday.calcapp.di.annotations.ApplicationScope
+import com.softcat.data.database.AppDataBase
+import com.softcat.data.database.HistoryItemDao
 import dagger.Module
 import dagger.Provides
 

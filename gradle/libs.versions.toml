@@ -1,6 +1,6 @@
 [versions]
 activityCompose = "1.11.0"
-agp = "8.9.3"
+agp = "8.13.0"
 appcompat = "1.7.1"
 composeBom = "2025.09.00"
 constraintlayout = "2.2.1"
@@ -19,8 +19,9 @@ mockitoKotlin = "6.0.0"
 mockitoCore = "5.19.0"
 navigationFragmentKtx = "2.9.4"
 navigationSafeArgsGradlePlugin = "2.9.4"
+profileinstaller = "1.4.1"
 robolectric = "4.16"
-roomKtx = "2.8.0"
+roomKtx = "2.8.2"
 safeargs = "2.9.4"
 ksp = "2.2.20-2.0.3"
 dagger = "2.57.1"
@@ -28,6 +29,11 @@ composeLivedata = "1.9.1"
 uiAndroid = "1.9.1"
 allure = "3.0.0"
 timber = "4.7.1"
+uiautomator = "2.2.0"
+benchmarkMacroJunit4 = "1.2.0-beta01"
+benchmark = "1.2.4"
+runner = "1.7.0"
+benchmarkJunit4 = "1.2.4"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -41,6 +47,7 @@ androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersi
 androidx-material3 = { module = "androidx.compose.material3:material3" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
+androidx-profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileinstaller" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomKtx" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
@@ -62,6 +69,10 @@ dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", versi
 androidx-compose-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "composeLivedata" }
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
+androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+androidx-benchmark-junit4 = { group = "androidx.benchmark", name = "benchmark-junit4", version.ref = "benchmarkJunit4" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -71,3 +82,5 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "safeargs" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 allure = { id = "io.qameta.allure", version.ref = "allure" }
+android-test = { id = "com.android.test", version.ref = "agp" }
+benchmark = { id = "androidx.benchmark", version.ref = "benchmark" }

@@ -1,10 +1,10 @@
 package com.codingeveryday.calcapp
 
-import com.codingeveryday.calcapp.data.core.implementations.ConstantInterpreter
-import com.codingeveryday.calcapp.data.core.implementations.ConstantProvider
-import com.codingeveryday.calcapp.data.core.implementations.ExpressionParser
-import com.codingeveryday.calcapp.data.core.implementations.MathImplementation
-import com.codingeveryday.calcapp.data.implementations.CalculationImplementation
+import com.softcat.data.core.implementations.ConstantInterpreter
+import com.softcat.data.core.implementations.ConstantProvider
+import com.softcat.data.core.implementations.ExpressionParser
+import com.softcat.data.core.implementations.MathImplementation
+import com.softcat.data.implementations.CalculationImplementation
 import org.junit.Assert
 import org.junit.Test
 

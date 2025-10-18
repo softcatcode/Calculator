@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.codingeveryday.calcapp.R
-import com.codingeveryday.calcapp.domain.entities.HistoryItem
 
 class HistoryItemViewHolder(view: View): ViewHolder(view) {
     val exprField: TextView = view.findViewById(R.id.expr)
